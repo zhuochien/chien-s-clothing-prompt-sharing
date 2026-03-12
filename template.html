@@ -4,15 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI生圖｜酌的裁縫鋪</title>
-<!-- BUILD_TIME -->
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Serif+TC:wght@300;400;500&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<!-- built: 2026-03-12T14:16:48.987Z -->
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Noto+Serif+TC:wght@300;400;500&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
 <style>
 :root{
-  --ink:#1a1510;--parchment:#f5f0e8;--cream:#faf7f2;
-  --gold:#b8963e;--gold-lt:#d4af6a;
-  --rust:#8b4513;--sage:#7a8c6e;--blue:#5b6fa0;--orange:#c07a3a;--purple:#9b5b8f;
-  --muted:#8a8070;--border:#d4c9b5;--card:#ffffff;
-  --shadow:rgba(26,21,16,.08);--nav-h:48px;
+  --ink:#283f38;--parchment:#f0ece6;--cream:#f7f4f0;
+  --gold:#9a8c7e;--gold-lt:#b8a898;
+  --rust:#a07878;--sage:#8a9e8e;--blue:#8090a0;--orange:#b89080;--purple:#a08898;
+  --muted:#9a9490;--border:#ddd8d0;--card:#fdfbf9;
+  --shadow:rgba(61,61,59,.06);--nav-h:48px;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--parchment);color:var(--ink);font-family:'Noto Serif TC',serif;font-weight:300;min-height:100vh;overflow-x:hidden;}
@@ -20,15 +20,15 @@ body{background:var(--parchment);color:var(--ink);font-family:'Noto Serif TC',se
 /* ── HEADER ── */
 header{background:var(--ink);color:var(--parchment);padding:3.2rem 2rem 2.2rem;text-align:center;position:relative;overflow:hidden;}
 header::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 40px,rgba(184,150,62,.04) 40px,rgba(184,150,62,.04) 41px);}
-.h-label{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;margin-bottom:.9rem;position:relative;}
-header h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.2rem,6vw,4.5rem);line-height:1.05;position:relative;}
+.h-label{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;margin-bottom:.9rem;position:relative;}
+header h1{font-family:'Dancing Script',cursive;font-weight:300;font-size:clamp(2.2rem,6vw,4.5rem);line-height:1.05;position:relative;}
 header h1 em{font-style:italic;color:var(--gold-lt);}
 .h-sub{margin-top:.7rem;font-size:.72rem;color:rgba(245,240,232,.4);letter-spacing:.12em;position:relative;}
 .h-rule{width:44px;height:1px;background:var(--gold);opacity:.45;margin:1.3rem auto 0;position:relative;}
 
 /* ── MAIN NAV ── */
 .main-nav{background:var(--ink);border-top:1px solid rgba(184,150,62,.18);display:flex;justify-content:center;position:sticky;top:0;z-index:200;}
-.main-nav button{background:none;border:none;border-bottom:2px solid transparent;color:rgba(245,240,232,.42);font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.16em;padding:.82rem 1.5rem;cursor:pointer;transition:color .2s,border-color .2s;white-space:nowrap;}
+.main-nav button{background:none;border:none;border-bottom:2px solid transparent;color:rgba(245,240,232,.42);font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.16em;padding:.82rem 1.5rem;cursor:pointer;transition:color .2s,border-color .2s;white-space:nowrap;}
 .main-nav button:hover{color:var(--parchment);}
 .main-nav button.active{color:var(--gold-lt);border-bottom-color:var(--gold);}
 
@@ -39,16 +39,16 @@ header h1 em{font-style:italic;color:var(--gold-lt);}
 
 /* ── SECTION HEADER ── */
 .sec-head{max-width:1200px;margin:0 auto;padding:3rem 2rem 1.8rem;display:flex;align-items:flex-end;gap:1.4rem;border-bottom:1px solid var(--border);margin-bottom:2.5rem;}
-.sec-num{font-family:'Cormorant Garamond',serif;font-size:4rem;font-weight:300;color:var(--gold);opacity:.28;line-height:1;flex-shrink:0;}
-.sec-info h2{font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:400;}
-.sec-en{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.95rem;color:var(--gold);display:block;margin-bottom:.25rem;}
+.sec-num{font-family:'Dancing Script',cursive;font-size:4rem;font-weight:300;color:var(--gold);opacity:.28;line-height:1;flex-shrink:0;}
+.sec-info h2{font-family:'Dancing Script',cursive;font-size:1.9rem;font-weight:400;}
+.sec-en{font-family:'Dancing Script',cursive;font-style:italic;font-size:.95rem;color:var(--gold);display:block;margin-bottom:.25rem;}
 .sec-info p{color:var(--muted);font-size:.8rem;margin-top:.3rem;line-height:1.8;}
 
 /* ── SIDEBAR LAYOUT ── */
 .with-sidebar{max-width:1200px;margin:0 auto;padding:0 2rem 4rem;display:grid;grid-template-columns:156px 1fr;gap:1.8rem;align-items:start;}
 .sidebar{position:sticky;top:calc(var(--nav-h) + 8px);}
 .sb-box{background:var(--card);border:1px solid var(--border);border-radius:3px;overflow:hidden;}
-.sb-head{padding:.55rem .95rem;background:var(--cream);border-bottom:1px solid var(--border);font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.2em;color:var(--muted);}
+.sb-head{padding:.55rem .95rem;background:var(--cream);border-bottom:1px solid var(--border);font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.2em;color:var(--muted);}
 .sb-link{display:flex;align-items:center;gap:.55rem;padding:.62rem .95rem;border-bottom:1px solid var(--border);font-size:.73rem;color:var(--ink);cursor:pointer;transition:background .15s;user-select:none;}
 .sb-link:last-child{border-bottom:none;}
 .sb-link:hover{background:var(--parchment);}
@@ -58,19 +58,19 @@ header h1 em{font-style:italic;color:var(--gold-lt);}
 
 /* ── FILTER BAR ── */
 .filter-bar{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;margin-bottom:2rem;}
-.f-label{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.2em;color:var(--muted);margin-right:.3rem;}
+.f-label{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.2em;color:var(--muted);margin-right:.3rem;}
 .f-btn{background:none;border:1px solid var(--border);color:var(--muted);font-family:'Noto Serif TC',serif;font-size:.76rem;padding:.28rem .75rem;border-radius:2px;cursor:pointer;transition:all .18s;}
 .f-btn:hover{border-color:var(--gold);color:var(--ink);}
 .f-btn.active{background:var(--ink);color:var(--gold-lt);border-color:var(--ink);}
 
 /* ── COPY BUTTON ── */
-.cp-btn{background:none;border:1px solid var(--border);color:var(--muted);font-family:'Space Mono',monospace;font-size:.56rem;padding:.22rem .52rem;cursor:pointer;border-radius:2px;white-space:nowrap;transition:all .14s;flex-shrink:0;}
+.cp-btn{background:none;border:1px solid var(--border);color:var(--muted);font-family:'DM Mono',monospace;font-size:.56rem;padding:.22rem .52rem;cursor:pointer;border-radius:2px;white-space:nowrap;transition:all .14s;flex-shrink:0;}
 .cp-btn:hover{background:var(--ink);color:var(--gold-lt);border-color:var(--ink);}
 .cp-btn.copied{background:var(--sage);color:#fff;border-color:var(--sage);}
 
 /* ── PROMPT BOX ── */
 .prompt-box{padding:.75rem 1.2rem;background:var(--cream);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.65rem;}
-.pt{font-family:'Space Mono',monospace;font-size:.65rem;color:var(--ink);flex:1;word-break:break-all;line-height:1.6;}
+.pt{font-family:'DM Mono',monospace;font-size:.65rem;color:var(--ink);flex:1;word-break:break-all;line-height:1.6;}
 
 /* ── THUMB GRID ── */
 .tg5{display:grid;grid-template-columns:repeat(5,1fr);gap:0;}
@@ -80,21 +80,21 @@ header h1 em{font-style:italic;color:var(--gold-lt);}
 .tc img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s;}
 .tc-ph{width:100%;height:100%;background:var(--parchment);display:flex;align-items:center;justify-content:center;}
 .tc-ph svg{width:22px;height:22px;opacity:.18;}
-.tc-lbl{position:absolute;bottom:0;left:0;right:0;background:rgba(26,21,16,.68);color:rgba(245,240,232,.82);font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.07em;padding:.18rem .3rem;text-align:center;}
+.tc-lbl{position:absolute;bottom:0;left:0;right:0;background:rgba(26,21,16,.68);color:rgba(245,240,232,.82);font-family:'DM Mono',monospace;font-size:.5rem;letter-spacing:.07em;padding:.18rem .3rem;text-align:center;}
 
 /* ── EXPAND ── */
-.xbtn{width:100%;background:none;border:none;border-top:1px solid var(--border);padding:.6rem;font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.14em;color:var(--muted);cursor:pointer;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:.45rem;transition:background .14s,color .14s;}
+.xbtn{width:100%;background:none;border:none;border-top:1px solid var(--border);padding:.6rem;font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.14em;color:var(--muted);cursor:pointer;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:.45rem;transition:background .14s,color .14s;}
 .xbtn:hover{background:var(--parchment);color:var(--ink);}
 .xbtn.open .ea{transform:rotate(180deg);}
 .ea{display:inline-block;transition:transform .2s;}
 .xpanel{display:none;border-top:1px solid var(--border);overflow-x:auto;}
 .xpanel.open{display:block;}
 .xtable{width:100%;border-collapse:collapse;min-width:460px;}
-.xtable th{background:var(--ink);color:var(--gold-lt);font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.12em;padding:.62rem 1rem;text-align:left;font-weight:400;}
+.xtable th{background:var(--ink);color:var(--gold-lt);font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.12em;padding:.62rem 1rem;text-align:left;font-weight:400;}
 .xtable td{padding:.72rem 1rem;border-bottom:1px solid var(--border);vertical-align:middle;font-size:.78rem;}
 .xtable tr:last-child td{border-bottom:none;}
 .xtable tr:hover td{background:var(--cream);}
-.mn{font-family:'Space Mono',monospace;font-size:.62rem;color:var(--gold);white-space:nowrap;}
+.mn{font-family:'DM Mono',monospace;font-size:.62rem;color:var(--gold);white-space:nowrap;}
 .tph{width:52px;height:65px;background:var(--parchment);border-radius:2px;display:flex;align-items:center;justify-content:center;opacity:.35;}
 .tph svg{width:18px;height:18px;}
 .nt{font-size:.74rem;color:var(--muted);line-height:1.6;}
@@ -112,43 +112,43 @@ header h1 em{font-style:italic;color:var(--gold-lt);}
    INTRO
 ═══════════════════════════ */
 .intro-wrap{max-width:1200px;margin:0 auto;padding:3.8rem 2rem 4.5rem;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;}
-.i-eyebrow{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.3em;color:var(--gold);text-transform:uppercase;margin-bottom:.9rem;}
-.i-hl{font-family:'Cormorant Garamond',serif;font-size:clamp(1.7rem,3.2vw,2.6rem);font-weight:300;line-height:1.2;margin-bottom:1.1rem;}
+.i-eyebrow{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.3em;color:var(--gold);text-transform:uppercase;margin-bottom:.9rem;}
+.i-hl{font-family:'Dancing Script',cursive;font-size:clamp(1.7rem,3.2vw,2.6rem);font-weight:300;line-height:1.2;margin-bottom:1.1rem;}
 .i-hl em{font-style:italic;color:var(--gold);}
 .i-body{font-size:.83rem;line-height:2;color:#3a3228;margin-bottom:1.6rem;}
 .i-body p+p{margin-top:.6rem;}
 .tool-bar{display:flex;align-items:center;gap:.9rem;background:var(--ink);color:var(--parchment);padding:.85rem 1.25rem;border-radius:3px;margin-bottom:1.8rem;}
-.tool-badge{background:var(--gold);color:var(--ink);font-family:'Space Mono',monospace;font-size:.6rem;font-weight:700;padding:.22rem .6rem;border-radius:2px;letter-spacing:.08em;white-space:nowrap;flex-shrink:0;}
+.tool-badge{background:var(--gold);color:var(--ink);font-family:'DM Mono',monospace;font-size:.6rem;font-weight:700;padding:.22rem .6rem;border-radius:2px;letter-spacing:.08em;white-space:nowrap;flex-shrink:0;}
 .tool-desc{font-size:.73rem;line-height:1.6;color:rgba(245,240,232,.62);}
 .tool-desc strong{color:var(--gold-lt);font-weight:400;}
 .i-nav{display:flex;flex-direction:column;gap:.75rem;}
 .i-card{background:var(--card);border:1px solid var(--border);border-radius:3px;padding:1rem 1.25rem;display:flex;align-items:center;gap:.95rem;cursor:pointer;transition:all .2s;text-align:left;width:100%;}
 .i-card:hover{border-color:var(--gold);box-shadow:0 4px 14px var(--shadow);transform:translateX(3px);}
-.ic-num{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:300;color:var(--gold);opacity:.42;line-height:1;flex-shrink:0;width:1.9rem;text-align:right;}
+.ic-num{font-family:'Dancing Script',cursive;font-size:1.7rem;font-weight:300;color:var(--gold);opacity:.42;line-height:1;flex-shrink:0;width:1.9rem;text-align:right;}
 .ic-info{flex:1;}
-.ic-en{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.82rem;color:var(--gold);display:block;margin-bottom:.1rem;}
-.ic-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:400;}
+.ic-en{font-family:'Dancing Script',cursive;font-style:italic;font-size:.82rem;color:var(--gold);display:block;margin-bottom:.1rem;}
+.ic-title{font-family:'Dancing Script',cursive;font-size:1.1rem;font-weight:400;}
 .ic-desc{font-size:.7rem;color:var(--muted);margin-top:.18rem;line-height:1.5;}
 .ic-arr{color:var(--border);font-size:.85rem;transition:transform .2s,color .2s;}
 .i-card:hover .ic-arr{transform:translateX(3px);color:var(--gold);}
 .leg-block{background:var(--card);border:1px solid var(--border);border-radius:3px;overflow:hidden;margin-bottom:1.1rem;}
-.leg-title{background:var(--cream);border-bottom:1px solid var(--border);padding:.55rem 1.05rem;font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.2em;color:var(--muted);}
+.leg-title{background:var(--cream);border-bottom:1px solid var(--border);padding:.55rem 1.05rem;font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.2em;color:var(--muted);}
 .leg-row{display:flex;align-items:flex-start;gap:.85rem;padding:.75rem 1.05rem;border-bottom:1px solid var(--border);}
 .leg-row:last-child{border-bottom:none;}
-.leg-tag{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.1em;padding:.16rem .52rem;border:1px solid currentColor;border-radius:1px;white-space:nowrap;flex-shrink:0;margin-top:.1rem;}
+.leg-tag{font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.1em;padding:.16rem .52rem;border:1px solid currentColor;border-radius:1px;white-space:nowrap;flex-shrink:0;margin-top:.1rem;}
 .leg-text{font-size:.76rem;line-height:1.6;color:#3a3228;}
 .leg-text strong{font-weight:500;}
 .steps-block{background:var(--card);border:1px solid var(--border);border-radius:3px;overflow:hidden;}
 .srow{display:flex;gap:.85rem;padding:.85rem 1.05rem;border-bottom:1px solid var(--border);align-items:flex-start;}
 .srow:last-child{border-bottom:none;}
-.sn{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:300;color:var(--gold);opacity:.52;line-height:1.1;flex-shrink:0;width:1.3rem;text-align:center;}
+.sn{font-family:'Dancing Script',cursive;font-size:1.35rem;font-weight:300;color:var(--gold);opacity:.52;line-height:1.1;flex-shrink:0;width:1.3rem;text-align:center;}
 .st{font-size:.76rem;line-height:1.7;color:#3a3228;}
 .st strong{font-weight:500;display:block;}
 
 /* ═══════════════════════════
    SECTION 1 – ARCHIVES
 ═══════════════════════════ */
-.sub-label{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;margin-bottom:.85rem;display:flex;align-items:center;gap:.65rem;}
+.sub-label{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;margin-bottom:.85rem;display:flex;align-items:center;gap:.65rem;}
 .sub-label::after{content:'';flex:1;height:1px;background:var(--border);}
 .sub-code{color:var(--gold);margin-right:.25rem;}
 
@@ -160,39 +160,39 @@ header h1 em{font-style:italic;color:var(--gold-lt);}
 .arc-card:hover .ac-img img{transform:scale(1.04);}
 .ac-ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.35rem;}
 .ac-ph svg{width:26px;height:26px;opacity:.18;}
-.ac-ph span{font-family:'Space Mono',monospace;font-size:.48rem;opacity:.28;letter-spacing:.1em;}
+.ac-ph span{font-family:'DM Mono',monospace;font-size:.48rem;opacity:.28;letter-spacing:.1em;}
 .ac-info{padding:.65rem .82rem .6rem;border-top:1px solid var(--border);}
-.ac-en{font-family:'Cormorant Garamond',serif;font-size:.92rem;font-weight:400;line-height:1.2;}
+.ac-en{font-family:'Dancing Script',cursive;font-size:.92rem;font-weight:400;line-height:1.2;}
 .ac-zh{font-size:.68rem;color:var(--muted);margin-top:.1rem;}
-.ac-prompt{font-family:'Space Mono',monospace;font-size:.52rem;color:var(--gold);margin-top:.38rem;word-break:break-all;line-height:1.5;}
+.ac-prompt{font-family:'DM Mono',monospace;font-size:.52rem;color:var(--gold);margin-top:.38rem;word-break:break-all;line-height:1.5;}
 .ac-foot{padding:.42rem .82rem;border-top:1px solid var(--border);display:flex;justify-content:flex-end;}
 
 .amc{background:var(--card);border:1px solid var(--border);border-radius:3px;overflow:hidden;margin-bottom:2.5rem;}
 .amc-head{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.2rem;border-bottom:1px solid var(--border);background:linear-gradient(135deg,var(--ink),#2d2520);color:var(--parchment);}
-.amc-title{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:400;}
-.amc-prompt{font-family:'Space Mono',monospace;font-size:.55rem;color:rgba(245,240,232,.42);margin-top:.18rem;}
-.amc-tag{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.1em;padding:.16rem .5rem;border:1px solid currentColor;border-radius:1px;flex-shrink:0;}
+.amc-title{font-family:'Dancing Script',cursive;font-size:1.05rem;font-weight:400;}
+.amc-prompt{font-family:'DM Mono',monospace;font-size:.55rem;color:rgba(245,240,232,.42);margin-top:.18rem;}
+.amc-tag{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.1em;padding:.16rem .5rem;border:1px solid currentColor;border-radius:1px;flex-shrink:0;}
 
 /* ═══════════════════════════
    SECTION 2 – ATELIER
 ═══════════════════════════ */
 .mod-table-wrap{background:var(--card);border:1px solid var(--border);border-radius:3px;overflow:hidden;margin-bottom:2.5rem;}
 .mod-table{width:100%;border-collapse:collapse;}
-.mod-table th{background:var(--ink);color:var(--gold-lt);font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.14em;padding:.65rem 1rem;text-align:left;font-weight:400;}
+.mod-table th{background:var(--ink);color:var(--gold-lt);font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.14em;padding:.65rem 1rem;text-align:left;font-weight:400;}
 .mod-table td{padding:.82rem 1rem;border-bottom:1px solid var(--border);vertical-align:top;font-size:.78rem;line-height:1.7;}
 .mod-table tr:last-child td{border-bottom:none;}
 .mod-table tr:hover td{background:var(--cream);}
-.mc{font-family:'Space Mono',monospace;font-size:.62rem;color:var(--gold);font-weight:700;}
-.mtag{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.1em;padding:.14rem .44rem;border:1px solid currentColor;border-radius:1px;display:inline-block;margin-bottom:.18rem;}
+.mc{font-family:'DM Mono',monospace;font-size:.62rem;color:var(--gold);font-weight:700;}
+.mtag{font-family:'DM Mono',monospace;font-size:.52rem;letter-spacing:.1em;padding:.14rem .44rem;border:1px solid currentColor;border-radius:1px;display:inline-block;margin-bottom:.18rem;}
 .mcat{font-weight:500;font-size:.8rem;}
 .mnote{color:var(--muted);font-size:.72rem;}
 .chips{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.28rem;}
-.chip{font-family:'Space Mono',monospace;font-size:.57rem;background:var(--cream);border:1px solid var(--border);padding:.13rem .46rem;border-radius:2px;color:var(--ink);}
+.chip{font-family:'DM Mono',monospace;font-size:.57rem;background:var(--cream);border:1px solid var(--border);padding:.13rem .46rem;border-radius:2px;color:var(--ink);}
 
 .cat-group{margin-bottom:2.8rem;}
 .cg-head{display:flex;align-items:center;gap:.9rem;margin-bottom:.95rem;padding-bottom:.55rem;border-bottom:1px solid var(--border);}
-.cg-title{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:400;}
-.cg-count{margin-left:auto;font-family:'Space Mono',monospace;font-size:.58rem;color:var(--muted);}
+.cg-title{font-family:'Dancing Script',cursive;font-size:1.35rem;font-weight:400;}
+.cg-count{margin-left:auto;font-family:'DM Mono',monospace;font-size:.58rem;color:var(--muted);}
 
 .item-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:.9rem;}
 .fi{background:var(--card);border:1px solid var(--border);border-radius:3px;overflow:hidden;cursor:pointer;transition:box-shadow .2s,transform .2s,border-color .2s;}
@@ -202,25 +202,25 @@ header h1 em{font-style:italic;color:var(--gold-lt);}
 .fi:hover .fi-img img{transform:scale(1.04);}
 .fi-ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.35rem;}
 .fi-ph svg{width:26px;height:26px;opacity:.18;}
-.fi-ph span{font-family:'Space Mono',monospace;font-size:.48rem;opacity:.28;letter-spacing:.1em;}
+.fi-ph span{font-family:'DM Mono',monospace;font-size:.48rem;opacity:.28;letter-spacing:.1em;}
 .fi-info{padding:.65rem .82rem .6rem;border-top:1px solid var(--border);}
-.fi-en{font-family:'Cormorant Garamond',serif;font-size:.92rem;font-weight:400;line-height:1.2;}
+.fi-en{font-family:'Dancing Script',cursive;font-size:.92rem;font-weight:400;line-height:1.2;}
 .fi-zh{font-size:.68rem;color:var(--muted);margin-top:.1rem;}
-.fi-prompt{font-family:'Space Mono',monospace;font-size:.52rem;color:var(--gold);margin-top:.38rem;word-break:break-all;line-height:1.5;}
+.fi-prompt{font-family:'DM Mono',monospace;font-size:.52rem;color:var(--gold);margin-top:.38rem;word-break:break-all;line-height:1.5;}
 .fi-foot{padding:.42rem .82rem;border-top:1px solid var(--border);display:flex;justify-content:flex-end;}
 
 .bkd{background:var(--card);border:1px solid var(--border);border-radius:3px;overflow:hidden;margin-top:1.1rem;margin-bottom:.5rem;}
 .bkd-head{padding:.9rem 1.2rem;border-bottom:1px solid var(--border);background:linear-gradient(135deg,var(--ink),#2d2520);color:var(--parchment);}
-.bkd-title{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:400;}
-.bkd-sub{font-size:.65rem;color:rgba(245,240,232,.42);margin-top:.18rem;font-family:'Space Mono',monospace;}
+.bkd-title{font-family:'Dancing Script',cursive;font-size:1.05rem;font-weight:400;}
+.bkd-sub{font-size:.65rem;color:rgba(245,240,232,.42);margin-top:.18rem;font-family:'DM Mono',monospace;}
 .bkd-cols{display:grid;grid-template-columns:repeat(3,1fr);}
 .bkd-col{border-right:1px solid var(--border);}
 .bkd-col:last-child{border-right:none;}
-.bkd-clbl{background:var(--cream);border-bottom:1px solid var(--border);padding:.4rem .75rem;font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.1em;color:var(--muted);text-align:center;}
+.bkd-clbl{background:var(--cream);border-bottom:1px solid var(--border);padding:.4rem .75rem;font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.1em;color:var(--muted);text-align:center;}
 .bkd-cimg{aspect-ratio:3/4;overflow:hidden;background:var(--parchment);display:flex;align-items:center;justify-content:center;}
 .bkd-cimg svg{width:24px;height:24px;opacity:.18;}
 .bkd-cinfo{padding:.55rem .75rem;border-top:1px solid var(--border);}
-.bkd-var{font-family:'Space Mono',monospace;font-size:.58rem;color:var(--gold);}
+.bkd-var{font-family:'DM Mono',monospace;font-size:.58rem;color:var(--gold);}
 .bkd-note{font-size:.7rem;color:var(--muted);margin-top:.18rem;line-height:1.5;}
 
 /* ═══════════════════════════
@@ -230,33 +230,33 @@ header h1 em{font-style:italic;color:var(--gold-lt);}
 .fc{background:var(--card);border:1px solid var(--border);border-radius:3px;overflow:hidden;transition:box-shadow .22s,transform .22s;}
 .fc:hover{box-shadow:0 7px 24px var(--shadow);transform:translateY(-2px);}
 .fc-head{padding:1.1rem 1.3rem;border-bottom:1px solid var(--border);background:linear-gradient(135deg,var(--ink),#2d2520);color:var(--parchment);}
-.fc-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:400;}
+.fc-title{font-family:'Dancing Script',cursive;font-size:1.2rem;font-weight:400;}
 .fc-title em{font-style:italic;color:var(--gold-lt);}
-.fc-sub{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.1em;color:rgba(245,240,232,.35);margin-top:.2rem;}
+.fc-sub{font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.1em;color:rgba(245,240,232,.35);margin-top:.2rem;}
 .fml{margin-top:.8rem;display:flex;align-items:center;flex-wrap:wrap;gap:.32rem;}
-.ft{font-family:'Space Mono',monospace;font-size:.6rem;background:rgba(184,150,62,.12);border:1px solid rgba(184,150,62,.28);color:var(--gold-lt);padding:.16rem .46rem;border-radius:2px;}
+.ft{font-family:'DM Mono',monospace;font-size:.6rem;background:rgba(184,150,62,.12);border:1px solid rgba(184,150,62,.28);color:var(--gold-lt);padding:.16rem .46rem;border-radius:2px;}
 .fop{color:rgba(245,240,232,.25);font-size:.65rem;}
-.fr{background:var(--gold);color:var(--ink);font-family:'Space Mono',monospace;font-size:.6rem;padding:.16rem .55rem;border-radius:2px;font-weight:700;}
+.fr{background:var(--gold);color:var(--ink);font-family:'DM Mono',monospace;font-size:.6rem;padding:.16rem .55rem;border-radius:2px;font-weight:700;}
 .wt-strip{padding:.55rem 1.3rem;background:rgba(184,150,62,.05);border-bottom:1px solid var(--border);display:flex;flex-wrap:wrap;gap:.45rem;align-items:center;}
-.wt-lbl{font-family:'Space Mono',monospace;font-size:.55rem;color:var(--muted);letter-spacing:.1em;margin-right:.25rem;}
-.wt-chip{font-family:'Space Mono',monospace;font-size:.55rem;background:var(--cream);border:1px solid var(--border);padding:.13rem .46rem;border-radius:2px;}
+.wt-lbl{font-family:'DM Mono',monospace;font-size:.55rem;color:var(--muted);letter-spacing:.1em;margin-right:.25rem;}
+.wt-chip{font-family:'DM Mono',monospace;font-size:.55rem;background:var(--cream);border:1px solid var(--border);padding:.13rem .46rem;border-radius:2px;}
 .wt-chip span{color:var(--gold);}
 
 /* ── FOOTER ── */
-footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;padding:1.6rem;font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.14em;}
+footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;padding:1.6rem;font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.14em;}
 
 /* ── 製衣工坊 篩選 ── */
 .ate-filter-bar{display:flex;flex-wrap:wrap;gap:.4rem;padding:0 0 1.2rem;}
-.ate-tag{background:transparent;border:1px solid var(--border);border-radius:3px;padding:.28rem .7rem;font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.06em;cursor:pointer;color:var(--muted);transition:all .15s;display:flex;align-items:center;gap:.35rem;}
+.ate-tag{background:transparent;border:1px solid var(--border);border-radius:3px;padding:.28rem .7rem;font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.06em;cursor:pointer;color:var(--muted);transition:all .15s;display:flex;align-items:center;gap:.35rem;}
 .ate-tag:hover,.ate-tag.active{background:var(--ink);color:var(--parchment);border-color:var(--ink);}
 .ate-list{display:flex;flex-direction:column;gap:.5rem;}
 .ate-entry{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:.9rem 1rem;transition:border .15s;}
 .ate-entry:hover{border-color:var(--gold);}
 .ate-entry[style*="none"]{display:none;}
 .ate-entry-head{display:flex;align-items:baseline;gap:.6rem;margin-bottom:.35rem;flex-wrap:wrap;}
-.ate-en{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:400;}
+.ate-en{font-family:'Dancing Script',cursive;font-size:1.05rem;font-weight:400;}
 .ate-zh{font-size:.78rem;color:var(--muted);}
-.ate-prompt{font-family:'Space Mono',monospace;font-size:.68rem;color:var(--rust);letter-spacing:.03em;line-height:1.5;margin-bottom:.3rem;}
+.ate-prompt{font-family:'DM Mono',monospace;font-size:.68rem;color:var(--rust);letter-spacing:.03em;line-height:1.5;margin-bottom:.3rem;}
 .ate-note{font-size:.72rem;color:var(--muted);font-style:italic;margin-bottom:.3rem;}
 .ate-foot{display:flex;justify-content:flex-end;}
 
@@ -269,9 +269,9 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
 .rtw-img-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;opacity:.2;}
 .rtw-img-ph svg{width:36px;height:36px;}
 .rtw-body{padding:.9rem 1rem 1rem;display:flex;flex-direction:column;flex:1;gap:.4rem;}
-.rtw-name{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:400;}
+.rtw-name{font-family:'Dancing Script',cursive;font-size:1.1rem;font-weight:400;}
 .rtw-meta{display:flex;flex-wrap:wrap;gap:.3rem;}
-.rtw-tag{background:var(--parchment);border:1px solid var(--border);border-radius:2px;padding:.1rem .45rem;font-size:.62rem;color:var(--muted);font-family:'Space Mono',monospace;}
+.rtw-tag{background:var(--parchment);border:1px solid var(--border);border-radius:2px;padding:.1rem .45rem;font-size:.62rem;color:var(--muted);font-family:'DM Mono',monospace;}
 
 /* ── RESPONSIVE ── */
 @media(max-width:900px){
@@ -300,7 +300,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
 
 <header>
   <div class="h-label">pixAI · SDXL · Prompt Reference</div>
-  <h1>酌的<em>衣帽間</em></h1>
+  <h1>酌的衣帽間</h1>
   <div class="h-sub">THE CLOTHING PROMPT DICTIONARY</div>
   <div class="h-rule"></div>
 </header>
@@ -319,9 +319,9 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
 .intro-page{max-width:900px;margin:0 auto;padding:3rem 2rem 5rem;}
 .intro-block{background:var(--card);border:1px solid var(--border);border-radius:3px;overflow:hidden;margin-bottom:1.6rem;}
 .intro-block-head{display:flex;align-items:center;gap:.9rem;padding:1rem 1.4rem;background:var(--ink);color:var(--parchment);border-bottom:1px solid rgba(184,150,62,.2);}
-.ib-num{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:var(--gold);opacity:.5;line-height:1;flex-shrink:0;}
-.ib-title{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:400;}
-.ib-en{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.15em;color:rgba(245,240,232,.35);display:block;margin-top:.15rem;}
+.ib-num{font-family:'Dancing Script',cursive;font-size:2rem;font-weight:300;color:var(--gold);opacity:.5;line-height:1;flex-shrink:0;}
+.ib-title{font-family:'Dancing Script',cursive;font-size:1.15rem;font-weight:400;}
+.ib-en{font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.15em;color:rgba(245,240,232,.35);display:block;margin-top:.15rem;}
 .intro-block-body{padding:1.4rem 1.6rem;}
 .intro-block-body p{font-size:.83rem;line-height:2;color:#3a3228;}
 .intro-block-body p+p{margin-top:.7rem;}
@@ -330,9 +330,9 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
 .intro-nav-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;padding:1.2rem 1.4rem 1.4rem;}
 .inc2{background:var(--parchment);border:1px solid var(--border);border-radius:2px;padding:.9rem 1rem;cursor:pointer;transition:all .2s;text-align:left;width:100%;}
 .inc2:hover{border-color:var(--gold);background:var(--cream);transform:translateY(-2px);box-shadow:0 4px 12px var(--shadow);}
-.inc2-num{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:300;color:var(--gold);opacity:.4;line-height:1;margin-bottom:.3rem;}
-.inc2-en{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.78rem;color:var(--gold);display:block;margin-bottom:.15rem;}
-.inc2-title{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:400;}
+.inc2-num{font-family:'Dancing Script',cursive;font-size:1.5rem;font-weight:300;color:var(--gold);opacity:.4;line-height:1;margin-bottom:.3rem;}
+.inc2-en{font-family:'Dancing Script',cursive;font-style:italic;font-size:.78rem;color:var(--gold);display:block;margin-bottom:.15rem;}
+.inc2-title{font-family:'Dancing Script',cursive;font-size:1rem;font-weight:400;}
 .inc2-desc{font-size:.68rem;color:var(--muted);margin-top:.25rem;line-height:1.55;}
 .inc2-arr{display:block;text-align:right;color:var(--border);font-size:.8rem;margin-top:.4rem;transition:color .2s;}
 .inc2:hover .inc2-arr{color:var(--gold);}
@@ -340,15 +340,15 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
 /* model table */
 .model-table-wrap{padding:0 1.4rem 1.4rem;}
 .model-table{width:100%;border-collapse:collapse;}
-.model-table th{background:var(--cream);border-bottom:2px solid var(--border);font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.14em;color:var(--muted);padding:.6rem .9rem;text-align:left;font-weight:400;}
+.model-table th{background:var(--cream);border-bottom:2px solid var(--border);font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.14em;color:var(--muted);padding:.6rem .9rem;text-align:left;font-weight:400;}
 .model-table td{padding:.8rem .9rem;border-bottom:1px solid var(--border);vertical-align:top;font-size:.8rem;line-height:1.6;}
 .model-table tr:last-child td{border-bottom:none;}
 .model-table tr:hover td{background:var(--parchment);}
-.model-id{font-family:'Space Mono',monospace;font-size:.65rem;font-weight:700;color:var(--gold);white-space:nowrap;}
+.model-id{font-family:'DM Mono',monospace;font-size:.65rem;font-weight:700;color:var(--gold);white-space:nowrap;}
 .model-name-cell{font-weight:500;}
-.model-params{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--muted);margin-top:.2rem;line-height:1.7;}
+.model-params{font-family:'DM Mono',monospace;font-size:.6rem;color:var(--muted);margin-top:.2rem;line-height:1.7;}
 .model-params span{color:var(--ink);}
-.pixai-link{display:inline-flex;align-items:center;gap:.35rem;font-family:'Space Mono',monospace;font-size:.58rem;color:var(--gold);text-decoration:none;border:1px solid rgba(184,150,62,.35);padding:.18rem .55rem;border-radius:2px;transition:all .15s;white-space:nowrap;}
+.pixai-link{display:inline-flex;align-items:center;gap:.35rem;font-family:'DM Mono',monospace;font-size:.58rem;color:var(--gold);text-decoration:none;border:1px solid rgba(184,150,62,.35);padding:.18rem .55rem;border-radius:2px;transition:all .15s;white-space:nowrap;}
 .pixai-link:hover{background:var(--gold);color:var(--ink);}
 .pixai-link svg{width:10px;height:10px;flex-shrink:0;}
 
@@ -358,7 +358,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
 .style-cell-head{padding:.45rem .7rem;background:var(--cream);border-bottom:1px solid var(--border);border-right:1px solid var(--border);}
 .style-cell:last-child .style-cell-head,
 .style-cell:last-child .style-img-row{border-right:none;}
-.style-cell-id{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.1em;color:var(--gold);}
+.style-cell-id{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.1em;color:var(--gold);}
 .style-cell-label{font-size:.7rem;color:var(--ink);margin-top:.05rem;}
 .style-img-row{display:grid;grid-template-columns:1fr 1fr;border-right:1px solid var(--border);}
 .style-img{aspect-ratio:3/4;background:var(--parchment);position:relative;overflow:hidden;border-top:1px solid var(--border);border-right:1px solid var(--border);}
@@ -366,20 +366,20 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
 .style-img img{width:100%;height:100%;object-fit:cover;display:block;}
 .style-img-ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.2rem;}
 .style-img-ph svg{width:18px;height:18px;opacity:.15;}
-.style-img-lbl{position:absolute;bottom:0;left:0;right:0;font-family:'Space Mono',monospace;font-size:.46rem;letter-spacing:.05em;background:rgba(26,21,16,.6);color:rgba(245,240,232,.75);padding:.15rem .3rem;text-align:center;}
+.style-img-lbl{position:absolute;bottom:0;left:0;right:0;font-family:'DM Mono',monospace;font-size:.46rem;letter-spacing:.05em;background:rgba(26,21,16,.6);color:rgba(245,240,232,.75);padding:.15rem .3rem;text-align:center;}
 
 /* usage steps */
 .steps-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;padding:1.2rem 1.4rem 1.4rem;}
 .step2{display:flex;gap:.8rem;padding:.7rem .8rem;border-radius:2px;}
 .step2:hover{background:var(--parchment);}
-.step2-n{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:300;color:var(--gold);opacity:.4;line-height:1.1;flex-shrink:0;width:1.6rem;text-align:center;}
+.step2-n{font-family:'Dancing Script',cursive;font-size:1.6rem;font-weight:300;color:var(--gold);opacity:.4;line-height:1.1;flex-shrink:0;width:1.6rem;text-align:center;}
 .step2-body strong{font-weight:500;font-size:.8rem;display:block;margin-bottom:.2rem;}
 .step2-body p{font-size:.75rem;color:var(--muted);line-height:1.6;}
 
 /* notes */
 .notes-list{padding:1rem 1.6rem 1.4rem;display:flex;flex-direction:column;gap:.6rem;}
 .note-item{display:flex;gap:.75rem;align-items:flex-start;font-size:.8rem;line-height:1.7;color:#3a3228;}
-.note-bullet{color:var(--gold);font-family:'Space Mono',monospace;font-size:.65rem;margin-top:.2rem;flex-shrink:0;}
+.note-bullet{color:var(--gold);font-family:'DM Mono',monospace;font-size:.65rem;margin-top:.2rem;flex-shrink:0;}
 
 @media(max-width:640px){
   .intro-nav-grid{grid-template-columns:1fr;}
@@ -437,77 +437,77 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
           <tr>
             <th>ID</th>
             <th>模型名稱</th>
-            <th>附圖</th>
-            <th>模型連結</th>
+            <th>主要參數設定</th>
+            <th>pixAI 範例</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td><span class="model-id">A</span></td>
-            <td><div class="model-name-cell">coco-Illustrious-NoobXL-Style</div></td>
-            <td><div class="model-thumb-ph">—</div></td>
-            <td><a href="https://pixai.art/model/1825497827039510248" target="_blank" rel="noopener" class="pixai-link">在 pixAI 開啟 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></a></td>
+            <td><div class="model-name-cell">Model A（待填）</div></td>
+            <td><div class="model-params">Steps: <span>—</span> &nbsp;CFG: <span>—</span> &nbsp;Sampler: <span>—</span><br>Size: <span>—</span> &nbsp;Clip skip: <span>—</span></div></td>
+            <td><a href="#" class="pixai-link">開啟範例 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></a></td>
           </tr>
           <tr>
             <td><span class="model-id">B</span></td>
-            <td><div class="model-name-cell">ChocoMint Mix</div></td>
-            <td><div class="model-thumb-ph">—</div></td>
-            <td><a href="https://pixai.art/market?search=ChocoMint+Mix" target="_blank" rel="noopener" class="pixai-link">在 pixAI 開啟 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></a></td>
+            <td><div class="model-name-cell">Model B（待填）</div></td>
+            <td><div class="model-params">Steps: <span>—</span> &nbsp;CFG: <span>—</span> &nbsp;Sampler: <span>—</span><br>Size: <span>—</span> &nbsp;Clip skip: <span>—</span></div></td>
+            <td><a href="#" class="pixai-link">開啟範例 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></a></td>
           </tr>
           <tr>
             <td><span class="model-id">C</span></td>
-            <td><div class="model-name-cell">illustrious_Mix2</div></td>
-            <td><div class="model-thumb-ph">—</div></td>
-            <td><a href="https://pixai.art/market?search=illustrious_Mix2" target="_blank" rel="noopener" class="pixai-link">在 pixAI 開啟 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></a></td>
+            <td><div class="model-name-cell">Model C（待填）</div></td>
+            <td><div class="model-params">Steps: <span>—</span> &nbsp;CFG: <span>—</span> &nbsp;Sampler: <span>—</span><br>Size: <span>—</span> &nbsp;Clip skip: <span>—</span></div></td>
+            <td><a href="#" class="pixai-link">開啟範例 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></a></td>
           </tr>
           <tr>
             <td><span class="model-id">D</span></td>
-            <td><div class="model-name-cell">Plant Milk 🌿 - Model Suite</div></td>
-            <td><div class="model-thumb-ph">—</div></td>
-            <td><a href="https://pixai.art/market?search=Plant+Milk+Model+Suite" target="_blank" rel="noopener" class="pixai-link">在 pixAI 開啟 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></a></td>
+            <td><div class="model-name-cell">Model D（待填）</div></td>
+            <td><div class="model-params">Steps: <span>—</span> &nbsp;CFG: <span>—</span> &nbsp;Sampler: <span>—</span><br>Size: <span>—</span> &nbsp;Clip skip: <span>—</span></div></td>
+            <td><a href="#" class="pixai-link">開啟範例 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></a></td>
           </tr>
           <tr>
             <td><span class="model-id">E</span></td>
-            <td><div class="model-name-cell" style="color:var(--muted);">（待定）</div></td>
-            <td><div class="model-thumb-ph">—</div></td>
-            <td><span style="color:var(--muted);font-size:.7rem;">—</span></td>
+            <td><div class="model-name-cell">Model E（待填）</div></td>
+            <td><div class="model-params">Steps: <span>—</span> &nbsp;CFG: <span>—</span> &nbsp;Sampler: <span>—</span><br>Size: <span>—</span> &nbsp;Clip skip: <span>—</span></div></td>
+            <td><a href="#" class="pixai-link">開啟範例 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></a></td>
           </tr>
         </tbody>
       </table>
     </div>
     <!-- Style swatches: 1girl / 1boy baseline -->
-    <div style="padding:.2rem 1.4rem .6rem;"><span style="font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.15em;color:var(--muted);">BASELINE STYLE — 1girl · 1boy · no clothing prompt</span></div>
+    <div style="padding:.2rem 1.4rem .6rem;"><span style="font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.15em;color:var(--muted);">BASELINE STYLE — 1girl · 1boy · no clothing prompt</span></div>
     <div class="style-grid">
       <div class="style-cell">
-        <div class="style-cell-head"><div class="style-cell-id">MODEL A</div><div class="style-cell-label">coco-Illustrious-NoobXL-Style</div></div>
+        <div class="style-cell-head"><div class="style-cell-id">MODEL A</div><div class="style-cell-label">待填名稱</div></div>
         <div class="style-img-row">
           <div class="style-img"><div class="style-img-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div><div class="style-img-lbl">1girl</div></div>
           <div class="style-img"><div class="style-img-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div><div class="style-img-lbl">1boy</div></div>
         </div>
       </div>
       <div class="style-cell">
-        <div class="style-cell-head"><div class="style-cell-id">MODEL B</div><div class="style-cell-label">ChocoMint Mix</div></div>
+        <div class="style-cell-head"><div class="style-cell-id">MODEL B</div><div class="style-cell-label">待填名稱</div></div>
         <div class="style-img-row">
           <div class="style-img"><div class="style-img-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div><div class="style-img-lbl">1girl</div></div>
           <div class="style-img"><div class="style-img-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div><div class="style-img-lbl">1boy</div></div>
         </div>
       </div>
       <div class="style-cell">
-        <div class="style-cell-head"><div class="style-cell-id">MODEL C</div><div class="style-cell-label">illustrious_Mix2</div></div>
+        <div class="style-cell-head"><div class="style-cell-id">MODEL C</div><div class="style-cell-label">待填名稱</div></div>
         <div class="style-img-row">
           <div class="style-img"><div class="style-img-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div><div class="style-img-lbl">1girl</div></div>
           <div class="style-img"><div class="style-img-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div><div class="style-img-lbl">1boy</div></div>
         </div>
       </div>
       <div class="style-cell">
-        <div class="style-cell-head"><div class="style-cell-id">MODEL D</div><div class="style-cell-label">Plant Milk 🌿 - Model Suite</div></div>
+        <div class="style-cell-head"><div class="style-cell-id">MODEL D</div><div class="style-cell-label">待填名稱</div></div>
         <div class="style-img-row">
           <div class="style-img"><div class="style-img-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div><div class="style-img-lbl">1girl</div></div>
           <div class="style-img"><div class="style-img-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div><div class="style-img-lbl">1boy</div></div>
         </div>
       </div>
       <div class="style-cell">
-        <div class="style-cell-head"><div class="style-cell-id">MODEL E</div><div class="style-cell-label" style="color:var(--muted);">（待定）</div></div>
+        <div class="style-cell-head"><div class="style-cell-id">MODEL E</div><div class="style-cell-label">待填名稱</div></div>
         <div class="style-img-row">
           <div class="style-img"><div class="style-img-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div><div class="style-img-lbl">1girl</div></div>
           <div class="style-img"><div class="style-img-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div><div class="style-img-lbl">1boy</div></div>
@@ -541,7 +541,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
         <div class="step2-n">3</div>
         <div class="step2-body">
           <strong>在 pixAI 測試與調權重</strong>
-          <p>貼入草稿後開始生圖。若某個效果不夠明顯，用括號加強：<code style="font-family:'Space Mono',monospace;font-size:.72rem;background:var(--cream);padding:.05rem .3rem;border-radius:2px;">(keyword:1.3)</code>，建議範圍 1.2–1.5。</p>
+          <p>貼入草稿後開始生圖。若某個效果不夠明顯，用括號加強：<code style="font-family:'DM Mono',monospace;font-size:.72rem;background:var(--cream);padding:.05rem .3rem;border-radius:2px;">(keyword:1.3)</code>，建議範圍 1.2–1.5。</p>
         </div>
       </div>
       <div class="step2">
@@ -601,10 +601,10 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
     <div class="sidebar">
       <div class="sb-box" id="arc-toc">
         <div class="sb-head">JUMP TO</div>
-        <div class="sb-link active" onclick="scrollTo2('a11','arc-toc',this)"><span class="sb-dot"></span>1.1 經典女裝</div>
-        <div class="sb-link" onclick="scrollTo2('a12','arc-toc',this)"><span class="sb-dot"></span>1.2 經典男裝</div>
-        <div class="sb-link" onclick="scrollTo2('a13','arc-toc',this)"><span class="sb-dot"></span>1.3 民族文化</div>
-        <div class="sb-link" onclick="scrollTo2('a14','arc-toc',this)"><span class="sb-dot"></span>1.4 現代街頭</div>
+        <div class="sb-link active" onclick="scrollTo2('a11','arc-toc',this)"><span class="sb-dot"></span>01 經典女裝</div>
+        <div class="sb-link" onclick="scrollTo2('a12','arc-toc',this)"><span class="sb-dot"></span>02 經典男裝</div>
+        <div class="sb-link" onclick="scrollTo2('a13','arc-toc',this)"><span class="sb-dot"></span>03 民族文化</div>
+        <div class="sb-link" onclick="scrollTo2('a14','arc-toc',this)"><span class="sb-dot"></span>04 現代街頭</div>
       </div>
     </div>
     <div>
@@ -617,7 +617,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
         <button class="f-btn" onclick="filterArc(this,'street')">現代街頭</button>
       </div>
 
-      <!-- ARCHIVES_CONTENT -->
+      <div id="a-female" data-acat="female"><div class="sub-label"><span class="sub-code">1.1</span>經典女裝</div><div class="arc-grid"><div class="arc-card"><div class="ac-img"><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/ff5cfa04-2b38-4155-a511-9a94d8a81db7/8bebb02a-1644-4285-8564-19b4d8a37e93/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB466QZVEQSDJ%2F20260312%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260312T141648Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEK7%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIQDThomu1W7rCoMIUHEuH82WKHKcyppn%2Bc6V1%2BJ50kFv2gIgaJu%2FnloyOqmi8B4zeZ17uaOr2gQpmNMt%2BebNgXTQ4Z0q%2FwMIdxAAGgw2Mzc0MjMxODM4MDUiDMjNAPilisjJxaNNVircA7dOEfKWrBE3EGUstb%2F3wn4fF8Zbe1%2BUAGdo%2Fi%2BVSlj%2FHUS8fWJUuLmB0yd6giGuqQv0Zwn762WKMQgwrvLUXRL6N%2Bk9jdSsrt0o5whpYr%2FYi6%2Brk%2FSVQ2%2F%2Fy56MciXVAL7CCAC3njsUwL8Vg3KokgjquYD2Ziffd3F33mYP1827f42Td3hsIkOtyKWUd%2BIynCFenNd6MZk1Ix6cb7nhK12cZMOlEbhR04yUy7WLxibJomI6L75kKZnYUAy09EjOURbfjpZdgxVv%2BbYSZoN39xpcn4KbElk0GdgzU3yd9uN8zAcjY%2BDUR7eYsWAGW8h5xjsiNbUIm1AYWvQUERik7yg9HQkcWRAoLeVFWeJSOime1HZt7s%2BIAVNpOP%2Bkn5kRPjXN4x2AsSksECy2g5NffAjGwHr99vcuPnpjuVrGTj%2BuJ5ljKL1qcWbSy58fCGA8DaouC6buAjGVgpUS0aVGPAMcjVjSHpOAwoVxAKNbRb%2Fgt%2Fhn5K91%2B1tu2NGfBgORz%2BXeVXO%2BiZ8xKCxMMNTJKyv4xqfgSCpEvnM4NX8t7c5UK98CEvVvFREG8is%2Fd4aDXyTMpUDWec22hL1k5pLldpjh6mReUmK8208pJQHWoyscgRmkXJT2VvFBSMdQMJ2Jy80GOqUB9al%2FhQAPICw%2BweX1nwjWd7uGwrNh59HLciWGOx%2BllLu1nawMm8vzaNYs4rWni3yFntUUckm%2Fw81%2F%2FI1Ysn7pOzrPx2xRLsxPTpF%2BPgVOjjnidSonnRZVg%2BG5abQN0vCcctZKKOnVMJjcReKCyvkG1EqYwxRfTL%2Bc8hAc718fmqH4dutHmqwUfoYPsZa6jQxueOuiYEWaCy%2BwN7VR2bFxRQC9rRff&amp;X-Amz-Signature=9ff0a9866c0a9ccc6f616aa2ccfbfd8a6ef85bf179f6ea551b7dc4bfe51274ea&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;"></div><div class="ac-info"><div class="ac-en">dress</div><div class="ac-zh">裙子</div><div class="ac-prompt">dress</div></div><div class="ac-foot"><button class="cp-btn" onclick="cp(this,'dress')">COPY</button></div></div></div><div class="amc"><div class="amc-head"><div><div class="amc-title">dress — 五模型直出對比</div><div class="amc-prompt">dress</div></div><span class="amc-tag t-arc">ARCHIVES</span></div><div class="tg5"><div class="tc"><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/ff5cfa04-2b38-4155-a511-9a94d8a81db7/8bebb02a-1644-4285-8564-19b4d8a37e93/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB466QZVEQSDJ%2F20260312%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260312T141648Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEK7%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIQDThomu1W7rCoMIUHEuH82WKHKcyppn%2Bc6V1%2BJ50kFv2gIgaJu%2FnloyOqmi8B4zeZ17uaOr2gQpmNMt%2BebNgXTQ4Z0q%2FwMIdxAAGgw2Mzc0MjMxODM4MDUiDMjNAPilisjJxaNNVircA7dOEfKWrBE3EGUstb%2F3wn4fF8Zbe1%2BUAGdo%2Fi%2BVSlj%2FHUS8fWJUuLmB0yd6giGuqQv0Zwn762WKMQgwrvLUXRL6N%2Bk9jdSsrt0o5whpYr%2FYi6%2Brk%2FSVQ2%2F%2Fy56MciXVAL7CCAC3njsUwL8Vg3KokgjquYD2Ziffd3F33mYP1827f42Td3hsIkOtyKWUd%2BIynCFenNd6MZk1Ix6cb7nhK12cZMOlEbhR04yUy7WLxibJomI6L75kKZnYUAy09EjOURbfjpZdgxVv%2BbYSZoN39xpcn4KbElk0GdgzU3yd9uN8zAcjY%2BDUR7eYsWAGW8h5xjsiNbUIm1AYWvQUERik7yg9HQkcWRAoLeVFWeJSOime1HZt7s%2BIAVNpOP%2Bkn5kRPjXN4x2AsSksECy2g5NffAjGwHr99vcuPnpjuVrGTj%2BuJ5ljKL1qcWbSy58fCGA8DaouC6buAjGVgpUS0aVGPAMcjVjSHpOAwoVxAKNbRb%2Fgt%2Fhn5K91%2B1tu2NGfBgORz%2BXeVXO%2BiZ8xKCxMMNTJKyv4xqfgSCpEvnM4NX8t7c5UK98CEvVvFREG8is%2Fd4aDXyTMpUDWec22hL1k5pLldpjh6mReUmK8208pJQHWoyscgRmkXJT2VvFBSMdQMJ2Jy80GOqUB9al%2FhQAPICw%2BweX1nwjWd7uGwrNh59HLciWGOx%2BllLu1nawMm8vzaNYs4rWni3yFntUUckm%2Fw81%2F%2FI1Ysn7pOzrPx2xRLsxPTpF%2BPgVOjjnidSonnRZVg%2BG5abQN0vCcctZKKOnVMJjcReKCyvkG1EqYwxRfTL%2Bc8hAc718fmqH4dutHmqwUfoYPsZa6jQxueOuiYEWaCy%2BwN7VR2bFxRQC9rRff&amp;X-Amz-Signature=9ff0a9866c0a9ccc6f616aa2ccfbfd8a6ef85bf179f6ea551b7dc4bfe51274ea&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject" alt="Model A" loading="lazy"><div class="tc-lbl">Model A</div></div><div class="tc"><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/ff5cfa04-2b38-4155-a511-9a94d8a81db7/69129320-7bf6-41a2-bf00-036803cd29b1/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB466QZVEQSDJ%2F20260312%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260312T141648Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEK7%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIQDThomu1W7rCoMIUHEuH82WKHKcyppn%2Bc6V1%2BJ50kFv2gIgaJu%2FnloyOqmi8B4zeZ17uaOr2gQpmNMt%2BebNgXTQ4Z0q%2FwMIdxAAGgw2Mzc0MjMxODM4MDUiDMjNAPilisjJxaNNVircA7dOEfKWrBE3EGUstb%2F3wn4fF8Zbe1%2BUAGdo%2Fi%2BVSlj%2FHUS8fWJUuLmB0yd6giGuqQv0Zwn762WKMQgwrvLUXRL6N%2Bk9jdSsrt0o5whpYr%2FYi6%2Brk%2FSVQ2%2F%2Fy56MciXVAL7CCAC3njsUwL8Vg3KokgjquYD2Ziffd3F33mYP1827f42Td3hsIkOtyKWUd%2BIynCFenNd6MZk1Ix6cb7nhK12cZMOlEbhR04yUy7WLxibJomI6L75kKZnYUAy09EjOURbfjpZdgxVv%2BbYSZoN39xpcn4KbElk0GdgzU3yd9uN8zAcjY%2BDUR7eYsWAGW8h5xjsiNbUIm1AYWvQUERik7yg9HQkcWRAoLeVFWeJSOime1HZt7s%2BIAVNpOP%2Bkn5kRPjXN4x2AsSksECy2g5NffAjGwHr99vcuPnpjuVrGTj%2BuJ5ljKL1qcWbSy58fCGA8DaouC6buAjGVgpUS0aVGPAMcjVjSHpOAwoVxAKNbRb%2Fgt%2Fhn5K91%2B1tu2NGfBgORz%2BXeVXO%2BiZ8xKCxMMNTJKyv4xqfgSCpEvnM4NX8t7c5UK98CEvVvFREG8is%2Fd4aDXyTMpUDWec22hL1k5pLldpjh6mReUmK8208pJQHWoyscgRmkXJT2VvFBSMdQMJ2Jy80GOqUB9al%2FhQAPICw%2BweX1nwjWd7uGwrNh59HLciWGOx%2BllLu1nawMm8vzaNYs4rWni3yFntUUckm%2Fw81%2F%2FI1Ysn7pOzrPx2xRLsxPTpF%2BPgVOjjnidSonnRZVg%2BG5abQN0vCcctZKKOnVMJjcReKCyvkG1EqYwxRfTL%2Bc8hAc718fmqH4dutHmqwUfoYPsZa6jQxueOuiYEWaCy%2BwN7VR2bFxRQC9rRff&amp;X-Amz-Signature=6aa6800ad0766e84fcaa11505022e3d3e4796553e1c2fd36f5d0bfcf8aab1646&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject" alt="Model B" loading="lazy"><div class="tc-lbl">Model B</div></div><div class="tc"><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/ff5cfa04-2b38-4155-a511-9a94d8a81db7/a7053485-967a-4501-a322-7badf4a0fe4e/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB466QZVEQSDJ%2F20260312%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260312T141648Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEK7%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIQDThomu1W7rCoMIUHEuH82WKHKcyppn%2Bc6V1%2BJ50kFv2gIgaJu%2FnloyOqmi8B4zeZ17uaOr2gQpmNMt%2BebNgXTQ4Z0q%2FwMIdxAAGgw2Mzc0MjMxODM4MDUiDMjNAPilisjJxaNNVircA7dOEfKWrBE3EGUstb%2F3wn4fF8Zbe1%2BUAGdo%2Fi%2BVSlj%2FHUS8fWJUuLmB0yd6giGuqQv0Zwn762WKMQgwrvLUXRL6N%2Bk9jdSsrt0o5whpYr%2FYi6%2Brk%2FSVQ2%2F%2Fy56MciXVAL7CCAC3njsUwL8Vg3KokgjquYD2Ziffd3F33mYP1827f42Td3hsIkOtyKWUd%2BIynCFenNd6MZk1Ix6cb7nhK12cZMOlEbhR04yUy7WLxibJomI6L75kKZnYUAy09EjOURbfjpZdgxVv%2BbYSZoN39xpcn4KbElk0GdgzU3yd9uN8zAcjY%2BDUR7eYsWAGW8h5xjsiNbUIm1AYWvQUERik7yg9HQkcWRAoLeVFWeJSOime1HZt7s%2BIAVNpOP%2Bkn5kRPjXN4x2AsSksECy2g5NffAjGwHr99vcuPnpjuVrGTj%2BuJ5ljKL1qcWbSy58fCGA8DaouC6buAjGVgpUS0aVGPAMcjVjSHpOAwoVxAKNbRb%2Fgt%2Fhn5K91%2B1tu2NGfBgORz%2BXeVXO%2BiZ8xKCxMMNTJKyv4xqfgSCpEvnM4NX8t7c5UK98CEvVvFREG8is%2Fd4aDXyTMpUDWec22hL1k5pLldpjh6mReUmK8208pJQHWoyscgRmkXJT2VvFBSMdQMJ2Jy80GOqUB9al%2FhQAPICw%2BweX1nwjWd7uGwrNh59HLciWGOx%2BllLu1nawMm8vzaNYs4rWni3yFntUUckm%2Fw81%2F%2FI1Ysn7pOzrPx2xRLsxPTpF%2BPgVOjjnidSonnRZVg%2BG5abQN0vCcctZKKOnVMJjcReKCyvkG1EqYwxRfTL%2Bc8hAc718fmqH4dutHmqwUfoYPsZa6jQxueOuiYEWaCy%2BwN7VR2bFxRQC9rRff&amp;X-Amz-Signature=31ec0a31417b8f2db162dcc695934140386cd2aac6be556cb18d0ef132689bcf&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject" alt="Model C" loading="lazy"><div class="tc-lbl">Model C</div></div><div class="tc"><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/ff5cfa04-2b38-4155-a511-9a94d8a81db7/7550993b-3dc5-41ae-a54f-5806a14b4b67/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB466QZVEQSDJ%2F20260312%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260312T141648Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEK7%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIQDThomu1W7rCoMIUHEuH82WKHKcyppn%2Bc6V1%2BJ50kFv2gIgaJu%2FnloyOqmi8B4zeZ17uaOr2gQpmNMt%2BebNgXTQ4Z0q%2FwMIdxAAGgw2Mzc0MjMxODM4MDUiDMjNAPilisjJxaNNVircA7dOEfKWrBE3EGUstb%2F3wn4fF8Zbe1%2BUAGdo%2Fi%2BVSlj%2FHUS8fWJUuLmB0yd6giGuqQv0Zwn762WKMQgwrvLUXRL6N%2Bk9jdSsrt0o5whpYr%2FYi6%2Brk%2FSVQ2%2F%2Fy56MciXVAL7CCAC3njsUwL8Vg3KokgjquYD2Ziffd3F33mYP1827f42Td3hsIkOtyKWUd%2BIynCFenNd6MZk1Ix6cb7nhK12cZMOlEbhR04yUy7WLxibJomI6L75kKZnYUAy09EjOURbfjpZdgxVv%2BbYSZoN39xpcn4KbElk0GdgzU3yd9uN8zAcjY%2BDUR7eYsWAGW8h5xjsiNbUIm1AYWvQUERik7yg9HQkcWRAoLeVFWeJSOime1HZt7s%2BIAVNpOP%2Bkn5kRPjXN4x2AsSksECy2g5NffAjGwHr99vcuPnpjuVrGTj%2BuJ5ljKL1qcWbSy58fCGA8DaouC6buAjGVgpUS0aVGPAMcjVjSHpOAwoVxAKNbRb%2Fgt%2Fhn5K91%2B1tu2NGfBgORz%2BXeVXO%2BiZ8xKCxMMNTJKyv4xqfgSCpEvnM4NX8t7c5UK98CEvVvFREG8is%2Fd4aDXyTMpUDWec22hL1k5pLldpjh6mReUmK8208pJQHWoyscgRmkXJT2VvFBSMdQMJ2Jy80GOqUB9al%2FhQAPICw%2BweX1nwjWd7uGwrNh59HLciWGOx%2BllLu1nawMm8vzaNYs4rWni3yFntUUckm%2Fw81%2F%2FI1Ysn7pOzrPx2xRLsxPTpF%2BPgVOjjnidSonnRZVg%2BG5abQN0vCcctZKKOnVMJjcReKCyvkG1EqYwxRfTL%2Bc8hAc718fmqH4dutHmqwUfoYPsZa6jQxueOuiYEWaCy%2BwN7VR2bFxRQC9rRff&amp;X-Amz-Signature=29adc01050745b9253ea7e32e2e4e6f43de75ae6c53712504342346c6769912e&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject" alt="Model D" loading="lazy"><div class="tc-lbl">Model D</div></div><div class="tc"><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/ff5cfa04-2b38-4155-a511-9a94d8a81db7/1311ec94-2921-4fc8-b28d-8cafd83e7cdc/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB466QZVEQSDJ%2F20260312%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260312T141648Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEK7%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIQDThomu1W7rCoMIUHEuH82WKHKcyppn%2Bc6V1%2BJ50kFv2gIgaJu%2FnloyOqmi8B4zeZ17uaOr2gQpmNMt%2BebNgXTQ4Z0q%2FwMIdxAAGgw2Mzc0MjMxODM4MDUiDMjNAPilisjJxaNNVircA7dOEfKWrBE3EGUstb%2F3wn4fF8Zbe1%2BUAGdo%2Fi%2BVSlj%2FHUS8fWJUuLmB0yd6giGuqQv0Zwn762WKMQgwrvLUXRL6N%2Bk9jdSsrt0o5whpYr%2FYi6%2Brk%2FSVQ2%2F%2Fy56MciXVAL7CCAC3njsUwL8Vg3KokgjquYD2Ziffd3F33mYP1827f42Td3hsIkOtyKWUd%2BIynCFenNd6MZk1Ix6cb7nhK12cZMOlEbhR04yUy7WLxibJomI6L75kKZnYUAy09EjOURbfjpZdgxVv%2BbYSZoN39xpcn4KbElk0GdgzU3yd9uN8zAcjY%2BDUR7eYsWAGW8h5xjsiNbUIm1AYWvQUERik7yg9HQkcWRAoLeVFWeJSOime1HZt7s%2BIAVNpOP%2Bkn5kRPjXN4x2AsSksECy2g5NffAjGwHr99vcuPnpjuVrGTj%2BuJ5ljKL1qcWbSy58fCGA8DaouC6buAjGVgpUS0aVGPAMcjVjSHpOAwoVxAKNbRb%2Fgt%2Fhn5K91%2B1tu2NGfBgORz%2BXeVXO%2BiZ8xKCxMMNTJKyv4xqfgSCpEvnM4NX8t7c5UK98CEvVvFREG8is%2Fd4aDXyTMpUDWec22hL1k5pLldpjh6mReUmK8208pJQHWoyscgRmkXJT2VvFBSMdQMJ2Jy80GOqUB9al%2FhQAPICw%2BweX1nwjWd7uGwrNh59HLciWGOx%2BllLu1nawMm8vzaNYs4rWni3yFntUUckm%2Fw81%2F%2FI1Ysn7pOzrPx2xRLsxPTpF%2BPgVOjjnidSonnRZVg%2BG5abQN0vCcctZKKOnVMJjcReKCyvkG1EqYwxRfTL%2Bc8hAc718fmqH4dutHmqwUfoYPsZa6jQxueOuiYEWaCy%2BwN7VR2bFxRQC9rRff&amp;X-Amz-Signature=9036ec77985adf0973484695e7eba7edfa11a08509346442dc60ad3f534e05db&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject" alt="Model E" loading="lazy"><div class="tc-lbl">Model E</div></div></div><button class="xbtn" onclick="toggleX(this)">展開各模型備註 <span class="ea">▾</span></button><div class="xpanel"><table class="xtable"><thead><tr><th>模型</th><th>圖例</th><th>備註</th></tr></thead><tbody><tr><td><span class="mn">Model A</span></td><td><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/ff5cfa04-2b38-4155-a511-9a94d8a81db7/8bebb02a-1644-4285-8564-19b4d8a37e93/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB466QZVEQSDJ%2F20260312%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260312T141648Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEK7%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIQDThomu1W7rCoMIUHEuH82WKHKcyppn%2Bc6V1%2BJ50kFv2gIgaJu%2FnloyOqmi8B4zeZ17uaOr2gQpmNMt%2BebNgXTQ4Z0q%2FwMIdxAAGgw2Mzc0MjMxODM4MDUiDMjNAPilisjJxaNNVircA7dOEfKWrBE3EGUstb%2F3wn4fF8Zbe1%2BUAGdo%2Fi%2BVSlj%2FHUS8fWJUuLmB0yd6giGuqQv0Zwn762WKMQgwrvLUXRL6N%2Bk9jdSsrt0o5whpYr%2FYi6%2Brk%2FSVQ2%2F%2Fy56MciXVAL7CCAC3njsUwL8Vg3KokgjquYD2Ziffd3F33mYP1827f42Td3hsIkOtyKWUd%2BIynCFenNd6MZk1Ix6cb7nhK12cZMOlEbhR04yUy7WLxibJomI6L75kKZnYUAy09EjOURbfjpZdgxVv%2BbYSZoN39xpcn4KbElk0GdgzU3yd9uN8zAcjY%2BDUR7eYsWAGW8h5xjsiNbUIm1AYWvQUERik7yg9HQkcWRAoLeVFWeJSOime1HZt7s%2BIAVNpOP%2Bkn5kRPjXN4x2AsSksECy2g5NffAjGwHr99vcuPnpjuVrGTj%2BuJ5ljKL1qcWbSy58fCGA8DaouC6buAjGVgpUS0aVGPAMcjVjSHpOAwoVxAKNbRb%2Fgt%2Fhn5K91%2B1tu2NGfBgORz%2BXeVXO%2BiZ8xKCxMMNTJKyv4xqfgSCpEvnM4NX8t7c5UK98CEvVvFREG8is%2Fd4aDXyTMpUDWec22hL1k5pLldpjh6mReUmK8208pJQHWoyscgRmkXJT2VvFBSMdQMJ2Jy80GOqUB9al%2FhQAPICw%2BweX1nwjWd7uGwrNh59HLciWGOx%2BllLu1nawMm8vzaNYs4rWni3yFntUUckm%2Fw81%2F%2FI1Ysn7pOzrPx2xRLsxPTpF%2BPgVOjjnidSonnRZVg%2BG5abQN0vCcctZKKOnVMJjcReKCyvkG1EqYwxRfTL%2Bc8hAc718fmqH4dutHmqwUfoYPsZa6jQxueOuiYEWaCy%2BwN7VR2bFxRQC9rRff&amp;X-Amz-Signature=9ff0a9866c0a9ccc6f616aa2ccfbfd8a6ef85bf179f6ea551b7dc4bfe51274ea&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject" style="width:52px;height:65px;object-fit:cover;border-radius:2px;"></td><td class="nt">—</td></tr><tr><td><span class="mn">Model B</span></td><td><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/ff5cfa04-2b38-4155-a511-9a94d8a81db7/69129320-7bf6-41a2-bf00-036803cd29b1/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB466QZVEQSDJ%2F20260312%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260312T141648Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEK7%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIQDThomu1W7rCoMIUHEuH82WKHKcyppn%2Bc6V1%2BJ50kFv2gIgaJu%2FnloyOqmi8B4zeZ17uaOr2gQpmNMt%2BebNgXTQ4Z0q%2FwMIdxAAGgw2Mzc0MjMxODM4MDUiDMjNAPilisjJxaNNVircA7dOEfKWrBE3EGUstb%2F3wn4fF8Zbe1%2BUAGdo%2Fi%2BVSlj%2FHUS8fWJUuLmB0yd6giGuqQv0Zwn762WKMQgwrvLUXRL6N%2Bk9jdSsrt0o5whpYr%2FYi6%2Brk%2FSVQ2%2F%2Fy56MciXVAL7CCAC3njsUwL8Vg3KokgjquYD2Ziffd3F33mYP1827f42Td3hsIkOtyKWUd%2BIynCFenNd6MZk1Ix6cb7nhK12cZMOlEbhR04yUy7WLxibJomI6L75kKZnYUAy09EjOURbfjpZdgxVv%2BbYSZoN39xpcn4KbElk0GdgzU3yd9uN8zAcjY%2BDUR7eYsWAGW8h5xjsiNbUIm1AYWvQUERik7yg9HQkcWRAoLeVFWeJSOime1HZt7s%2BIAVNpOP%2Bkn5kRPjXN4x2AsSksECy2g5NffAjGwHr99vcuPnpjuVrGTj%2BuJ5ljKL1qcWbSy58fCGA8DaouC6buAjGVgpUS0aVGPAMcjVjSHpOAwoVxAKNbRb%2Fgt%2Fhn5K91%2B1tu2NGfBgORz%2BXeVXO%2BiZ8xKCxMMNTJKyv4xqfgSCpEvnM4NX8t7c5UK98CEvVvFREG8is%2Fd4aDXyTMpUDWec22hL1k5pLldpjh6mReUmK8208pJQHWoyscgRmkXJT2VvFBSMdQMJ2Jy80GOqUB9al%2FhQAPICw%2BweX1nwjWd7uGwrNh59HLciWGOx%2BllLu1nawMm8vzaNYs4rWni3yFntUUckm%2Fw81%2F%2FI1Ysn7pOzrPx2xRLsxPTpF%2BPgVOjjnidSonnRZVg%2BG5abQN0vCcctZKKOnVMJjcReKCyvkG1EqYwxRfTL%2Bc8hAc718fmqH4dutHmqwUfoYPsZa6jQxueOuiYEWaCy%2BwN7VR2bFxRQC9rRff&amp;X-Amz-Signature=6aa6800ad0766e84fcaa11505022e3d3e4796553e1c2fd36f5d0bfcf8aab1646&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject" style="width:52px;height:65px;object-fit:cover;border-radius:2px;"></td><td class="nt">—</td></tr><tr><td><span class="mn">Model C</span></td><td><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/ff5cfa04-2b38-4155-a511-9a94d8a81db7/a7053485-967a-4501-a322-7badf4a0fe4e/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB466QZVEQSDJ%2F20260312%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260312T141648Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEK7%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIQDThomu1W7rCoMIUHEuH82WKHKcyppn%2Bc6V1%2BJ50kFv2gIgaJu%2FnloyOqmi8B4zeZ17uaOr2gQpmNMt%2BebNgXTQ4Z0q%2FwMIdxAAGgw2Mzc0MjMxODM4MDUiDMjNAPilisjJxaNNVircA7dOEfKWrBE3EGUstb%2F3wn4fF8Zbe1%2BUAGdo%2Fi%2BVSlj%2FHUS8fWJUuLmB0yd6giGuqQv0Zwn762WKMQgwrvLUXRL6N%2Bk9jdSsrt0o5whpYr%2FYi6%2Brk%2FSVQ2%2F%2Fy56MciXVAL7CCAC3njsUwL8Vg3KokgjquYD2Ziffd3F33mYP1827f42Td3hsIkOtyKWUd%2BIynCFenNd6MZk1Ix6cb7nhK12cZMOlEbhR04yUy7WLxibJomI6L75kKZnYUAy09EjOURbfjpZdgxVv%2BbYSZoN39xpcn4KbElk0GdgzU3yd9uN8zAcjY%2BDUR7eYsWAGW8h5xjsiNbUIm1AYWvQUERik7yg9HQkcWRAoLeVFWeJSOime1HZt7s%2BIAVNpOP%2Bkn5kRPjXN4x2AsSksECy2g5NffAjGwHr99vcuPnpjuVrGTj%2BuJ5ljKL1qcWbSy58fCGA8DaouC6buAjGVgpUS0aVGPAMcjVjSHpOAwoVxAKNbRb%2Fgt%2Fhn5K91%2B1tu2NGfBgORz%2BXeVXO%2BiZ8xKCxMMNTJKyv4xqfgSCpEvnM4NX8t7c5UK98CEvVvFREG8is%2Fd4aDXyTMpUDWec22hL1k5pLldpjh6mReUmK8208pJQHWoyscgRmkXJT2VvFBSMdQMJ2Jy80GOqUB9al%2FhQAPICw%2BweX1nwjWd7uGwrNh59HLciWGOx%2BllLu1nawMm8vzaNYs4rWni3yFntUUckm%2Fw81%2F%2FI1Ysn7pOzrPx2xRLsxPTpF%2BPgVOjjnidSonnRZVg%2BG5abQN0vCcctZKKOnVMJjcReKCyvkG1EqYwxRfTL%2Bc8hAc718fmqH4dutHmqwUfoYPsZa6jQxueOuiYEWaCy%2BwN7VR2bFxRQC9rRff&amp;X-Amz-Signature=31ec0a31417b8f2db162dcc695934140386cd2aac6be556cb18d0ef132689bcf&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject" style="width:52px;height:65px;object-fit:cover;border-radius:2px;"></td><td class="nt">—</td></tr><tr><td><span class="mn">Model D</span></td><td><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/ff5cfa04-2b38-4155-a511-9a94d8a81db7/7550993b-3dc5-41ae-a54f-5806a14b4b67/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB466QZVEQSDJ%2F20260312%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260312T141648Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEK7%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIQDThomu1W7rCoMIUHEuH82WKHKcyppn%2Bc6V1%2BJ50kFv2gIgaJu%2FnloyOqmi8B4zeZ17uaOr2gQpmNMt%2BebNgXTQ4Z0q%2FwMIdxAAGgw2Mzc0MjMxODM4MDUiDMjNAPilisjJxaNNVircA7dOEfKWrBE3EGUstb%2F3wn4fF8Zbe1%2BUAGdo%2Fi%2BVSlj%2FHUS8fWJUuLmB0yd6giGuqQv0Zwn762WKMQgwrvLUXRL6N%2Bk9jdSsrt0o5whpYr%2FYi6%2Brk%2FSVQ2%2F%2Fy56MciXVAL7CCAC3njsUwL8Vg3KokgjquYD2Ziffd3F33mYP1827f42Td3hsIkOtyKWUd%2BIynCFenNd6MZk1Ix6cb7nhK12cZMOlEbhR04yUy7WLxibJomI6L75kKZnYUAy09EjOURbfjpZdgxVv%2BbYSZoN39xpcn4KbElk0GdgzU3yd9uN8zAcjY%2BDUR7eYsWAGW8h5xjsiNbUIm1AYWvQUERik7yg9HQkcWRAoLeVFWeJSOime1HZt7s%2BIAVNpOP%2Bkn5kRPjXN4x2AsSksECy2g5NffAjGwHr99vcuPnpjuVrGTj%2BuJ5ljKL1qcWbSy58fCGA8DaouC6buAjGVgpUS0aVGPAMcjVjSHpOAwoVxAKNbRb%2Fgt%2Fhn5K91%2B1tu2NGfBgORz%2BXeVXO%2BiZ8xKCxMMNTJKyv4xqfgSCpEvnM4NX8t7c5UK98CEvVvFREG8is%2Fd4aDXyTMpUDWec22hL1k5pLldpjh6mReUmK8208pJQHWoyscgRmkXJT2VvFBSMdQMJ2Jy80GOqUB9al%2FhQAPICw%2BweX1nwjWd7uGwrNh59HLciWGOx%2BllLu1nawMm8vzaNYs4rWni3yFntUUckm%2Fw81%2F%2FI1Ysn7pOzrPx2xRLsxPTpF%2BPgVOjjnidSonnRZVg%2BG5abQN0vCcctZKKOnVMJjcReKCyvkG1EqYwxRfTL%2Bc8hAc718fmqH4dutHmqwUfoYPsZa6jQxueOuiYEWaCy%2BwN7VR2bFxRQC9rRff&amp;X-Amz-Signature=29adc01050745b9253ea7e32e2e4e6f43de75ae6c53712504342346c6769912e&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject" style="width:52px;height:65px;object-fit:cover;border-radius:2px;"></td><td class="nt">—</td></tr><tr><td><span class="mn">Model E</span></td><td><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/ff5cfa04-2b38-4155-a511-9a94d8a81db7/1311ec94-2921-4fc8-b28d-8cafd83e7cdc/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB466QZVEQSDJ%2F20260312%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260312T141648Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEK7%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIQDThomu1W7rCoMIUHEuH82WKHKcyppn%2Bc6V1%2BJ50kFv2gIgaJu%2FnloyOqmi8B4zeZ17uaOr2gQpmNMt%2BebNgXTQ4Z0q%2FwMIdxAAGgw2Mzc0MjMxODM4MDUiDMjNAPilisjJxaNNVircA7dOEfKWrBE3EGUstb%2F3wn4fF8Zbe1%2BUAGdo%2Fi%2BVSlj%2FHUS8fWJUuLmB0yd6giGuqQv0Zwn762WKMQgwrvLUXRL6N%2Bk9jdSsrt0o5whpYr%2FYi6%2Brk%2FSVQ2%2F%2Fy56MciXVAL7CCAC3njsUwL8Vg3KokgjquYD2Ziffd3F33mYP1827f42Td3hsIkOtyKWUd%2BIynCFenNd6MZk1Ix6cb7nhK12cZMOlEbhR04yUy7WLxibJomI6L75kKZnYUAy09EjOURbfjpZdgxVv%2BbYSZoN39xpcn4KbElk0GdgzU3yd9uN8zAcjY%2BDUR7eYsWAGW8h5xjsiNbUIm1AYWvQUERik7yg9HQkcWRAoLeVFWeJSOime1HZt7s%2BIAVNpOP%2Bkn5kRPjXN4x2AsSksECy2g5NffAjGwHr99vcuPnpjuVrGTj%2BuJ5ljKL1qcWbSy58fCGA8DaouC6buAjGVgpUS0aVGPAMcjVjSHpOAwoVxAKNbRb%2Fgt%2Fhn5K91%2B1tu2NGfBgORz%2BXeVXO%2BiZ8xKCxMMNTJKyv4xqfgSCpEvnM4NX8t7c5UK98CEvVvFREG8is%2Fd4aDXyTMpUDWec22hL1k5pLldpjh6mReUmK8208pJQHWoyscgRmkXJT2VvFBSMdQMJ2Jy80GOqUB9al%2FhQAPICw%2BweX1nwjWd7uGwrNh59HLciWGOx%2BllLu1nawMm8vzaNYs4rWni3yFntUUckm%2Fw81%2F%2FI1Ysn7pOzrPx2xRLsxPTpF%2BPgVOjjnidSonnRZVg%2BG5abQN0vCcctZKKOnVMJjcReKCyvkG1EqYwxRfTL%2Bc8hAc718fmqH4dutHmqwUfoYPsZa6jQxueOuiYEWaCy%2BwN7VR2bFxRQC9rRff&amp;X-Amz-Signature=9036ec77985adf0973484695e7eba7edfa11a08509346442dc60ad3f534e05db&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject" style="width:52px;height:65px;object-fit:cover;border-radius:2px;"></td><td class="nt">—</td></tr></tbody></table></div></div></div>
     </div>
   </div>
 </section>
@@ -629,18 +629,18 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
     <div class="sec-info">
       <span class="sec-en">The Atelier — Production Line</span>
       <h2>製衣工坊</h2>
-      <p>模組化元件組合，手動建構服裝細節。五大模組分類瀏覽，<br>附「拆解式對照圖」示範同版型換面料 / 同面料換色號。</p>
+      <p>模組化元件組合，手動建構服裝細節。</p>
     </div>
   </div>
   <div class="with-sidebar">
     <div class="sidebar">
       <div class="sb-box" id="ate-toc">
         <div class="sb-head">MODULES</div>
-        <div class="sb-link active" onclick="scrollTo2('ma01','ate-toc',this)"><span class="sb-dot"></span>A-01 版型</div>
-        <div class="sb-link" onclick="scrollTo2('ma02','ate-toc',this)"><span class="sb-dot"></span>A-02 面料</div>
-        <div class="sb-link" onclick="scrollTo2('ma03','ate-toc',this)"><span class="sb-dot"></span>A-03 剪裁</div>
-        <div class="sb-link" onclick="scrollTo2('ma04','ate-toc',this)"><span class="sb-dot"></span>A-04 色彩</div>
-        <div class="sb-link" onclick="scrollTo2('ma05','ate-toc',this)"><span class="sb-dot"></span>A-05 配飾</div>
+        <div class="sb-link active" onclick="scrollTo2('ma01','ate-toc',this)"><span class="sb-dot"></span>01 基礎版型</div>
+        <div class="sb-link" onclick="scrollTo2('ma02','ate-toc',this)"><span class="sb-dot"></span>02 材質面料</div>
+        <div class="sb-link" onclick="scrollTo2('ma03','ate-toc',this)"><span class="sb-dot"></span>03 剪裁工藝</div>
+        <div class="sb-link" onclick="scrollTo2('ma04','ate-toc',this)"><span class="sb-dot"></span>04 顏色系統</div>
+        <div class="sb-link" onclick="scrollTo2('ma05','ate-toc',this)"><span class="sb-dot"></span>05 其他點綴</div>
       </div>
     </div>
     <div>
@@ -649,16 +649,17 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
         <table class="mod-table">
           <thead><tr><th>編號</th><th>類別</th><th>核心要素</th><th>備註</th></tr></thead>
           <tbody>
-            <tr><td><span class="mc">A-01</span></td><td><span class="mtag t-sil">SILHOUETTE</span><div class="mcat">版型分類</div></td><td><div class="chips"><span class="chip">上裝</span><span class="chip">下裝</span><span class="chip">連體衣</span><span class="chip">外搭</span><span class="chip">內衣</span></div></td><td class="mnote">決定服裝大輪廓</td></tr>
-            <tr><td><span class="mc">A-02</span></td><td><span class="mtag t-fab">FABRIC</span><div class="mcat">面料車間</div></td><td><div class="chips"><span class="chip">絲綢</span><span class="chip">乳膠</span><span class="chip">皮革</span><span class="chip">針織</span><span class="chip">歐根紗</span><span class="chip">PVC</span></div></td><td class="mnote">影響光影折射與紋理</td></tr>
+            <tr><td><span class="mc">A-01</span></td><td><span class="mtag t-sil">SILHOUETTE</span><div class="mcat">基礎版型</div></td><td><div class="chips"><span class="chip">上裝</span><span class="chip">下裝</span><span class="chip">連體衣</span><span class="chip">外搭</span><span class="chip">內衣</span></div></td><td class="mnote">決定服裝大輪廓</td></tr>
+            <tr><td><span class="mc">A-02</span></td><td><span class="mtag t-fab">FABRIC</span><div class="mcat">材質面料</div></td><td><div class="chips"><span class="chip">絲綢</span><span class="chip">乳膠</span><span class="chip">皮革</span><span class="chip">針織</span><span class="chip">歐根紗</span><span class="chip">PVC</span></div></td><td class="mnote">影響光影折射與紋理</td></tr>
             <tr><td><span class="mc">A-03</span></td><td><span class="mtag t-tai">TAILORING</span><div class="mcat">剪裁工藝</div></td><td><div class="chips"><span class="chip">露背</span><span class="chip">側開衩</span><span class="chip">泡泡袖</span><span class="chip">拼接</span><span class="chip">立體剪裁</span></div></td><td class="mnote">決定服裝的空間結構</td></tr>
-            <tr><td><span class="mc">A-04</span></td><td><span class="mtag t-col">COLOR LAB</span><div class="mcat">色彩系統</div></td><td><div class="chips"><span class="chip">Pantone 色號</span><span class="chip">金屬感</span><span class="chip">漸層</span><span class="chip">虹光</span></div></td><td class="mnote">使用特定色名增加精準度</td></tr>
-            <tr><td><span class="mc">A-05</span></td><td><span class="mtag t-fin">FINDINGS</span><div class="mcat">五金配飾</div></td><td><div class="chips"><span class="chip">鉚釘</span><span class="chip">珍珠</span><span class="chip">刺繡</span><span class="chip">金屬拉鍊</span><span class="chip">Choker</span></div></td><td class="mnote">其他視覺點綴</td></tr>
+            <tr><td><span class="mc">A-04</span></td><td><span class="mtag t-col">COLOR LAB</span><div class="mcat">顏色系統</div></td><td><div class="chips"><span class="chip">Pantone 色號</span><span class="chip">金屬感</span><span class="chip">漸層</span><span class="chip">虹光</span></div></td><td class="mnote">使用特定色名增加精準度</td></tr>
+            <tr><td><span class="mc">A-05</span></td><td><span class="mtag t-fin">FINDINGS</span><div class="mcat">其他點綴</div></td><td><div class="chips"><span class="chip">鉚釘</span><span class="chip">珍珠</span><span class="chip">刺繡</span><span class="chip">金屬拉鍊</span><span class="chip">Choker</span></div></td><td class="mnote">其他視覺點綴</td></tr>
           </tbody>
         </table>
       </div>
 
-      <!-- ATELIER_CONTENT -->
+      <div class="ate-filter-bar">
+    <button class="ate-tag active" data-mod="all" onclick="ateFilter(this,'all')">全部</button><button class="ate-tag" data-mod="A-01" onclick="ateFilter(this,'A-01')"><span class="mtag t-sil" style="font-size:.55rem;padding:.1rem .35rem;">SILHOUETTE</span> 版型分類</button><button class="ate-tag" data-mod="A-02" onclick="ateFilter(this,'A-02')"><span class="mtag t-fab" style="font-size:.55rem;padding:.1rem .35rem;">FABRIC</span> 面料車間</button><button class="ate-tag" data-mod="A-03" onclick="ateFilter(this,'A-03')"><span class="mtag t-tai" style="font-size:.55rem;padding:.1rem .35rem;">TAILORING</span> 剪裁工藝</button><button class="ate-tag" data-mod="A-04" onclick="ateFilter(this,'A-04')"><span class="mtag t-col" style="font-size:.55rem;padding:.1rem .35rem;">COLOR LAB</span> 色彩系統</button><button class="ate-tag" data-mod="A-05" onclick="ateFilter(this,'A-05')"><span class="mtag t-fin" style="font-size:.55rem;padding:.1rem .35rem;">FINDINGS</span> 五金配飾</button></div><div id="ate-list" class="ate-list"></div>
     </div>
   </div>
 </section>
@@ -677,20 +678,32 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
     <div class="sidebar">
       <div class="sb-box" id="rtw-toc">
         <div class="sb-head">SERIES</div>
-        <div class="sb-link active" onclick="scrollTo2('r31','rtw-toc',this)"><span class="sb-dot"></span>3.1 材質跨界</div>
-        <div class="sb-link" onclick="scrollTo2('r32','rtw-toc',this)"><span class="sb-dot"></span>3.2 結構挑戰</div>
-        <div class="sb-link" onclick="scrollTo2('r33','rtw-toc',this)"><span class="sb-dot"></span>3.3 環境適配</div>
+        <div class="sb-link active" onclick="scrollTo2('r31','rtw-toc',this)"><span class="sb-dot"></span> 辣味日常 </div>
+        <div class="sb-link" onclick="scrollTo2('r32','rtw-toc',this)"><span class="sb-dot"></span> 十二星座 </div>
+        <div class="sb-link" onclick="scrollTo2('r33','rtw-toc',this)"><span class="sb-dot"></span> 廿八星宿 </div>
+        <div class="sb-link" onclick="scrollTo2('r33','rtw-toc',this)"><span class="sb-dot"></span> 廿四節氣 </div>
+        <div class="sb-link" onclick="scrollTo2('r33','rtw-toc',this)"><span class="sb-dot"></span> 萬聖提案 </div>
+        <div class="sb-link" onclick="scrollTo2('r33','rtw-toc',this)"><span class="sb-dot"></span> 耶誕快樂 </div>
       </div>
     </div>
     <div>
 
-      <!-- RTW_CONTENT -->
+      <div id="rtw-辣味日常" style="margin-top:2.5rem;"><div class="sub-label"><span class="sub-code">辣味日常</span></div><div class="rtw-catalog">
+<div class="rtw-card">
+  <div class="rtw-img"><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/ff5cfa04-2b38-4155-a511-9a94d8a81db7/8a7bdbf9-0313-4db2-be70-f356a80560f8/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB4662WUMUB4M%2F20260312%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260312T141648Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEK7%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIH70bnGUHLcXPGwMYcqkABkCzBoJj1yjQyAsj0EeeSkwAiEAhhJ0idxtKrBobxDqZH6kiPI3nZrehH6n%2FzPn0SSmFqkq%2FwMIdxAAGgw2Mzc0MjMxODM4MDUiDPvQN6kqlASnT5dEtCrcA7SMDsGp5zRY7hc5uVN6KzDws0mz6brrj7EkYXA%2FU5XyEs0wbFi%2Fc%2FBAEEzegf0j%2B3eBUXjyaLKY9t8m9AeujWfKnU6aaRCdqXhHADmVggsL1VVc%2B2unrkPw0Q83zUkvu1%2FzKSq9S72OA2gRUsSqH32CUj%2BNnUzfywS3jzVcQk0TT4nYGSpxaXrYqBeP7X43QpQTsStpnEEyRL40m9FQJnm7KmIbdt0ySFyRWr5gIJiQ9mcKibZ122teIs8%2BDKWyjRG2ZvZcX%2BIJ4mg3MDg4Nd8TEgFvVOnwkEyFmH9yqJhLobZb6MW8w%2ByqsusoZDBPS9l%2BndXmPIgpYf2BQ8qUgliNFgOcINPMUXFYt9Lsn1Tvli0vh0cr0vNV9Slh4jxvEy3h%2FQZC5d33iR4JUlHGBrMEIQ0%2FKDNsW3T7mE1MzjrygxnuKjJJ2hamkJTNQgJT1bWffBv4CM%2Bn2t6Dg6VCXZY%2BGmiX0vmA3taeYeBtcqnj2effF4aRo9xcIYnrt9Vt4HwPTRmUtPbDfhNjknklQxLHk45M4whywttjBwE%2BH4dVfcYQ8OiSVnl6AfnkyL20zY6wcfLsTh9metAIUTUDsOPifqvPgDizLk90GCWlzAtf6Dd%2B0snePSF1cTYdML%2BIy80GOqUB6nKgGn0blbp5Agr%2F83FW8WbWmjb%2BQfeV6upS9c%2F7eE4NZg7O3%2FXohrJ9yOYVYpinqwZ547wkKPMJt30q4Swg7PnPR15LyYExnhPiiiDb1XmfOdTQociG0hpFtNB9W93PdEbSzQrDr7nHFwpwZ%2Fic%2FwfDN58%2Bq0nI7UrEhXViqRwY%2BdLoQXYvxxOk4GOe5%2Fi9anR9xRCLgV2j0ZS6po0QMb%2FATmUW&amp;X-Amz-Signature=37fcbe99707100bc00ec79d7d979949bcf6e7f04a61b0dabd9f195b323d29caa&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject" alt="包屁衣" loading="lazy"></div>
+  <div class="rtw-body">
+    <div class="rtw-name">包屁衣</div>
+    <div class="rtw-meta"></div>
+    <div class="prompt-box" style="margin:.6rem 0 .5rem;"><span class="pt"> (上衣顏色) velvet romper, overskirt, plunging V-neck, puffed sleeves, thigh-high sheer (襪子顏色) stockings with lace garters, black patent leather ankle boots, cute deer horns with holly decoration,</span><button class="cp-btn" onclick="cp(this,' (上衣顏色) velvet romper, overskirt, plunging V-neck, puffed sleeves, thigh-high sheer (襪子顏色) stockings with lace garters, black patent leather ankle boots, cute deer horns with holly decoration,')">COPY</button></div>
+    <a href="https://pixai.art/artwork/1988455497949645938" target="_blank" rel="noopener" class="pixai-link">在 pixAI 開啟 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></a>
+  </div>
+</div></div></div>
 
     </div>
   </div>
 </section>
 
-<footer>AI CLOTHING PROMPT DICTIONARY · pixAI · SDXL · v0.1 · 請自行替換圖片路徑與備註內容</footer>
+<footer>AI CLOTHING PROMPT DICTIONARY · pixAI · SDXL · v0.1 · 酌的衣帽間</footer>
 
 <script>
 function goTab(id,btn){
