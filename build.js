@@ -194,7 +194,7 @@ function buildRTW(pages) {
       html += `</div>
   <div class="rtw-body">
     <div class="rtw-name">${name}</div>
-    <div class="rtw-meta">${tagChips}${gender ? `<span class="rtw-tag">${esc(gender)}</span>` : ""}${holiday ? `<span class="rtw-tag">${esc(holiday)}</span>` : ""}</div>
+    <div class="rtw-meta">${tagChips}${gender ? `<span class="rtw-tag">${esc(gender)}</div>
     <div class="prompt-box" style="margin:.6rem 0 .5rem;"><span class="pt">${prompt}</span><button class="cp-btn" onclick="cp(this,'${prompt}')">COPY</button></div>
     ${pixaiUrl ? `<a href="${esc(pixaiUrl)}" target="_blank" rel="noopener" class="pixai-link">在 pixAI 開啟 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></a>` : ""}
   </div>
