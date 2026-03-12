@@ -627,18 +627,8 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
     <div class="sidebar">
       <div class="sb-box" id="ate-toc">
         <div class="sb-head">MODULES</div>
-        <div class="sb-link" onclick="toggleAteInfo(this)" style="justify-content:space-between;color:var(--muted);font-size:.7rem;letter-spacing:.05em;">
-          <span>欄目說明</span><span id="ate-info-arrow">▼</span>
-        </div>
-        <div id="ate-info" style="display:none;border-top:1px solid var(--border);">
-          <div style="padding:.6rem .9rem;display:flex;flex-direction:column;gap:.5rem;">
-            <div class="ate-info-row"><span class="mtag t-sil" style="font-size:.5rem;padding:.15rem .4rem;">SILHOUETTE</span><span class="ate-info-zh">基礎版型</span><span class="ate-info-note">決定服裝基底</span></div>
-            <div class="ate-info-row"><span class="mtag t-fab" style="font-size:.5rem;padding:.15rem .4rem;">FABRIC</span><span class="ate-info-zh">材質面料</span><span class="ate-info-note">影響光影與圖案紋理</span></div>
-            <div class="ate-info-row"><span class="mtag t-tai" style="font-size:.5rem;padding:.15rem .4rem;">TAILORING</span><span class="ate-info-zh">剪裁工藝</span><span class="ate-info-note">決定空間結構</span></div>
-            <div class="ate-info-row"><span class="mtag t-col" style="font-size:.5rem;padding:.15rem .4rem;">COLOR LAB</span><span class="ate-info-zh">顏色系統</span><span class="ate-info-note">特定色名增加精準度</span></div>
-            <div class="ate-info-row"><span class="mtag t-fin" style="font-size:.5rem;padding:.15rem .4rem;">FINDINGS</span><span class="ate-info-zh">其他點綴</span><span class="ate-info-note">視覺點綴細節</span></div>
-          </div>
-        </div>
+        <div class="sb-link" onclick="openAteInfoModal()" style="color:var(--muted);font-size:.7rem;letter-spacing:.05em;">欄目說明</div>
+        <div class="sb-link" onclick="openComboModal()" style="color:var(--muted);font-size:.7rem;letter-spacing:.05em;">組合示範</div>
         <div class="sb-link active" onclick="scrollTo2('ma01','ate-toc',this)"><span class="sb-dot"></span>01 基礎版型</div>
         <div class="sb-link" onclick="scrollTo2('ma02','ate-toc',this)"><span class="sb-dot"></span>02 材質面料</div>
         <div class="sb-link" onclick="scrollTo2('ma03','ate-toc',this)"><span class="sb-dot"></span>03 剪裁工藝</div>
@@ -675,6 +665,75 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
     </div>
   </div>
 </section>
+
+<!-- ══════════ ATE INFO MODAL ══════════ -->
+<div id="ate-info-modal" style="display:none;position:fixed;inset:0;z-index:900;background:rgba(26,20,16,.72);backdrop-filter:blur(3px);align-items:center;justify-content:center;padding:1.5rem;" onclick="closeAteInfoModal()">
+  <div style="background:var(--cream);border-radius:8px;max-width:420px;width:100%;box-shadow:0 8px 32px rgba(0,0,0,.3);" onclick="event.stopPropagation()">
+    <div style="padding:1rem 1.4rem;border-bottom:1px solid var(--border);background:linear-gradient(135deg,var(--ink),#2d2520);color:var(--parchment);display:flex;justify-content:space-between;align-items:center;border-radius:8px 8px 0 0;">
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.12em;opacity:.5;margin-bottom:.2rem;">THE ATELIER</div>
+        <div style="font-family:'Dancing Script',cursive;font-size:1.2rem;">欄目說明</div>
+      </div>
+      <button onclick="closeAteInfoModal()" style="background:none;border:none;color:var(--parchment);font-size:1.2rem;cursor:pointer;opacity:.6;padding:.2rem .4rem;">✕</button>
+    </div>
+    <div style="padding:1rem 1.2rem;display:flex;flex-direction:column;gap:.55rem;">
+      <div class="ate-info-row"><span class="mtag t-sil" style="font-size:.5rem;padding:.15rem .4rem;">SILHOUETTE</span><span class="ate-info-zh">基礎版型</span><span class="ate-info-note">決定服裝基底</span></div>
+      <div class="ate-info-row"><span class="mtag t-fab" style="font-size:.5rem;padding:.15rem .4rem;">FABRIC</span><span class="ate-info-zh">材質面料</span><span class="ate-info-note">影響光影與圖案紋理</span></div>
+      <div class="ate-info-row"><span class="mtag t-tai" style="font-size:.5rem;padding:.15rem .4rem;">TAILORING</span><span class="ate-info-zh">剪裁工藝</span><span class="ate-info-note">決定空間結構</span></div>
+      <div class="ate-info-row"><span class="mtag t-col" style="font-size:.5rem;padding:.15rem .4rem;">COLOR LAB</span><span class="ate-info-zh">顏色系統</span><span class="ate-info-note">特定色名增加精準度</span></div>
+      <div class="ate-info-row"><span class="mtag t-fin" style="font-size:.5rem;padding:.15rem .4rem;">FINDINGS</span><span class="ate-info-zh">其他點綴</span><span class="ate-info-note">視覺點綴細節</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ COMBO MODAL ══════════ -->
+<div id="combo-modal" style="display:none;position:fixed;inset:0;z-index:900;background:rgba(26,20,16,.72);backdrop-filter:blur(3px);align-items:center;justify-content:center;padding:1.5rem;" onclick="closeComboModal()">
+  <div style="background:var(--cream);border-radius:8px;max-width:520px;width:100%;max-height:80vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,.3);" onclick="event.stopPropagation()">
+    <div style="padding:1rem 1.4rem;border-bottom:1px solid var(--border);background:linear-gradient(135deg,var(--ink),#2d2520);color:var(--parchment);display:flex;justify-content:space-between;align-items:center;border-radius:8px 8px 0 0;">
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.12em;opacity:.5;margin-bottom:.2rem;">THE ATELIER</div>
+        <div style="font-family:'Dancing Script',cursive;font-size:1.2rem;">組合應用邏輯</div>
+      </div>
+      <button onclick="closeComboModal()" style="background:none;border:none;color:var(--parchment);font-size:1.2rem;cursor:pointer;opacity:.6;padding:.2rem .4rem;">✕</button>
+    </div>
+    <div style="padding:1.2rem 1.4rem;display:flex;flex-direction:column;gap:1.2rem;">
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.12em;color:var(--gold);margin-bottom:.7rem;">APPLICATION LOGIC</div>
+        <div style="display:flex;flex-direction:column;gap:.45rem;">
+          <div style="display:flex;align-items:center;gap:.6rem;font-size:.78rem;flex-wrap:wrap;">
+            <span style="background:var(--ink);color:var(--parchment);font-family:'DM Mono',monospace;font-size:.55rem;padding:.15rem .5rem;border-radius:2px;white-space:nowrap;">基礎版型 ＋ 材質面料</span>
+            <span style="color:var(--muted);">→</span><span style="color:var(--ink);">決定主體</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:.6rem;font-size:.78rem;flex-wrap:wrap;">
+            <span style="background:var(--ink);color:var(--parchment);font-family:'DM Mono',monospace;font-size:.55rem;padding:.15rem .5rem;border-radius:2px;white-space:nowrap;">＋ 剪裁細節</span>
+            <span style="color:var(--muted);">→</span><span style="color:var(--ink);">改變輪廓</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:.6rem;font-size:.78rem;flex-wrap:wrap;">
+            <span style="background:var(--ink);color:var(--parchment);font-family:'DM Mono',monospace;font-size:.55rem;padding:.15rem .5rem;border-radius:2px;white-space:nowrap;">＋ 點綴</span>
+            <span style="color:var(--muted);">→</span><span style="color:var(--ink);">出細節感</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.12em;color:var(--gold);margin-bottom:.7rem;">EXAMPLES</div>
+        <div style="display:flex;flex-direction:column;gap:.55rem;">
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:5px;padding:.65rem .9rem;">
+            <div style="font-family:'DM Mono',monospace;font-size:.65rem;color:var(--ink);margin-bottom:.25rem;"><span style="color:var(--muted);">thong</span> ＋ <span style="color:var(--muted);">pearl</span> → <span style="color:var(--rust);font-weight:600;">pearl thong</span></div>
+            <div style="font-size:.7rem;color:var(--muted);">材質點綴 × 基礎版型，直接合成新詞 ── 珍珠丁字褲</div>
+          </div>
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:5px;padding:.65rem .9rem;">
+            <div style="font-family:'DM Mono',monospace;font-size:.65rem;color:var(--ink);margin-bottom:.25rem;"><span style="color:var(--muted);">off-shoulder</span> ＋ <span style="color:var(--muted);">lace</span> ＋ <span style="color:var(--muted);">ruffle</span> → <span style="color:var(--rust);font-weight:600;">off-shoulder lace top, ruffle trim top</span></div>
+            <div style="font-size:.7rem;color:var(--muted);">剪裁 × 材質 × 細節，三層疊加 ── 蕾絲荷葉邊露肩上衣</div>
+          </div>
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:5px;padding:.65rem .9rem;">
+            <div style="font-family:'DM Mono',monospace;font-size:.65rem;color:var(--ink);margin-bottom:.25rem;"><span style="color:var(--muted);">qipao</span> ＋ <span style="color:var(--muted);">side slit</span> ＋ <span style="color:var(--muted);">PVC</span> → <span style="color:var(--rust);font-weight:600;">PVC cheongsam, side slit</span></div>
+            <div style="font-size:.7rem;color:var(--muted);">經典版型 × 剪裁工藝 × 材質改造 ── PVC 開衩旗袍</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- ══════════ ARC MODAL ══════════ -->
 <div id="arc-modal" style="display:none;position:fixed;inset:0;z-index:900;background:rgba(26,20,16,.72);backdrop-filter:blur(3px);align-items:center;justify-content:center;padding:1.5rem;">
@@ -726,13 +785,22 @@ function toggleX(btn){
   p.classList.toggle('open',!o);
   btn.classList.toggle('open',!o);
 }
-function toggleAteInfo(btn){
-  const panel=document.getElementById('ate-info');
-  const arrow=document.getElementById('ate-info-arrow');
-  const open=panel.style.display==='none';
-  panel.style.display=open?'block':'none';
-  arrow.textContent=open?'▲':'▼';
-  btn.classList.toggle('active',open);
+function openAteInfoModal(){
+  document.getElementById('ate-info-modal').style.display='flex';
+  document.body.style.overflow='hidden';
+}
+function closeAteInfoModal(){
+  document.getElementById('ate-info-modal').style.display='none';
+  document.body.style.overflow='';
+}
+function openComboModal(){
+  const m=document.getElementById('combo-modal');
+  m.style.display='flex';
+  document.body.style.overflow='hidden';
+}
+function closeComboModal(){
+  document.getElementById('combo-modal').style.display='none';
+  document.body.style.overflow='';
 }
 function togglePt(el){
   const pt=el.previousElementSibling;
