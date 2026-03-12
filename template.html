@@ -14,6 +14,38 @@
   --muted:#9a9490;--border:#ddd8d0;--card:#fdfbf9;
   --shadow:rgba(61,61,59,.06);--nav-h:48px;
 }
+/* ── 主題色切換 ── */
+body.theme-intro   {--ink:#2a3828;--gold:#a8c5a0;--gold-lt:#c4d9bc;--rust:#7aaa80;}
+body.theme-archives{--ink:#4a2428;--gold:#b5737a;--gold-lt:#cfa0a6;--rust:#9a5560;}
+body.theme-atelier {--ink:#2a3828;--gold:#a8c5a0;--gold-lt:#c4d9bc;--rust:#7aaa80;}
+body.theme-rtw     {--ink:#4a2428;--gold:#b5737a;--gold-lt:#cfa0a6;--rust:#9a5560;}
+
+/* banner 背景色跟著主題變 */
+body.theme-intro   header,body.theme-intro   .main-nav{background:#4a5e45;}
+body.theme-archives header,body.theme-archives .main-nav{background:#b5737a;}
+body.theme-atelier  header,body.theme-atelier  .main-nav{background:#4a5e45;}
+body.theme-rtw      header,body.theme-rtw      .main-nav{background:#b5737a;}
+
+/* 粉色主題 header 文字色 */
+body.theme-archives header h1,
+body.theme-rtw      header h1{color:#1e2238;}
+body.theme-archives header h1 em,
+body.theme-rtw      header h1 em{color:#2e1a40;}
+body.theme-archives .h-label,
+body.theme-rtw      .h-label,
+body.theme-archives .h-sub,
+body.theme-rtw      .h-sub{color:#2e1a40;}
+body.theme-archives .h-rule,
+body.theme-rtw      .h-rule{background:#2e1a40;}
+
+/* 粉色主題 nav 文字色 */
+body.theme-archives .main-nav button,
+body.theme-rtw      .main-nav button{color:rgba(30,34,56,.5);}
+body.theme-archives .main-nav button:hover,
+body.theme-rtw      .main-nav button:hover{color:#1e2238;}
+body.theme-archives .main-nav button.active,
+body.theme-rtw      .main-nav button.active{color:#1e2238;border-bottom-color:#2e1a40;}
+
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--parchment);color:var(--ink);font-family:'Noto Serif TC',serif;font-weight:300;min-height:100vh;overflow-x:hidden;}
 
@@ -48,8 +80,8 @@ header h1 em{font-style:italic;color:var(--gold-lt);}
 .with-sidebar{max-width:1200px;margin:0 auto;padding:0 2rem 4rem;display:grid;grid-template-columns:156px 1fr;gap:1.8rem;align-items:start;}
 .sidebar{position:sticky;top:calc(var(--nav-h) + 8px);}
 .sb-box{background:var(--card);border:1px solid var(--border);border-radius:3px;overflow:hidden;}
-.sb-head{padding:.55rem .95rem;background:var(--cream);border-bottom:1px solid var(--border);font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.2em;color:var(--muted);}
-.sb-link{display:flex;align-items:center;gap:.55rem;padding:.62rem .95rem;border-bottom:1px solid var(--border);font-size:.73rem;color:var(--ink);cursor:pointer;transition:background .15s;user-select:none;}
+.sb-head{padding:.55rem .95rem;background:var(--cream);border-bottom:1px solid var(--border);font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.2em;color:var(--muted);}
+.sb-link{display:flex;align-items:center;gap:.55rem;padding:.62rem .95rem;border-bottom:1px solid var(--border);font-size:.85rem;color:var(--ink);cursor:pointer;transition:background .15s;user-select:none;}
 .sb-link:last-child{border-bottom:none;}
 .sb-link:hover{background:var(--parchment);}
 .sb-link.active{background:var(--ink);color:var(--gold-lt);}
@@ -148,7 +180,7 @@ header h1 em{font-style:italic;color:var(--gold-lt);}
 /* ═══════════════════════════
    SECTION 1 – ARCHIVES
 ═══════════════════════════ */
-.sub-label{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;margin-bottom:.85rem;display:flex;align-items:center;gap:.65rem;}
+.sub-label{font-family:'DM Mono',monospace;font-size:.85rem;letter-spacing:.2em;color:var(--rust);text-transform:uppercase;margin-bottom:.85rem;display:flex;align-items:center;gap:.65rem;}
 .sub-label::after{content:'';flex:1;height:1px;background:var(--border);}
 .sub-code{color:var(--gold);margin-right:.25rem;}
 
@@ -254,13 +286,13 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
 .ate-entry:hover{border-color:var(--gold);}
 .ate-entry[style*="none"]{display:none;}
 .ate-entry-head{display:flex;align-items:baseline;gap:.6rem;margin-bottom:.35rem;flex-wrap:wrap;}
-.ate-en{font-family:'Dancing Script',cursive;font-size:1.05rem;font-weight:400;}
+.ate-en{font-family:'Dancing Script',cursive;font-size:1.2rem;font-weight:600;color:var(--purple);}
 .ate-zh{font-size:.78rem;color:var(--muted);}
-.ate-prompt{font-family:'DM Mono',monospace;font-size:.68rem;color:var(--rust);letter-spacing:.03em;line-height:1.5;margin-bottom:.3rem;}
+.ate-prompt{font-family:'DM Mono',monospace;font-size:.78rem;color:var(--rust);letter-spacing:.03em;line-height:1.5;margin-bottom:.3rem;}
 .ate-note{font-size:.72rem;color:var(--muted);font-style:italic;margin-bottom:.3rem;}
 .ate-foot{display:flex;justify-content:flex-end;}
 
-/* ── 成衣收藏 型錄卡 ── */
+/* ── 成衣型錄 型錄卡 ── */
 .rtw-catalog{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.2rem;margin-top:.8rem;}
 .rtw-card{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;display:flex;flex-direction:column;}
 .rtw-img{aspect-ratio:3/4;overflow:hidden;background:var(--parchment);}
@@ -269,7 +301,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
 .rtw-img-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;opacity:.2;}
 .rtw-img-ph svg{width:36px;height:36px;}
 .rtw-body{padding:.9rem 1rem 1rem;display:flex;flex-direction:column;flex:1;gap:.4rem;}
-.rtw-name{font-family:'Dancing Script',cursive;font-size:1.1rem;font-weight:400;}
+.rtw-name{font-family:'Noto Serif TC',serif;font-size:.95rem;font-weight:500;color:var(--rust);}
 .rtw-meta{display:flex;flex-wrap:wrap;gap:.3rem;}
 .rtw-tag{background:var(--parchment);border:1px solid var(--border);border-radius:2px;padding:.1rem .45rem;font-size:.62rem;color:var(--muted);font-family:'DM Mono',monospace;}
 
@@ -296,20 +328,20 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
 }
 </style>
 </head>
-<body>
+<body class="theme-intro">
 
 <header>
   <div class="h-label">pixAI · SDXL · Prompt Reference</div>
-  <h1>酌的衣帽間</h1>
-  <div class="h-sub">THE CLOTHING PROMPT DICTIONARY</div>
+  <h1>酌的裁縫舖與衣帽間</h1>
+  <div class="h-sub">THE CLOTHING PROMPT DICTIONARY & SHARING</div>
   <div class="h-rule"></div>
 </header>
 
 <nav class="main-nav">
   <button class="active" onclick="goTab('intro',this)">說明</button>
-  <button onclick="goTab('archives',this)">基礎衣櫃</button>
+  <button onclick="goTab('archives',this)">經典衣櫃</button>
   <button onclick="goTab('atelier',this)">製衣工坊</button>
-  <button onclick="goTab('rtw',this)">成衣收藏</button>
+  <button onclick="goTab('rtw',this)">成衣型錄</button>
 </nav>
 
 <!-- ══════════ INTRO ══════════ -->
@@ -404,22 +436,22 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
       <button class="inc2" onclick="goTabByID('archives')">
         <div class="inc2-num">01</div>
         <span class="inc2-en">The Archives</span>
-        <div class="inc2-title">基礎衣櫃</div>
-        <div class="inc2-desc">模型原生支援的款式詞條，直出效果穩定，附五模型對比。</div>
+        <div class="inc2-title">經典衣櫃</div>
+        <div class="inc2-desc">資料庫原生支援的款式詞條，直出效果穩定，附不同模型對比。</div>
         <span class="inc2-arr">→</span>
       </button>
       <button class="inc2" onclick="goTabByID('atelier')">
         <div class="inc2-num">02</div>
         <span class="inc2-en">The Atelier</span>
         <div class="inc2-title">製衣工坊</div>
-        <div class="inc2-desc">五大模組元件：版型、面料、剪裁、色彩、配飾，附拆解對照圖。</div>
+        <div class="inc2-desc">五大模組元件：基礎版型、材質面料、剪裁工藝、顏色系統、其他點綴。</div>
         <span class="inc2-arr">→</span>
       </button>
       <button class="inc2" onclick="goTabByID('rtw')">
         <div class="inc2-num">03</div>
         <span class="inc2-en">Ready-to-Wear</span>
-        <div class="inc2-title">成衣收藏</div>
-        <div class="inc2-desc">非典型進階組合：材質跨界、結構挑戰、環境適配，附套裝提案。</div>
+        <div class="inc2-title">成衣型錄</div>
+        <div class="inc2-desc">酌的非典型進階套裝提案。</div>
         <span class="inc2-arr">→</span>
       </button>
     </div>
@@ -463,47 +495,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
         </tbody>
       </table>
     </div>
-    <!-- Style swatches: 1girl / 1boy baseline -->
-    <div style="padding:.2rem 1.4rem .6rem;"><span style="font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.15em;color:var(--muted);">BASELINE STYLE — 1girl · 1boy · no clothing prompt</span></div>
-    <div class="style-grid">
-      <div class="style-cell">
-        <div class="style-cell-head"><div class="style-cell-id">MODEL A</div><div class="style-cell-label">coco-Illustrious-NoobXL-Style</div></div>
-        <div class="style-img-row">
-          <div class="style-img"><div class="style-img-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div><div class="style-img-lbl">1girl</div></div>
-          <div class="style-img"><div class="style-img-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div><div class="style-img-lbl">1boy</div></div>
-        </div>
-      </div>
-      <div class="style-cell">
-        <div class="style-cell-head"><div class="style-cell-id">MODEL B</div><div class="style-cell-label">ChocoMint Mix</div></div>
-        <div class="style-img-row">
-          <div class="style-img"><div class="style-img-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div><div class="style-img-lbl">1girl</div></div>
-          <div class="style-img"><div class="style-img-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div><div class="style-img-lbl">1boy</div></div>
-        </div>
-      </div>
-      <div class="style-cell">
-        <div class="style-cell-head"><div class="style-cell-id">MODEL C</div><div class="style-cell-label">illustrious_Mix2</div></div>
-        <div class="style-img-row">
-          <div class="style-img"><div class="style-img-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div><div class="style-img-lbl">1girl</div></div>
-          <div class="style-img"><div class="style-img-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div><div class="style-img-lbl">1boy</div></div>
-        </div>
-      </div>
-      <div class="style-cell">
-        <div class="style-cell-head"><div class="style-cell-id">MODEL D</div><div class="style-cell-label">Plant Milk 🌿 - Model Suite</div></div>
-        <div class="style-img-row">
-          <div class="style-img"><div class="style-img-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div><div class="style-img-lbl">1girl</div></div>
-          <div class="style-img"><div class="style-img-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div><div class="style-img-lbl">1boy</div></div>
-        </div>
-      </div>
-      <div class="style-cell">
-        <div class="style-cell-head"><div class="style-cell-id">MODEL E</div><div class="style-cell-label" style="color:var(--muted);">（待定）</div></div>
-        <div class="style-img-row">
-          <div class="style-img"><div class="style-img-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div><div class="style-img-lbl">1girl</div></div>
-          <div class="style-img"><div class="style-img-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div><div class="style-img-lbl">1boy</div></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
+   
   <!-- Block 3: How to use -->
   <div class="intro-block">
     <div class="intro-block-head">
@@ -514,7 +506,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
       <div class="step2">
         <div class="step2-n">1</div>
         <div class="step2-body">
-          <strong>查基礎衣櫃</strong>
+          <strong>查經典衣櫃</strong>
           <p>確認目標款式是否已有原生詞條。有的話直接複製使用，模型識別效果最穩定，不需要加很多補充描述。</p>
         </div>
       </div>
@@ -522,37 +514,23 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
         <div class="step2-n">2</div>
         <div class="step2-body">
           <strong>進製衣工坊挑模組</strong>
-          <p>按 A-01 版型 → A-02 面料 → A-03 剪裁 → A-04 色彩 → A-05 配飾的順序，各選 1–2 個詞條拼成提示詞草稿。</p>
+          <p>按 基礎版型 → 材質面料 → 剪裁工藝 → 顏色系統 → 其他點綴的順序，選擇不同詞條拼成提示詞草稿。</p>
         </div>
       </div>
       <div class="step2">
         <div class="step2-n">3</div>
         <div class="step2-body">
           <strong>在 pixAI 測試與調權重</strong>
-          <p>貼入草稿後開始生圖。若某個效果不夠明顯，用括號加強：<code style="font-family:'DM Mono',monospace;font-size:.72rem;background:var(--cream);padding:.05rem .3rem;border-radius:2px;">(keyword:1.3)</code>，建議範圍 1.2–1.5。</p>
+          <p>貼入自組的prompt草稿後開始生圖。若某個效果不夠明顯，可嘗試用括號提高權重：<code style="font-family:'DM Mono',monospace;font-size:.72rem;background:var(--cream);padding:.05rem .3rem;border-radius:2px;">(keyword:1.3)</code>，建議範圍 1.2–1.5。</p>
         </div>
       </div>
       <div class="step2">
         <div class="step2-n">4</div>
         <div class="step2-body">
-          <strong>開啟 pixAI 範例直接套用</strong>
-          <p>點擊上方模型表格的「開啟範例」，可直接在 pixAI 載入配置與提示詞，修改 prompt 後即可生圖，省去重新設定參數的步驟。</p>
+          <strong>也可以開啟 pixAI 範例直接套用</strong>
+          <p>點擊成衣型錄圖片下的「在pixAI開啟」，可直接在 pixAI 載入配置與提示詞，修改人設後即可生圖，省去重新設定參數的步驟。</p>
         </div>
-      </div>
-      <div class="step2">
-        <div class="step2-n">5</div>
-        <div class="step2-body">
-          <strong>非典型效果記錄到成衣收藏</strong>
-          <p>測到有趣的非典型組合，記錄邏輯公式、最終權重、每個模型的表現差異，方便下次複用或分享。</p>
-        </div>
-      </div>
-      <div class="step2">
-        <div class="step2-n">6</div>
-        <div class="step2-body">
-          <strong>對比不同模型的差異</strong>
-          <p>同一組提示詞在不同模型下畫風差異會很大。建議先用基礎衣櫃做各模型的直出對比，熟悉各模型的預設傾向後再做進階調整。</p>
-        </div>
-      </div>
+      </div>      
     </div>
   </div>
 
@@ -563,12 +541,10 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
       <div><div class="ib-title">備註</div><span class="ib-en">NOTES & TIPS</span></div>
     </div>
     <div class="notes-list">
-      <div class="note-item"><span class="note-bullet">◆</span><span>本手冊所有提示詞以 <strong>SDXL 架構</strong>為測試基準，NAI / Pony 架構的識別率可能有差異，建議對照基礎衣櫃確認後再使用。</span></div>
-      <div class="note-item"><span class="note-bullet">◆</span><span>權重建議值為參考範圍，<strong>模型不同、底圖不同都會影響效果</strong>。如果效果偏弱可嘗試調高 0.1–0.2，過度強調會導致畫面失真。</span></div>
-      <div class="note-item"><span class="note-bullet">◆</span><span>部分面料詞條（如 latex、PVC）在某些模型下可能觸發安全過濾，遇到時可嘗試換同義詞或調低權重。</span></div>
-      <div class="note-item"><span class="note-bullet">◆</span><span>成衣收藏的「套裝提案」是非典型組合的實驗紀錄，<strong>效果不保證穩定</strong>，僅作為靈感與參考，建議多跑幾張觀察差異。</span></div>
-      <div class="note-item"><span class="note-bullet">◆</span><span>示意圖均為 <strong>無特定人設</strong>的直出圖，提示詞僅含 1girl 或 1boy 加模型預設配置，反映各模型本身的畫風傾向。</span></div>
-      <div class="note-item"><span class="note-bullet">◆</span><span>手冊持續更新中，有新的詞條測試結果或組合配方歡迎補充到對應區塊。</span></div>
+      <div class="note-item"><span class="note-bullet">◆</span><span>本手冊所有提示詞以 <strong>SDXL 架構</strong>為測試基準，DiT架構的模型及不同生圖平台的識別率可能有差異。</span></div>
+      <div class="note-item"><span class="note-bullet">◆</span><span>權重建議值為參考範圍，<strong>模型不同、配置不同都會影響效果</strong>。如果效果偏弱可嘗試調高 0.1–0.2，過度強調會導致畫面失真。</span></div>
+      <div class="note-item"><span class="note-bullet">◆</span><span>成衣型錄的「套裝提案」是本人嘗試過的不同紀錄，可作為靈感與參考。</span></div>
+      <div class="note-item"><span class="note-bullet">◆</span><span>手冊持續更新中，有新的詞條測試結果或組合配方會慢慢補充到對應區塊。</span></div>
     </div>
   </div>
 
@@ -581,8 +557,8 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
     <div class="sec-num">01</div>
     <div class="sec-info">
       <span class="sec-en">The Archives</span>
-      <h2>基礎衣櫃</h2>
-      <p>模型原本就能識別的「成衣」詞條，無需複雜描述即可生成的單品。<br>每款附五個不同模型的直出效果對比。</p>
+      <h2>經典衣櫃</h2>
+      <p>模型原本就能識別的「成衣」詞條，無需複雜描述即可生成的單品。</p>
     </div>
   </div>
   <div class="with-sidebar">
@@ -591,8 +567,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
         <div class="sb-head">JUMP TO</div>
         <div class="sb-link active" onclick="scrollTo2('a11','arc-toc',this)"><span class="sb-dot"></span>01 經典女裝</div>
         <div class="sb-link" onclick="scrollTo2('a12','arc-toc',this)"><span class="sb-dot"></span>02 經典男裝</div>
-        <div class="sb-link" onclick="scrollTo2('a13','arc-toc',this)"><span class="sb-dot"></span>03 民族文化</div>
-        <div class="sb-link" onclick="scrollTo2('a14','arc-toc',this)"><span class="sb-dot"></span>04 現代街頭</div>
+        <div class="sb-link" onclick="scrollTo2('a13','arc-toc',this)"><span class="sb-dot"></span>03 其他</div>
       </div>
     </div>
     <div>
@@ -601,8 +576,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
         <button class="f-btn active" onclick="filterArc(this,'all')">全部</button>
         <button class="f-btn" onclick="filterArc(this,'female')">經典女裝</button>
         <button class="f-btn" onclick="filterArc(this,'male')">經典男裝</button>
-        <button class="f-btn" onclick="filterArc(this,'ethnic')">民族文化</button>
-        <button class="f-btn" onclick="filterArc(this,'street')">現代街頭</button>
+        <button class="f-btn" onclick="filterArc(this,'others')">其他</button>    
       </div>
 
       <!-- ARCHIVES_CONTENT -->
@@ -637,11 +611,11 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
         <table class="mod-table">
           <thead><tr><th>編號</th><th>類別</th><th>核心要素</th><th>備註</th></tr></thead>
           <tbody>
-            <tr><td><span class="mc">A-01</span></td><td><span class="mtag t-sil">SILHOUETTE</span><div class="mcat">基礎版型</div></td><td><div class="chips"><span class="chip">上裝</span><span class="chip">下裝</span><span class="chip">連體衣</span><span class="chip">外搭</span><span class="chip">內衣</span></div></td><td class="mnote">決定服裝大輪廓</td></tr>
-            <tr><td><span class="mc">A-02</span></td><td><span class="mtag t-fab">FABRIC</span><div class="mcat">材質面料</div></td><td><div class="chips"><span class="chip">絲綢</span><span class="chip">乳膠</span><span class="chip">皮革</span><span class="chip">針織</span><span class="chip">歐根紗</span><span class="chip">PVC</span></div></td><td class="mnote">影響光影折射與紋理</td></tr>
-            <tr><td><span class="mc">A-03</span></td><td><span class="mtag t-tai">TAILORING</span><div class="mcat">剪裁工藝</div></td><td><div class="chips"><span class="chip">露背</span><span class="chip">側開衩</span><span class="chip">泡泡袖</span><span class="chip">拼接</span><span class="chip">立體剪裁</span></div></td><td class="mnote">決定服裝的空間結構</td></tr>
-            <tr><td><span class="mc">A-04</span></td><td><span class="mtag t-col">COLOR LAB</span><div class="mcat">顏色系統</div></td><td><div class="chips"><span class="chip">Pantone 色號</span><span class="chip">金屬感</span><span class="chip">漸層</span><span class="chip">虹光</span></div></td><td class="mnote">使用特定色名增加精準度</td></tr>
-            <tr><td><span class="mc">A-05</span></td><td><span class="mtag t-fin">FINDINGS</span><div class="mcat">其他點綴</div></td><td><div class="chips"><span class="chip">鉚釘</span><span class="chip">珍珠</span><span class="chip">刺繡</span><span class="chip">金屬拉鍊</span><span class="chip">Choker</span></div></td><td class="mnote">其他視覺點綴</td></tr>
+            <tr><td><span class="mc">01</span></td><td><span class="mtag t-sil">SILHOUETTE</span><div class="mcat">基礎版型</div></td><td><div class="chips"><span class="chip">上裝</span><span class="chip">下裝</span><span class="chip">連體衣</span><span class="chip">外搭</span><span class="chip">內衣</span></div></td><td class="mnote">決定服裝基底</td></tr>
+            <tr><td><span class="mc">02</span></td><td><span class="mtag t-fab">FABRIC</span><div class="mcat">材質面料</div></td><td><div class="chips"><span class="chip">絲綢</span><span class="chip">乳膠</span><span class="chip">皮革</span><span class="chip">針織</span><span class="chip">歐根紗</span><span class="chip">PVC</span></div></td><td class="mnote">影響光影與圖案紋理</td></tr>
+            <tr><td><span class="mc">03</span></td><td><span class="mtag t-tai">TAILORING</span><div class="mcat">剪裁工藝</div></td><td><div class="chips"><span class="chip">露背</span><span class="chip">側開衩</span><span class="chip">泡泡袖</span><span class="chip">拼接</span><span class="chip">立體剪裁</span></div></td><td class="mnote">決定服裝的空間結構</td></tr>
+            <tr><td><span class="mc">04</span></td><td><span class="mtag t-col">COLOR LAB</span><div class="mcat">顏色系統</div></td><td><div class="chips"><span class="chip">Pantone 色號</span><span class="chip">金屬感</span><span class="chip">漸層</span><span class="chip">虹光</span></div></td><td class="mnote">使用特定色名增加精準度</td></tr>
+            <tr><td><span class="mc">05</span></td><td><span class="mtag t-fin">FINDINGS</span><div class="mcat">其他點綴</div></td><td><div class="chips"><span class="chip">鉚釘</span><span class="chip">珍珠</span><span class="chip">刺繡</span><span class="chip">金屬拉鍊</span><span class="chip">Choker</span></div></td><td class="mnote">其他視覺點綴</td></tr>
           </tbody>
         </table>
       </div>
@@ -656,8 +630,8 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
     <div class="sec-num">03</div>
     <div class="sec-info">
       <span class="sec-en">The Ready-to-Wear Collection</span>
-      <h2>成衣收藏</h2>
-      <p>非典型、跨維度的進階提示詞組合。每款附「套裝提案」，<br>列出邏輯公式、權重建議與各模型圖例對照。</p>
+      <h2>成衣型錄</h2>
+      <p>嘗試過的不同主題prompt分享，可直接套用自己的人設進行試穿。</p>
     </div>
   </div>
   <div class="with-sidebar">
@@ -680,7 +654,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
   </div>
 </section>
 
-<footer>AI CLOTHING PROMPT DICTIONARY · pixAI · SDXL · v0.1 · 酌的衣帽間</footer>
+<footer>AI CLOTHING PROMPT DICTIONARY & SHARING · pixAI · SDXL · v0.1 · 酌的衣帽間</footer>
 
 <script>
 function goTab(id,btn){
@@ -688,6 +662,7 @@ function goTab(id,btn){
   document.querySelectorAll('.main-nav button').forEach(b=>b.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   btn.classList.add('active');
+  document.body.className='theme-'+id;
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function goTabByID(id){
@@ -697,6 +672,7 @@ function goTabByID(id){
   const map={intro:0,archives:1,atelier:2,rtw:3};
   const btns=document.querySelectorAll('.main-nav button');
   if(map[id]!==undefined)btns[map[id]].classList.add('active');
+  document.body.className='theme-'+id;
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function scrollTo2(anchorId,tocId,link){
