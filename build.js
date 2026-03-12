@@ -156,8 +156,10 @@ function buildRTW(pages) {
   let html = "";
   let idx = 0;
   for (const [series, items] of Object.entries(groups)) {
-    const anchorId = `rtw-s${idx++}`;
-    html += `<div id="${anchorId}" style="margin-top:2.5rem;"><div class="sub-label"><span class="sub-code">${esc(series)}</span></div><div class="card-grid">`;
+    const anchorId = `rtw-s${idx}`;
+    const seriesLabel = `系列${["一","二","三","四","五","六","七","八","九","十"][idx] || idx+1}`;
+    idx++;
+    html += `<div id="${anchorId}" style="margin-top:2.5rem;"><div class="sub-label"><span class="sub-code">${seriesLabel}</span><span style="font-size:.75rem;color:var(--muted);margin-left:.5rem;">${esc(series)}</span></div><div class="card-grid">`;
 
     for (const p of items) {
       const title   = esc(text(p["主題"]));
@@ -169,7 +171,7 @@ function buildRTW(pages) {
       const tagChips = (text(p["服裝標籤"]) || []).map(t => `<span class="wt-chip">${esc(t)}</span>`).join("");
       const models  = ["Model A","Model B","Model C","Model D"];
 
-      html += `<div class="fc"><div class="fc-head"><div class="fc-title">${title}</div><div class="fc-sub">${esc(series)}</div></div>`;
+      html += `<div class="fc"><div class="fc-head"><div class="fc-title">${title}</div><div class="fc-sub">${seriesLabel} · ${esc(series)}</div></div>`;
       html += `<div class="wt-strip"><span class="wt-lbl">TAGS</span>${tagChips}${people ? `<span class="wt-chip">${esc(people)}</span>` : ""}${holiday ? `<span class="wt-chip">${esc(holiday)}</span>` : ""}</div>`;
       html += `<div class="prompt-box"><span class="pt">${prompt}</span><button class="cp-btn" onclick="cp(this,'${prompt}')">COPY</button></div>`;
       if (pixaiUrl) {
