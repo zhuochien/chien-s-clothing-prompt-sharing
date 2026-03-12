@@ -58,11 +58,11 @@ function singleImg(url) {
 }
 
 // 01 經典衣櫃
-// 欄位：分類 中文名稱(title) Name Prompt Tags 備註 模型A-E示意圖 發布
+// 欄位：分類 中文名稱(title) Name Prompt Tags 備註 coco-Illustrious-NoobXL-Style ChocoMint_Mix illustrious_Mix2 Plant_Milk 發布
 function buildArchives(pages) {
-  const catMap  = { "經典女裝":"female","經典男裝":"male","民族文化":"ethnic","現代街頭":"street" };
-  const codeMap = { "經典女裝":"1.1","經典男裝":"1.2","民族文化":"1.3","現代街頭":"1.4" };
-  const groups  = { "經典女裝":[],"經典男裝":[],"民族文化":[],"現代街頭":[] };
+  const catMap  = { "經典女裝":"female","經典男裝":"male","其他":"others" };
+  const codeMap = { "經典女裝":"01","經典男裝":"02","其他":"03" };
+  const groups  = { "經典女裝":[],"經典男裝":[],"其他":[] };
 
   for (const page of pages) {
     const p = page.properties;
@@ -82,7 +82,7 @@ function buildArchives(pages) {
       const zh = esc(text(p["中文名稱"]));
       const en = esc(text(p["Name"]));
       const prompt = esc(text(p["Prompt Tags"]));
-      const img0 = (text(p["模型A示意圖"]) || [])[0] || "";
+      const img0 = (text(p["coco-Illustrious-NoobXL-Style"]) || [])[0] || "";
       html += `<div class="arc-card"><div class="ac-img">${singleImg(img0)}</div><div class="ac-info"><div class="ac-en">${en}</div><div class="ac-zh">${zh}</div><div class="ac-prompt">${prompt}</div></div><div class="ac-foot"><button class="cp-btn" onclick="cp(this,'${prompt}')">COPY</button></div></div>`;
     }
     html += `</div>`;
@@ -91,15 +91,14 @@ function buildArchives(pages) {
       const p = items[0];
       const en = esc(text(p["Name"]));
       const prompt = esc(text(p["Prompt Tags"]));
-      const imgs = ["模型A示意圖","模型B示意圖","模型C示意圖","模型D示意圖","模型E示意圖"].map(k => (text(p[k]) || [])[0] || "");
-      const models = ["Model A","Model B","Model C","Model D","Model E"];
+      const imgKeys = ["coco-Illustrious-NoobXL-Style","ChocoMint_Mix","illustrious_Mix2","Plant_Milk","模型E示意圖"];
+      const modelLabels = ["coco","ChocoMint","illus_Mix2","Plant Milk","（待定）"];
+      const imgs = imgKeys.map(k => (text(p[k]) || [])[0] || "");
       html += `<div class="amc"><div class="amc-head"><div><div class="amc-title">${en} — 五模型直出對比</div><div class="amc-prompt">${prompt}</div></div><span class="amc-tag t-arc">ARCHIVES</span></div><div class="tg5">`;
-      for (let i = 0; i < 5; i++) html += imgCell(imgs[i], models[i]);
-      html += `</div><button class="xbtn" onclick="toggleX(this)">展開各模型備註 <span class="ea">▾</span></button><div class="xpanel"><table class="xtable"><thead><tr><th>模型</th><th>圖例</th><th>備註</th></tr></thead><tbody>`;
       for (let i = 0; i < 5; i++) {
-        html += `<tr><td><span class="mn">${models[i]}</span></td><td>${imgs[i] ? `<img src="${esc(imgs[i])}" style="width:52px;height:65px;object-fit:cover;border-radius:2px;">` : ""}</td><td class="nt">${i===0 ? esc(text(items[0]["備註"])||"—") : "—"}</td></tr>`;
+        html += imgCell(imgs[i], modelLabels[i]);
       }
-      html += `</tbody></table></div></div>`;
+      html += `</div></div>`;
     }
     html += `</div>`;
   }
@@ -130,10 +129,9 @@ function buildAtelier(pages) {
   for (const page of pages) {
     const p      = page.properties;
     const mod    = text(p["分類"]) || "";
-    // 跳過不在模組清單裡的分類（包含無分類）
     if (!modules[mod]) continue;
     const zh     = text(p["中文名稱"]);
-        const prompt = text(p["Prompt Tags"]);
+    const prompt = text(p["Prompt Tags"]);
     const note   = text(p["備註"]);
     const { tag="", tagText="" } = modules[mod] || {};
 
@@ -153,9 +151,8 @@ function buildAtelier(pages) {
 }
 
 // 03 成衣型錄
-// 欄位：序號 名稱(title) 系列(select) 性別(multi-select) 發布 Prompt pixAI衣櫃(files) pixAI連結(url)
+// 欄位：序號 名稱(title) 系列(select) 性別(select) 發布 Prompt pixAI衣櫃(files) pixAI連結(url)
 function buildRTW(pages) {
-  // 依「系列」select 欄位分組
   const groups = {};
   const order  = [];
   for (const page of pages) {
@@ -164,16 +161,16 @@ function buildRTW(pages) {
     if (!groups[key]) { groups[key] = []; order.push(key); }
     groups[key].push(p);
   }
- 
+
   let html = "";
   for (const series of order) {
     const items    = groups[series];
     const anchorId = `rtw-${series.replace(/\s/g,"-")}`;
- 
+
     html += `<div id="${anchorId}" style="margin-top:2.5rem;">`;
     html += `<div class="sub-label"><span class="sub-code">${esc(series)}</span></div>`;
     html += `<div class="rtw-catalog">`;
- 
+
     for (const p of items) {
       const name     = esc(text(p["名稱"]));
       const prompt   = esc(text(p["Prompt"]));
@@ -182,7 +179,7 @@ function buildRTW(pages) {
       const pixaiUrl = p["pixAI連結"]?.url || "";
       const _gender  = text(p["性別"]);
       const genders  = _gender ? `<span class="rtw-tag">${esc(_gender)}</span>` : "";
- 
+
       html += `
 <div class="rtw-card">
   <div class="rtw-img">`;
@@ -204,7 +201,7 @@ function buildRTW(pages) {
   }
   return html;
 }
- 
+
 async function main() {
   console.log("📦 抓取 Notion 資料...");
   const [archivesPages, atelierPages, rtwPages] = await Promise.all([
@@ -215,18 +212,17 @@ async function main() {
   console.log(`✅ 經典衣櫃：${archivesPages.length} 筆`);
   console.log(`✅ 製衣工坊：${atelierPages.length} 筆`);
   console.log(`✅ 成衣型錄：${rtwPages.length} 筆`);
- 
+
   let template = fs.readFileSync("template.html", "utf8");
   template = template
     .replace("<!-- ARCHIVES_CONTENT -->", buildArchives(archivesPages))
     .replace("<!-- ATELIER_CONTENT -->",  buildAtelier(atelierPages))
     .replace("<!-- RTW_CONTENT -->",      buildRTW(rtwPages))
     .replace("<!-- BUILD_TIME -->",       `<!-- built: ${new Date().toISOString()} -->`);
- 
+
   if (!fs.existsSync("dist")) fs.mkdirSync("dist");
   fs.writeFileSync("dist/index.html", template, "utf8");
   console.log("🎉 dist/index.html 產生完成！");
 }
- 
+
 main().catch(err => { console.error("❌ 錯誤：", err); process.exit(1); });
- 
