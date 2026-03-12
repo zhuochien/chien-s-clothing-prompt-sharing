@@ -1,1 +1,1 @@
-# chien-s-clothing-prompt-guide
+# chien-clothing-prompt-sharing
