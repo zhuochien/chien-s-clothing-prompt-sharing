@@ -1,0 +1,11 @@
+{
+  "name": "clothing-prompt-guide",
+  "version": "1.0.0",
+  "description": "AI Clothing Prompt Dictionary — Notion to GitHub Pages",
+  "scripts": {
+    "build": "node build.js"
+  },
+  "dependencies": {
+    "@notionhq/client": "^2.2.14"
+  }
+}
