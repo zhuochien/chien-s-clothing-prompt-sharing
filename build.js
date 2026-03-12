@@ -133,15 +133,13 @@ function buildAtelier(pages) {
     // 跳過不在模組清單裡的分類（包含無分類）
     if (!modules[mod]) continue;
     const zh     = text(p["中文名稱"]);
-    const en     = text(p["Name"]);
-    const prompt = text(p["Prompt Tags"]);
+        const prompt = text(p["Prompt Tags"]);
     const note   = text(p["備註"]);
     const { tag="", tagText="" } = modules[mod] || {};
 
     html += `
 <div class="ate-entry" data-mod="${esc(mod)}">
   <div class="ate-entry-head">
-    <span class="ate-en">${esc(en)}</span>
     <span class="ate-zh">${esc(zh)}</span>
     <span class="mtag ${tag}" style="font-size:.55rem;padding:.1rem .35rem;margin-left:auto;">${tagText}</span>
   </div>
@@ -155,7 +153,7 @@ function buildAtelier(pages) {
 }
 
 // 03 成衣收藏
-// 欄位：序號 系列名稱(title) 系列(select) 人數 節日屬性 服裝標籤 發布 Prompt pixAI衣櫃(files) pixAI連結(url)
+// 欄位：序號 系列名稱(title) 系列(select) 性別 服裝標籤 發布 Prompt pixAI衣櫃(files) pixAI連結(url)
 function buildRTW(pages) {
   // 依「系列」select 欄位分組
   const groups = {};
@@ -182,8 +180,7 @@ function buildRTW(pages) {
       const imgs     = text(p["pixAI衣櫃"]) || [];
       const img0     = imgs[0] || "";
       const pixaiUrl = p["pixAI連結"]?.url || "";
-      const people   = (text(p["人數"])     || []).join("、");
-      const holiday  = (text(p["節日屬性"]) || []).join("、");
+      const gender   = (text(p["性別"])     || []);
       const tagChips = (text(p["服裝標籤"]) || []).map(t => `<span class="rtw-tag">${esc(t)}</span>`).join("");
 
       html += `
@@ -197,7 +194,7 @@ function buildRTW(pages) {
       html += `</div>
   <div class="rtw-body">
     <div class="rtw-name">${name}</div>
-    <div class="rtw-meta">${tagChips}${people ? `<span class="rtw-tag">${esc(people)}</span>` : ""}${holiday ? `<span class="rtw-tag">${esc(holiday)}</span>` : ""}</div>
+    <div class="rtw-meta">${tagChips}${gender ? `<span class="rtw-tag">${esc(gender)}</span>` : ""}</div>
     <div class="prompt-box" style="margin:.6rem 0 .5rem;"><span class="pt">${prompt}</span><button class="cp-btn" onclick="cp(this,'${prompt}')">COPY</button></div>
     ${pixaiUrl ? `<a href="${esc(pixaiUrl)}" target="_blank" rel="noopener" class="pixai-link">在 pixAI 開啟 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></a>` : ""}
   </div>
