@@ -57,7 +57,7 @@ function singleImg(url) {
   return `<div class="ac-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><span>示意圖</span></div>`;
 }
 
-// 01 基礎衣櫃
+// 01 經典衣櫃
 // 欄位：分類 中文名稱(title) Name Prompt Tags 備註 模型A-E示意圖 發布
 function buildArchives(pages) {
   const catMap  = { "經典女裝":"female","經典男裝":"male","民族文化":"ethnic","現代街頭":"street" };
@@ -152,7 +152,7 @@ function buildAtelier(pages) {
   return html;
 }
 
-// 03 成衣收藏
+// 03 成衣型錄
 // 欄位：序號 系列名稱(title) 系列(select) 性別 服裝標籤 發布 Prompt pixAI衣櫃(files) pixAI連結(url)
 function buildRTW(pages) {
   // 依「系列」select 欄位分組
@@ -212,9 +212,9 @@ async function main() {
     fetchDB(DB.atelier),
     fetchDB(DB.rtw),
   ]);
-  console.log(`✅ 基礎衣櫃：${archivesPages.length} 筆`);
+  console.log(`✅ 經典衣櫃：${archivesPages.length} 筆`);
   console.log(`✅ 製衣工廠：${atelierPages.length} 筆`);
-  console.log(`✅ 成衣收藏：${rtwPages.length} 筆`);
+  console.log(`✅ 成衣型錄：${rtwPages.length} 筆`);
 
   let template = fs.readFileSync("template.html", "utf8");
   template = template
