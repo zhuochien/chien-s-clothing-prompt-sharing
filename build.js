@@ -3,15 +3,15 @@
 // ─────────────────────────────────────────────
 const { Client } = require("@notionhq/client");
 const fs = require("fs");
-
+ 
 const notion = new Client({ auth: process.env.NOTION_TOKEN });
-
+ 
 const DB = {
   archives: process.env.DB_ARCHIVES,
   atelier:  process.env.DB_ATELIER,
   rtw:      process.env.DB_RTW,
 };
-
+ 
 function text(prop) {
   if (!prop) return "";
   if (prop.type === "title")        return prop.title.map(t => t.plain_text).join("");
@@ -25,13 +25,13 @@ function text(prop) {
   ).filter(Boolean);
   return "";
 }
-
+ 
 function esc(str) {
   return String(str)
     .replace(/&/g, "&amp;").replace(/</g, "&lt;")
     .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
-
+ 
 async function fetchDB(dbId) {
   const pages = [];
   let cursor;
@@ -46,65 +46,57 @@ async function fetchDB(dbId) {
   } while (cursor);
   return pages;
 }
-
+ 
 function imgCell(url, label) {
   if (url) return `<div class="tc"><img src="${esc(url)}" alt="${esc(label)}" loading="lazy"><div class="tc-lbl">${esc(label)}</div></div>`;
   return `<div class="tc"><div class="tc-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div><div class="tc-lbl">${esc(label)}</div></div>`;
 }
-
+ 
 function singleImg(url) {
   if (url) return `<img src="${esc(url)}" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">`;
   return `<div class="ac-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><span>示意圖</span></div>`;
 }
-
+ 
 // 01 經典衣櫃
 // 欄位：分類 中文名稱(title) Name Prompt Tags 備註 coco-Illustrious-NoobXL-Style ChocoMint_Mix illustrious_Mix2 Plant_Milk 發布
 function buildArchives(pages) {
   const catMap  = { "經典女裝":"female","經典男裝":"male","其他":"others" };
   const codeMap = { "經典女裝":"01","經典男裝":"02","其他":"03" };
   const groups  = { "經典女裝":[],"經典男裝":[],"其他":[] };
-
+ 
   for (const page of pages) {
     const p = page.properties;
     const cat = text(p["分類"]) || "";
     if (!groups[cat]) continue;
     groups[cat].push(p);
   }
-
+ 
   let html = "";
   for (const [cat, items] of Object.entries(groups)) {
     if (!items.length) continue;
     html += `<div id="a-${catMap[cat]}" data-acat="${catMap[cat]}">`;
     html += `<div class="sub-label"><span class="sub-code">${codeMap[cat]}</span>${esc(cat)}</div>`;
     html += `<div class="arc-grid">`;
-
+ 
     for (const p of items) {
       const zh = esc(text(p["中文名稱"]));
-      const en = esc(text(p["Name"]));
-      const prompt = esc(text(p["Prompt Tags"]));
-      const img0 = (text(p["coco-Illustrious-NoobXL-Style"]) || [])[0] || "";
-      html += `<div class="arc-card"><div class="ac-img">${singleImg(img0)}</div><div class="ac-info"><div class="ac-en">${en}</div><div class="ac-zh">${zh}</div><div class="ac-prompt">${prompt}</div></div><div class="ac-foot"><button class="cp-btn" onclick="cp(this,'${prompt}')">COPY</button></div></div>`;
-    }
-    html += `</div>`;
-
-    if (items.length > 0) {
-      const p = items[0];
       const en = esc(text(p["Name"]));
       const prompt = esc(text(p["Prompt Tags"]));
       const imgKeys = ["coco-Illustrious-NoobXL-Style","ChocoMint_Mix","illustrious_Mix2","Plant_Milk","模型E示意圖"];
       const modelLabels = ["coco","ChocoMint","illus_Mix2","Plant Milk","（待定）"];
       const imgs = imgKeys.map(k => (text(p[k]) || [])[0] || "");
-      html += `<div class="amc"><div class="amc-head"><div><div class="amc-title">${en} — 五模型直出對比</div><div class="amc-prompt">${prompt}</div></div><span class="amc-tag t-arc">ARCHIVES</span></div><div class="tg5">`;
-      for (let i = 0; i < 5; i++) {
-        html += imgCell(imgs[i], modelLabels[i]);
-      }
-      html += `</div></div>`;
+      const img0 = imgs[0] || "";
+      // 把五張圖和標籤序列化成 data 屬性
+      const imgData = esc(JSON.stringify(imgs));
+      const lblData = esc(JSON.stringify(modelLabels));
+      html += `<div class="arc-card" onclick="openArcModal('${en}','${prompt}',${imgData},${lblData})" style="cursor:pointer;"><div class="ac-img">${singleImg(img0)}</div><div class="ac-info"><div class="ac-en">${en}</div><div class="ac-zh">${zh}</div><div class="ac-prompt">${prompt}</div></div><div class="ac-foot"><button class="cp-btn" onclick="event.stopPropagation();cp(this,'${prompt}')">COPY</button></div></div>`;
     }
+    html += `</div>`;
     html += `</div>`;
   }
   return html;
 }
-
+ 
 // 02 製衣工坊
 // 欄位：分類 中文名稱(title) Name Prompt Tags 備註 發布
 function buildAtelier(pages) {
@@ -115,7 +107,7 @@ function buildAtelier(pages) {
     "顏色系統":{ label:"", tag:"t-col", tagText:"COLOR LAB" },
     "其他點綴":{ label:"", tag:"t-fin", tagText:"FINDINGS" },
   };
-
+ 
   // 篩選按鈕
   let html = `<div class="ate-filter-bar">
     <button class="ate-tag active" data-mod="all" onclick="ateFilter(this,'all')">全部</button>`;
@@ -123,7 +115,7 @@ function buildAtelier(pages) {
     html += `<button class="ate-tag" data-mod="${mod}" onclick="ateFilter(this,'${mod}')"><span class="mtag ${tag}" style="font-size:.55rem;padding:.1rem .35rem;">${tagText}</span> ${esc(mod)}</button>`;
   }
   html += `</div>`;
-
+ 
   // 詞條列表
   html += `<div id="ate-list" class="ate-list">`;
   for (const page of pages) {
@@ -134,7 +126,7 @@ function buildAtelier(pages) {
     const prompt = text(p["Prompt Tags"]);
     const note   = text(p["備註"]);
     const { tag="", tagText="" } = modules[mod] || {};
-
+ 
     html += `
 <div class="ate-entry" data-mod="${esc(mod)}">
   <div class="ate-entry-head">
@@ -149,7 +141,7 @@ function buildAtelier(pages) {
   html += `</div>`;
   return html;
 }
-
+ 
 // 03 成衣型錄
 // 欄位：序號 名稱(title) 系列(select) 性別(select) 發布 Prompt pixAI衣櫃(files) pixAI連結(url)
 function buildRTW(pages) {
@@ -161,16 +153,16 @@ function buildRTW(pages) {
     if (!groups[key]) { groups[key] = []; order.push(key); }
     groups[key].push(p);
   }
-
+ 
   let html = "";
   for (const series of order) {
     const items    = groups[series];
     const anchorId = `rtw-${series.replace(/\s/g,"-")}`;
-
+ 
     html += `<div id="${anchorId}" style="margin-top:2.5rem;">`;
     html += `<div class="sub-label"><span class="sub-code">${esc(series)}</span></div>`;
     html += `<div class="rtw-catalog">`;
-
+ 
     for (const p of items) {
       const name     = esc(text(p["名稱"]));
       const prompt   = esc(text(p["Prompt"]));
@@ -179,7 +171,7 @@ function buildRTW(pages) {
       const pixaiUrl = p["pixAI連結"]?.url || "";
       const _gender  = text(p["性別"]);
       const genders  = _gender ? `<span class="rtw-tag">${esc(_gender)}</span>` : "";
-
+ 
       html += `
 <div class="rtw-card">
   <div class="rtw-img">`;
@@ -201,7 +193,7 @@ function buildRTW(pages) {
   }
   return html;
 }
-
+ 
 async function main() {
   console.log("📦 抓取 Notion 資料...");
   const [archivesPages, atelierPages, rtwPages] = await Promise.all([
@@ -212,17 +204,17 @@ async function main() {
   console.log(`✅ 經典衣櫃：${archivesPages.length} 筆`);
   console.log(`✅ 製衣工坊：${atelierPages.length} 筆`);
   console.log(`✅ 成衣型錄：${rtwPages.length} 筆`);
-
+ 
   let template = fs.readFileSync("template.html", "utf8");
   template = template
     .replace("<!-- ARCHIVES_CONTENT -->", buildArchives(archivesPages))
     .replace("<!-- ATELIER_CONTENT -->",  buildAtelier(atelierPages))
     .replace("<!-- RTW_CONTENT -->",      buildRTW(rtwPages))
     .replace("<!-- BUILD_TIME -->",       `<!-- built: ${new Date().toISOString()} -->`);
-
+ 
   if (!fs.existsSync("dist")) fs.mkdirSync("dist");
   fs.writeFileSync("dist/index.html", template, "utf8");
   console.log("🎉 dist/index.html 產生完成！");
 }
-
+ 
 main().catch(err => { console.error("❌ 錯誤：", err); process.exit(1); });
