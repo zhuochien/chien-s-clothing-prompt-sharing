@@ -92,6 +92,23 @@ function buildArchives(pages) {
       html += `<div class="arc-card" onclick="openArcModal('${en}','${prompt}',${imgData},${lblData})" style="cursor:pointer;"><div class="ac-img">${singleImg(img0)}</div><div class="ac-info"><div class="ac-en">${en}</div><div class="ac-zh">${zh}</div><div class="ac-prompt">${prompt}</div></div><div class="ac-foot"><button class="cp-btn" onclick="event.stopPropagation();cp(this,'${prompt}')">COPY</button></div></div>`;
     }
     html += `</div>`;
+<<<<<<< HEAD
+=======
+ 
+    if (items.length > 0) {
+      const p = items[0];
+      const en = esc(text(p["Name"]));
+      const prompt = esc(text(p["Prompt Tags"]));
+      const imgKeys = ["coco-Illustrious-NoobXL-Style","ChocoMint_Mix","illustrious_Mix2","Plant_Milk","模型E示意圖"];
+      const modelLabels = ["coco","ChocoMint","illus_Mix2","Plant Milk","（待定）"];
+      const imgs = imgKeys.map(k => (text(p[k]) || [])[0] || "");
+      html += `<div class="amc"><div class="amc-head"><div><div class="amc-title">${en} — 五模型直出對比</div><div class="amc-prompt">${prompt}</div></div><span class="amc-tag t-arc">ARCHIVES</span></div><div class="tg5">`;
+      for (let i = 0; i < 5; i++) {
+        html += imgCell(imgs[i], modelLabels[i]);
+      }
+      html += `</div></div>`;
+    }
+>>>>>>> ab6fafa270a1037c0c04b6c929e2bd7660521631
     html += `</div>`;
   }
   return html;
