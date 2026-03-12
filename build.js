@@ -58,11 +58,11 @@ function singleImg(url) {
 }
 
 // 01 經典衣櫃
-// 欄位：分類 中文名稱(title) Name Prompt Tags 備註 模型A-E示意圖 發布
+// 欄位：分類 中文名稱(title) Name Prompt Tags 備註 coco-Illustrious-NoobXL-Style ChocoMint_Mix illustrious_Mix2 Plant_Milk 發布
 function buildArchives(pages) {
-  const catMap  = { "經典女裝":"female","經典男裝":"male","民族文化":"ethnic","現代街頭":"street" };
-  const codeMap = { "經典女裝":"1.1","經典男裝":"1.2","民族文化":"1.3","現代街頭":"1.4" };
-  const groups  = { "經典女裝":[],"經典男裝":[],"民族文化":[],"現代街頭":[] };
+  const catMap  = { "經典女裝":"female","經典男裝":"male","其他":"others" };
+  const codeMap = { "經典女裝":"01","經典男裝":"02","其他":"03" };
+  const groups  = { "經典女裝":[],"經典男裝":[],"其他":[] };
 
   for (const page of pages) {
     const p = page.properties;
@@ -82,7 +82,7 @@ function buildArchives(pages) {
       const zh = esc(text(p["中文名稱"]));
       const en = esc(text(p["Name"]));
       const prompt = esc(text(p["Prompt Tags"]));
-      const img0 = (text(p["模型A示意圖"]) || [])[0] || "";
+      const img0 = (text(p["coco-Illustrious-NoobXL-Style"]) || [])[0] || "";
       html += `<div class="arc-card"><div class="ac-img">${singleImg(img0)}</div><div class="ac-info"><div class="ac-en">${en}</div><div class="ac-zh">${zh}</div><div class="ac-prompt">${prompt}</div></div><div class="ac-foot"><button class="cp-btn" onclick="cp(this,'${prompt}')">COPY</button></div></div>`;
     }
     html += `</div>`;
@@ -91,12 +91,10 @@ function buildArchives(pages) {
       const p = items[0];
       const en = esc(text(p["Name"]));
       const prompt = esc(text(p["Prompt Tags"]));
-      const imgs = ["模型A示意圖","模型B示意圖","模型C示意圖","模型D示意圖","模型E示意圖"].map(k => (text(p[k]) || [])[0] || "");
+      const imgs = ["coco-Illustrious-NoobXL-Style","ChocoMint_Mix","illustrious_Mix2","Plant_Milk","模型E示意圖"].map(k => (text(p[k]) || [])[0] || "");
       const models = ["Model A","Model B","Model C","Model D","Model E"];
       html += `<div class="amc"><div class="amc-head"><div><div class="amc-title">${en} — 五模型直出對比</div><div class="amc-prompt">${prompt}</div></div><span class="amc-tag t-arc">ARCHIVES</span></div><div class="tg5">`;
       for (let i = 0; i < 5; i++) html += imgCell(imgs[i], models[i]);
-      html += `</div><button class="xbtn" onclick="toggleX(this)">展開各模型備註 <span class="ea">▾</span></button><div class="xpanel"><table class="xtable"><thead><tr><th>模型</th><th>圖例</th><th>備註</th></tr></thead><tbody>`;
-      for (let i = 0; i < 5; i++) {
         html += `<tr><td><span class="mn">${models[i]}</span></td><td>${imgs[i] ? `<img src="${esc(imgs[i])}" style="width:52px;height:65px;object-fit:cover;border-radius:2px;">` : ""}</td><td class="nt">${i===0 ? esc(text(items[0]["備註"])||"—") : "—"}</td></tr>`;
       }
       html += `</tbody></table></div></div>`;
