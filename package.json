@@ -1,7 +1,7 @@
 {
-  "name": "clothing-prompt-guide",
+  "name": "clothing-prompt-sharing",
   "version": "1.0.0",
-  "description": "AI Clothing Prompt Dictionary — Notion to GitHub Pages",
+  "description": "AI Clothing Prompt Dictionary & Sharing — Notion to GitHub Pages",
   "scripts": {
     "build": "node build.js"
   },
