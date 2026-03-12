@@ -155,7 +155,6 @@ function buildAtelier(pages) {
 }
  
 // 03 成衣型錄
-// 欄位：序號 名稱(title) 系列(select) 性別(select) 發布 Prompt pixAI衣櫃(files) pixAI連結(url)
 function buildRTW(pages) {
   const groups = {};
   const order  = [];
@@ -165,16 +164,21 @@ function buildRTW(pages) {
     if (!groups[key]) { groups[key] = []; order.push(key); }
     groups[key].push(p);
   }
- 
+
+  let toc  = "";
   let html = "";
-  for (const series of order) {
+
+  order.forEach((series, idx) => {
     const items    = groups[series];
     const anchorId = `rtw-${series.replace(/\s/g,"-")}`;
- 
+    const first    = idx === 0 ? " active" : "";
+
+    toc += `<div class="sb-link${first}" onclick="scrollTo2('${anchorId}','rtw-toc',this)"><span class="sb-dot"></span>${esc(series)}</div>`;
+
     html += `<div id="${anchorId}" style="margin-top:2.5rem;">`;
     html += `<div class="sub-label"><span class="sub-code">${esc(series)}</span></div>`;
     html += `<div class="rtw-catalog">`;
- 
+
     for (const p of items) {
       const name     = esc(text(p["名稱"]));
       const prompt   = esc(text(p["Prompt"]));
@@ -183,7 +187,7 @@ function buildRTW(pages) {
       const pixaiUrl = p["pixAI連結"]?.url || "";
       const _gender  = text(p["性別"]);
       const genders  = _gender ? `<span class="rtw-tag">${esc(_gender)}</span>` : "";
- 
+
       html += `
 <div class="rtw-card">
   <div class="rtw-img">`;
@@ -202,8 +206,9 @@ function buildRTW(pages) {
 </div>`;
     }
     html += `</div></div>`;
-  }
-  return html;
+  });
+
+  return { html, toc };
 }
  
 async function main() {
@@ -218,13 +223,15 @@ async function main() {
   console.log(`✅ 成衣型錄：${rtwPages.length} 筆`);
  
   const { html: archivesHtml, toc: archivesToc, filter: archivesFilter } = buildArchives(archivesPages);
+  const { html: rtwHtml, toc: rtwToc } = buildRTW(rtwPages);
   let template = fs.readFileSync("template.html", "utf8");
   template = template
     .replace("<!-- ARCHIVES_CONTENT -->", archivesHtml)
     .replace("<!-- ARCHIVES_TOC -->",     archivesToc)
     .replace("<!-- ARCHIVES_FILTER -->",  archivesFilter)
     .replace("<!-- ATELIER_CONTENT -->",  buildAtelier(atelierPages))
-    .replace("<!-- RTW_CONTENT -->",      buildRTW(rtwPages))
+    .replace("<!-- RTW_CONTENT -->",      rtwHtml)
+    .replace("<!-- RTW_TOC -->",          rtwToc)
     .replace("<!-- BUILD_TIME -->",       `<!-- built: ${new Date().toISOString()} -->`);
  
   if (!fs.existsSync("dist")) fs.mkdirSync("dist");
