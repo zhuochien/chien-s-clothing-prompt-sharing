@@ -101,7 +101,10 @@ function buildArchives(pages) {
       const img0    = imgs[0] || "";
       const imgData = esc(JSON.stringify(imgs));
       const lblData = esc(JSON.stringify(modelLabels));
-      html += `<div class="arc-card" onclick="openArcModal('${en}','${prompt}',${imgData},${lblData})" style="cursor:pointer;"><div class="ac-img">${singleImg(img0)}</div><div class="ac-info"><div class="ac-en">${en}</div><div class="ac-zh">${zh}</div><div class="ac-prompt">${prompt}</div></div><div class="ac-foot"><button class="cp-btn" onclick="event.stopPropagation();cp(this,'${prompt}')">COPY</button></div></div>`;
+      const linkKeys   = ["coco連結","ChocoMint連結","illus_Mix2連結","Plant_Milk連結","Hoshino連結"];
+      const links      = linkKeys.map(k => p[k]?.url || "");
+      const linksData  = esc(JSON.stringify(links));
+      html += `<div class="arc-card" onclick="openArcModal('${en}','${prompt}',${imgData},${lblData},${linksData})" style="cursor:pointer;"><div class="ac-img">${singleImg(img0)}</div><div class="ac-info"><div class="ac-en">${en}</div><div class="ac-zh">${zh}</div><div class="ac-prompt">${prompt}</div></div><div class="ac-foot"><button class="cp-btn" onclick="event.stopPropagation();cp(this,'${prompt}')">COPY</button></div></div>`;
     }
     html += `</div></div>`;
   });
@@ -183,19 +186,23 @@ function buildSalon(pages) {
     for (const p of items) {
       const name     = esc(text(p["名稱"]));
       const prompt   = esc(text(p["Prompt"]));
-      const imgs     = text(p["pixAI衣櫃"]) || [];
+      const imgs     = text(p["PixAI衣櫃"]) || [];
       const img0     = imgs[0] || "";
-      const pixaiUrl = p["pixAI連結"]?.url || "";
+      const pixaiUrl = p["PixAI連結"]?.url || "";
       const _gender  = text(p["性別"]);
       const genders  = _gender ? `<span class="rtw-tag">${esc(_gender)}</span>` : "";
 
       html += `<div class="rtw-card"><div class="rtw-img">`;
       if (img0) {
-        html += `<img src="${esc(img0)}" alt="${name}" loading="lazy">`;
+        if (pixaiUrl) {
+          html += `<a href="${esc(pixaiUrl)}" target="_blank" rel="noopener" style="display:block;height:100%;"><img src="${esc(img0)}" alt="${name}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;"></a>`;
+        } else {
+          html += `<img src="${esc(img0)}" alt="${name}" loading="lazy">`;
+        }
       } else {
         html += `<div class="rtw-img-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>`;
       }
-      html += `</div><div class="rtw-body"><div class="rtw-name">${name}</div>${genders ? `<div class="rtw-meta">${genders}</div>` : ""}<div class="prompt-box" style="margin:.6rem 0 .5rem;"><span class="pt">${prompt}</span><span class="pt-toggle" onclick="togglePt(this)">展開</span><button class="cp-btn" onclick="cp(this,'${prompt}')">COPY</button></div>${pixaiUrl ? `<a href="${esc(pixaiUrl)}" target="_blank" rel="noopener" class="pixai-link">在 pixAI 開啟 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></a>` : ""}</div></div>`;
+      html += `</div><div class="rtw-body"><div class="rtw-name">${name}</div>${genders ? `<div class="rtw-meta">${genders}</div>` : ""}<div class="prompt-box" style="margin:.6rem 0 .5rem;"><span class="pt">${prompt}</span><span class="pt-toggle" onclick="togglePt(this)">展開</span><button class="cp-btn" onclick="cp(this,'${prompt}')">COPY</button></div></div></div>`;
     }
     html += `</div></div>`;
   });
@@ -229,16 +236,21 @@ function buildOutfits(pages) {
     html += `<div class="outfit-runway">`;
 
     for (const p of items) {
-      const name   = esc(text(p["名稱"]));
-      const prompt = esc(text(p["Prompt"]));
-      const imgs   = text(p["示意圖"]) || [];
-      const cid    = `oc-${Math.random().toString(36).slice(2,8)}`;
+      const name     = esc(text(p["名稱"]));
+      const prompt   = esc(text(p["Prompt"]));
+      const imgs     = text(p["示意圖"]) || [];
+      const pixaiUrl = p["PixAI連結"]?.url || "";
+      const cid      = `oc-${Math.random().toString(36).slice(2,8)}`;
 
       html += `<div class="outfit-card"><div class="outfit-img" id="${cid}">`;
       if (imgs.length === 0) {
         html += `<div class="rtw-img-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>`;
       } else if (imgs.length === 1) {
-        html += `<img src="${esc(imgs[0])}" alt="${name}" loading="lazy" style="width:100%;height:100%;object-fit:cover;">`;
+        if (pixaiUrl) {
+          html += `<a href="${esc(pixaiUrl)}" target="_blank" rel="noopener" style="display:block;width:100%;height:100%;"><img src="${esc(imgs[0])}" alt="${name}" loading="lazy" style="width:100%;height:100%;object-fit:cover;"></a>`;
+        } else {
+          html += `<img src="${esc(imgs[0])}" alt="${name}" loading="lazy" style="width:100%;height:100%;object-fit:cover;">`;
+        }
       } else {
         html += `<div class="outfit-slides" id="${cid}-slides">`;
         imgs.forEach(u => { html += `<img src="${esc(u)}" alt="${name}" loading="lazy">`; });
