@@ -227,15 +227,24 @@ function buildOutfits(pages) {
 
     for (const p of items) {
       const name   = esc(text(p["名稱"]));
-      const prompt = esc(text(p["Prompt Tags"]));
+      const prompt = esc(text(p["Prompt"]));
       const imgs   = text(p["示意圖"]) || [];
-      const img0   = imgs[0] || "";
+      const cid    = `oc-${Math.random().toString(36).slice(2,8)}`;
 
-      html += `<div class="outfit-card"><div class="outfit-img">`;
-      if (img0) {
-        html += `<img src="${esc(img0)}" alt="${name}" loading="lazy">`;
-      } else {
+      html += `<div class="outfit-card"><div class="outfit-img" id="${cid}">`;
+      if (imgs.length === 0) {
         html += `<div class="rtw-img-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>`;
+      } else if (imgs.length === 1) {
+        html += `<img src="${esc(imgs[0])}" alt="${name}" loading="lazy" style="width:100%;height:100%;object-fit:cover;">`;
+      } else {
+        html += `<div class="outfit-slides" id="${cid}-slides">`;
+        imgs.forEach(u => { html += `<img src="${esc(u)}" alt="${name}" loading="lazy">`; });
+        html += `</div>`;
+        html += `<button class="outfit-arr prev" onclick="outfitSlide('${cid}',-1)">‹</button>`;
+        html += `<button class="outfit-arr next" onclick="outfitSlide('${cid}',1)">›</button>`;
+        html += `<div class="outfit-dots" id="${cid}-dots">`;
+        imgs.forEach((_,i) => { html += `<div class="outfit-dot${i===0?' active':''}" onclick="outfitGo('${cid}',${i})"></div>`; });
+        html += `</div>`;
       }
       html += `</div><div class="outfit-body"><div class="rtw-name">${name}</div><div class="prompt-box" style="margin:.5rem 0;"><span class="pt">${prompt}</span><span class="pt-toggle" onclick="togglePt(this)">展開</span><button class="cp-btn" onclick="cp(this,'${prompt}')">COPY</button></div></div></div>`;
     }
