@@ -101,7 +101,7 @@ function buildArchives(pages) {
       const img0    = imgs[0] || "";
       const imgData = esc(JSON.stringify(imgs));
       const lblData = esc(JSON.stringify(modelLabels));
-      const linkKeys   = ["coco連結","ChocoMint連結","illus_Mix2連結","Plant_Milk連結","Hoshino連結"];
+      const linkKeys   = ["ChocoMint連結","coco連結","illus_Mix2連結","Plant_Milk連結","Hoshino連結"];
       const links      = linkKeys.map(k => p[k]?.url || "");
       const linksData  = esc(JSON.stringify(links));
       html += `<div class="arc-card" onclick="openArcModal('${en}','${prompt}',${imgData},${lblData},${linksData})" style="cursor:pointer;"><div class="ac-img">${singleImg(img0)}</div><div class="ac-info"><div class="ac-en">${en}</div><div class="ac-zh">${zh}</div><div class="ac-prompt">${prompt}</div></div><div class="ac-foot"><button class="cp-btn" onclick="event.stopPropagation();cp(this,'${prompt}')">COPY</button></div></div>`;
