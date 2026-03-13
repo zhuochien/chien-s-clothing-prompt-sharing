@@ -73,8 +73,8 @@ function buildArchives(pages) {
     return str.replace(/\s+/g, "-").replace(/[^\w\u4e00-\u9fff-]/g, "");
   }
 
-  const imgKeys     = ["coco-Illustrious-NoobXL-Style","ChocoMint_Mix","illustrious_Mix2","Plant_Milk","模型E示意圖"];
-  const modelLabels = ["coco","ChocoMint","illus_Mix2","Plant Milk","（待定）"];
+  const imgKeys     = ["ChocoMint_Mix","coco-Illustrious-NoobXL-Style","illustrious_Mix2","Plant_Milk","模型E示意圖"];
+  const modelLabels = ["ChocoMint","coco","illus_Mix2","Plant Milk","Hoshino v2"];
 
   let toc    = "";
   let filter = `<button class="f-btn active" onclick="filterArc(this,'all')">全部</button>`;
