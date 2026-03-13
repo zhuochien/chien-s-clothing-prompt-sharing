@@ -61,25 +61,41 @@ function singleImg(url) {
 // 01 經典衣櫃
 // 欄位：分類 中文名稱(title) Name Prompt Tags 備註 coco-Illustrious-NoobXL-Style ChocoMint_Mix illustrious_Mix2 Plant_Milk 發布
 function buildArchives(pages) {
-  const catMap  = { "經典女裝":"female","經典男裝":"male","其他":"others" };
-  const codeMap = { "經典女裝":"01","經典男裝":"02","其他":"03" };
-  const groups  = { "經典女裝":[],"經典男裝":[],"其他":[] };
- 
+  const groups = {};
+  const order  = [];
   for (const page of pages) {
-    const p = page.properties;
-    const cat = text(p["分類"]) || "";
-    if (!groups[cat]) continue;
+    const p   = page.properties;
+    const cat = text(p["分類"]) || "其他";
+    if (!groups[cat]) { groups[cat] = []; order.push(cat); }
     groups[cat].push(p);
   }
- 
-  let html = "";
-  for (const [cat, items] of Object.entries(groups)) {
-    if (!items.length) continue;
-    html += `<div id="a-${catMap[cat]}" data-acat="${catMap[cat]}">`;
-    html += `<div class="sub-label"><span class="sub-code">${codeMap[cat]}</span>${esc(cat)}</div>`;
+
+  function toSlug(str) {
+    return str.replace(/\s+/g, "-").replace(/[^\w\u4e00-\u9fff-]/g, "");
+  }
+
+  const imgKeys     = ["coco-Illustrious-NoobXL-Style","ChocoMint_Mix","illustrious_Mix2","Plant_Milk","模型E示意圖"];
+  const modelLabels = ["coco","ChocoMint","illus_Mix2","Plant Milk","（待定）"];
+
+  let toc    = "";
+  let filter = `<button class="f-btn active" onclick="filterArc(this,'all')">全部</button>`;
+  let html   = "";
+
+  order.forEach((cat, idx) => {
+    const items = groups[cat];
+    const slug  = toSlug(cat);
+    const code  = String(idx + 1).padStart(2, "0");
+    const first = idx === 0 ? " active" : "";
+
+    toc    += `<div class="sb-link${first}" onclick="scrollTo2('a-${slug}','arc-toc',this)"><span class="sb-dot"></span>${code} ${esc(cat)}</div>`;
+    filter += `<button class="f-btn" onclick="filterArc(this,'${slug}')">${esc(cat)}</button>`;
+
+    html += `<div id="a-${slug}" data-acat="${slug}">`;
+    html += `<div class="sub-label"><span class="sub-code">${code}</span>${esc(cat)}</div>`;
     html += `<div class="arc-grid">`;
- 
+
     for (const p of items) {
+<<<<<<< HEAD
       const zh = esc(text(p["中文名稱"]));
       const en = esc(text(p["Name"]));
       const prompt = esc(text(p["Prompt Tags"]));
@@ -104,6 +120,21 @@ function buildArchives(pages) {
     html += `</div>`;
   }
   return html;
+=======
+      const zh      = esc(text(p["中文名稱"]));
+      const en      = esc(text(p["Name"]));
+      const prompt  = esc(text(p["Prompt Tags"]));
+      const imgs    = imgKeys.map(k => (text(p[k]) || [])[0] || "");
+      const img0    = imgs[0] || "";
+      const imgData = esc(JSON.stringify(imgs));
+      const lblData = esc(JSON.stringify(modelLabels));
+      html += `<div class="arc-card" onclick="openArcModal('${en}','${prompt}',${imgData},${lblData})" style="cursor:pointer;"><div class="ac-img">${singleImg(img0)}</div><div class="ac-info"><div class="ac-en">${en}</div><div class="ac-zh">${zh}</div><div class="ac-prompt">${prompt}</div></div><div class="ac-foot"><button class="cp-btn" onclick="event.stopPropagation();cp(this,'${prompt}')">COPY</button></div></div>`;
+    }
+    html += `</div></div>`;
+  });
+
+  return { html, toc, filter };
+>>>>>>> 79a2bd5390517069cc5fe42ae21fa362cad4db2f
 }
  
 // 02 製衣工坊
@@ -152,8 +183,12 @@ function buildAtelier(pages) {
 }
  
 // 03 成衣型錄
+<<<<<<< HEAD
 // 欄位：序號 名稱(title) 系列(select) 性別(select) 發布 Prompt pixAI衣櫃(files) pixAI連結(url)
 function buildSalon(pages) {
+=======
+function buildRTW(pages) {
+>>>>>>> 79a2bd5390517069cc5fe42ae21fa362cad4db2f
   const groups = {};
   const order  = [];
   for (const page of pages) {
@@ -168,10 +203,17 @@ function buildSalon(pages) {
 
   order.forEach((series, idx) => {
     const items    = groups[series];
+<<<<<<< HEAD
     const anchorId = `salon-${series.replace(/\s/g,"-")}`;
     const first    = idx === 0 ? " active" : "";
 
     toc += `<div class="sb-link${first}" onclick="scrollTo2('${anchorId}','salon-toc',this)"><span class="sb-dot"></span>${esc(series)}</div>`;
+=======
+    const anchorId = `rtw-${series.replace(/\s/g,"-")}`;
+    const first    = idx === 0 ? " active" : "";
+
+    toc += `<div class="sb-link${first}" onclick="scrollTo2('${anchorId}','rtw-toc',this)"><span class="sb-dot"></span>${esc(series)}</div>`;
+>>>>>>> 79a2bd5390517069cc5fe42ae21fa362cad4db2f
 
     html += `<div id="${anchorId}" style="margin-top:2.5rem;">`;
     html += `<div class="sub-label"><span class="sub-code">${esc(series)}</span></div>`;
@@ -186,13 +228,30 @@ function buildSalon(pages) {
       const _gender  = text(p["性別"]);
       const genders  = _gender ? `<span class="rtw-tag">${esc(_gender)}</span>` : "";
 
+<<<<<<< HEAD
       html += `<div class="rtw-card"><div class="rtw-img">`;
+=======
+      html += `
+<div class="rtw-card">
+  <div class="rtw-img">`;
+>>>>>>> 79a2bd5390517069cc5fe42ae21fa362cad4db2f
       if (img0) {
         html += `<img src="${esc(img0)}" alt="${name}" loading="lazy">`;
       } else {
         html += `<div class="rtw-img-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>`;
       }
+<<<<<<< HEAD
       html += `</div><div class="rtw-body"><div class="rtw-name">${name}</div>${genders ? `<div class="rtw-meta">${genders}</div>` : ""}<div class="prompt-box" style="margin:.6rem 0 .5rem;"><span class="pt">${prompt}</span><span class="pt-toggle" onclick="togglePt(this)">展開</span><button class="cp-btn" onclick="cp(this,'${prompt}')">COPY</button></div>${pixaiUrl ? `<a href="${esc(pixaiUrl)}" target="_blank" rel="noopener" class="pixai-link">在 pixAI 開啟 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></a>` : ""}</div></div>`;
+=======
+      html += `</div>
+  <div class="rtw-body">
+    <div class="rtw-name">${name}</div>
+    ${genders ? `<div class="rtw-meta">${genders}</div>` : ""}
+    <div class="prompt-box" style="margin:.6rem 0 .5rem;"><span class="pt">${prompt}</span><span class="pt-toggle" onclick="togglePt(this)">展開</span><button class="cp-btn" onclick="cp(this,'${prompt}')">COPY</button></div>
+    ${pixaiUrl ? `<a href="${esc(pixaiUrl)}" target="_blank" rel="noopener" class="pixai-link">在 pixAI 開啟 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></a>` : ""}
+  </div>
+</div>`;
+>>>>>>> 79a2bd5390517069cc5fe42ae21fa362cad4db2f
     }
     html += `</div></div>`;
   });
@@ -255,6 +314,7 @@ async function main() {
   ]);
   console.log(`✅ 經典衣櫃：${archivesPages.length} 筆`);
   console.log(`✅ 製衣工坊：${atelierPages.length} 筆`);
+<<<<<<< HEAD
   console.log(`✅ 寫真沙龍：${salonPages.length} 筆`);
   console.log(`✅ 成衣型錄：${outfitsPages.length} 筆`);
 
@@ -262,17 +322,28 @@ async function main() {
   const { html: salonHtml,    toc: salonToc }                            = buildSalon(salonPages);
   const { html: outfitsHtml,  toc: outfitsToc, filter: outfitsFilter }  = buildOutfits(outfitsPages);
 
+=======
+  console.log(`✅ 成衣型錄：${rtwPages.length} 筆`);
+ 
+  const { html: archivesHtml, toc: archivesToc, filter: archivesFilter } = buildArchives(archivesPages);
+  const { html: rtwHtml, toc: rtwToc } = buildRTW(rtwPages);
+>>>>>>> 79a2bd5390517069cc5fe42ae21fa362cad4db2f
   let template = fs.readFileSync("template.html", "utf8");
   template = template
     .replace("<!-- ARCHIVES_CONTENT -->", archivesHtml)
     .replace("<!-- ARCHIVES_TOC -->",     archivesToc)
     .replace("<!-- ARCHIVES_FILTER -->",  archivesFilter)
     .replace("<!-- ATELIER_CONTENT -->",  buildAtelier(atelierPages))
+<<<<<<< HEAD
     .replace("<!-- SALON_CONTENT -->",    salonHtml)
     .replace("<!-- SALON_TOC -->",        salonToc)
     .replace("<!-- OUTFITS_CONTENT -->",  outfitsHtml)
     .replace("<!-- OUTFITS_TOC -->",      outfitsToc)
     .replace("<!-- OUTFITS_FILTER -->",   outfitsFilter)
+=======
+    .replace("<!-- RTW_CONTENT -->",      rtwHtml)
+    .replace("<!-- RTW_TOC -->",          rtwToc)
+>>>>>>> 79a2bd5390517069cc5fe42ae21fa362cad4db2f
     .replace("<!-- BUILD_TIME -->",       `<!-- built: ${new Date().toISOString()} -->`);
 
   if (!fs.existsSync("dist")) fs.mkdirSync("dist");
