@@ -1,307 +1,1257 @@
-// ─────────────────────────────────────────────
-//  build.js  —  對應實際 Notion 欄位名稱版本
-// ─────────────────────────────────────────────
-const { Client } = require("@notionhq/client");
-const fs = require("fs");
- 
-const notion = new Client({ auth: process.env.NOTION_TOKEN });
- 
-const DB = {
-  archives: process.env.DB_ARCHIVES,
-  atelier:  process.env.DB_ATELIER,
-  salon:    process.env.DB_SALON,
-  outfits:  process.env.DB_OUTFITS,
-};
- 
-function text(prop) {
-  if (!prop) return "";
-  if (prop.type === "title")        return prop.title.map(t => t.plain_text).join("");
-  if (prop.type === "rich_text")    return prop.rich_text.map(t => t.plain_text).join("");
-  if (prop.type === "select")       return prop.select?.name || "";
-  if (prop.type === "checkbox")     return prop.checkbox;
-  if (prop.type === "number")       return prop.number ?? "";
-  if (prop.type === "multi_select") return prop.multi_select.map(s => s.name);
-  if (prop.type === "files")        return prop.files.map(f =>
-    f.type === "external" ? f.external.url : f.file?.url || ""
-  ).filter(Boolean);
-  return "";
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI生圖｜酌的裁縫鋪</title>
+<!-- BUILD_TIME -->
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Noto+Sans+TC:wght@300;400;500;700&family=Dancing+Script:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#283f38;--parchment:#f0ece6;--cream:#f7f4f0;
+  --gold:#9a8c7e;--gold-lt:#b8a898;
+  --rust:#a07878;--sage:#8a9e8e;--blue:#8090a0;--orange:#b89080;--purple:#a08898;
+  --muted:#9a9490;--border:#ddd8d0;--card:#fdfbf9;
+  --shadow:rgba(61,61,59,.06);--nav-h:48px;
 }
- 
-function esc(str) {
-  return String(str)
-    .replace(/&/g, "&amp;").replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+/* ── 主題色切換 ── */
+body.theme-intro   {--ink:#2a3828;--gold:#a8c5a0;--gold-lt:#c4d9bc;--rust:#7aaa80;}
+body.theme-archives{--ink:#4a2428;--gold:#b5737a;--gold-lt:#cfa0a6;--rust:#9a5560;}
+body.theme-atelier {--ink:#2a3828;--gold:#a8c5a0;--gold-lt:#c4d9bc;--rust:#7aaa80;}
+body.theme-outfits {--ink:#4a2428;--gold:#b5737a;--gold-lt:#cfa0a6;--rust:#9a5560;}
+body.theme-salon   {--ink:#2a3828;--gold:#a8c5a0;--gold-lt:#c4d9bc;--rust:#7aaa80;}
+body.theme-qa      {--ink:#4a2428;--gold:#b5737a;--gold-lt:#cfa0a6;--rust:#9a5560;}
+
+/* banner 背景色跟著主題變 */
+body.theme-intro   header,body.theme-intro   .main-nav{background:#4a5e45;}
+body.theme-archives header,body.theme-archives .main-nav{background:#b5737a;}
+body.theme-atelier  header,body.theme-atelier  .main-nav{background:#4a5e45;}
+body.theme-outfits  header,body.theme-outfits  .main-nav{background:#b5737a;}
+body.theme-salon    header,body.theme-salon    .main-nav{background:#4a5e45;}
+body.theme-qa       header,body.theme-qa       .main-nav{background:#b5737a;}
+
+/* 粉色主題 header 文字色 */
+body.theme-archives header h1,
+body.theme-rtw      header h1,
+body.theme-outfits  header h1,
+body.theme-qa       header h1{color:#1e2238;}
+body.theme-archives header h1 em,
+body.theme-rtw      header h1 em,
+body.theme-outfits  header h1 em,
+body.theme-qa       header h1 em{color:#2e1a40;}
+body.theme-archives .h-label,
+body.theme-rtw      .h-label,
+body.theme-outfits  .h-label,
+body.theme-qa       .h-label,
+body.theme-archives .h-sub,
+body.theme-rtw      .h-sub,
+body.theme-outfits  .h-sub,
+body.theme-qa       .h-sub{color:#2e1a40;}
+body.theme-archives .h-rule,
+body.theme-rtw      .h-rule,
+body.theme-outfits  .h-rule,
+body.theme-qa       .h-rule{background:#2e1a40;}
+
+/* 粉色主題 nav 文字色 */
+body.theme-archives .main-nav button,
+body.theme-rtw      .main-nav button,
+body.theme-outfits  .main-nav button,
+body.theme-qa       .main-nav button{color:rgba(30,34,56,.5);}
+body.theme-archives .main-nav button:hover,
+body.theme-rtw      .main-nav button:hover,
+body.theme-outfits  .main-nav button:hover,
+body.theme-qa       .main-nav button:hover{color:#1e2238;}
+body.theme-archives .main-nav button.active,
+body.theme-rtw      .main-nav button.active,
+body.theme-outfits  .main-nav button.active,
+body.theme-qa       .main-nav button.active{color:#1e2238;border-bottom-color:#2e1a40;}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--parchment);color:var(--ink);font-family:'Noto Sans TC',sans-serif;font-weight:300;min-height:100vh;overflow-x:hidden;}
+
+/* ── HEADER ── */
+header{background:var(--ink);color:var(--parchment);padding:3.2rem 2rem 2.2rem;text-align:center;position:relative;overflow:hidden;}
+header::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 40px,rgba(184,150,62,.04) 40px,rgba(184,150,62,.04) 41px);}
+.h-label{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;margin-bottom:.9rem;position:relative;}
+header h1{font-family:'Dancing Script',cursive;font-weight:300;font-size:clamp(2.2rem,6vw,4.5rem);line-height:1.05;position:relative;}
+header h1 em{font-style:italic;color:var(--gold-lt);}
+.h-sub{margin-top:.7rem;font-size:.72rem;color:rgba(245,240,232,.4);letter-spacing:.12em;position:relative;}
+.h-rule{width:44px;height:1px;background:var(--gold);opacity:.45;margin:1.3rem auto 0;position:relative;}
+
+/* ── MAIN NAV ── */
+.main-nav{background:var(--ink);border-top:1px solid rgba(184,150,62,.18);display:flex;justify-content:center;position:sticky;top:0;z-index:200;}
+.main-nav button{background:none;border:none;border-bottom:2px solid transparent;color:rgba(245,240,232,.42);font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.16em;padding:.82rem 1.5rem;cursor:pointer;transition:color .2s,border-color .2s;white-space:nowrap;}
+.main-nav button:hover{color:var(--parchment);}
+.main-nav button.active{color:var(--gold-lt);border-bottom-color:var(--gold);}
+
+/* ── SECTIONS ── */
+.section{display:none;animation:fadeUp .3s ease;}
+.section.active{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+
+/* ── SECTION HEADER ── */
+.sec-head{max-width:1200px;margin:0 auto;padding:3rem 2rem 1.8rem;display:flex;align-items:flex-end;gap:1.4rem;border-bottom:1px solid var(--border);margin-bottom:2.5rem;}
+.sec-num{font-family:'Dancing Script',cursive;font-size:4rem;font-weight:300;color:var(--gold);opacity:.28;line-height:1;flex-shrink:0;}
+.sec-info h2{font-family:'Dancing Script',cursive;font-size:1.9rem;font-weight:400;}
+.sec-en{font-family:'Dancing Script',cursive;font-style:italic;font-size:.95rem;color:var(--gold);display:block;margin-bottom:.25rem;}
+.sec-info p{color:var(--muted);font-size:.8rem;margin-top:.3rem;line-height:1.8;}
+
+/* ── SIDEBAR LAYOUT ── */
+.with-sidebar{max-width:1200px;margin:0 auto;padding:0 2rem 4rem;display:grid;grid-template-columns:156px 1fr;gap:1.8rem;align-items:start;}
+.sidebar{position:sticky;top:calc(var(--nav-h) + 8px);}
+.sb-box{background:var(--card);border:1px solid var(--border);border-radius:3px;overflow:hidden;}
+.sb-head{padding:.55rem .95rem;background:var(--cream);border-bottom:1px solid var(--border);font-family:'Space Mono',monospace;font-size:.68rem;letter-spacing:.2em;color:var(--muted);}
+.sb-link{display:flex;align-items:center;gap:.55rem;padding:.62rem .95rem;border-bottom:1px solid var(--border);font-size:.85rem;color:var(--ink);cursor:pointer;transition:background .15s;user-select:none;}
+.sb-link:last-child{border-bottom:none;}
+.sb-link:hover{background:var(--parchment);}
+.sb-link.active{background:var(--ink);color:var(--gold-lt);}
+.sb-dot{width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.45;flex-shrink:0;}
+.sb-link.active .sb-dot{opacity:1;}
+
+.preset-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.7rem;}
+.preset-card{background:var(--cream);border:1px solid var(--border);border-radius:6px;overflow:hidden;}
+.preset-head{padding:.55rem .8rem;background:var(--ink);display:flex;align-items:center;gap:.5rem;}
+.preset-name{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--gold-lt);line-height:1.3;}
+.preset-rows{padding:.5rem .8rem .6rem;display:flex;flex-direction:column;gap:.3rem;}
+.preset-row{display:flex;justify-content:space-between;align-items:center;font-size:.7rem;}
+.preset-lbl{color:var(--muted);font-size:.65rem;}
+.preset-val{font-family:'Space Mono',monospace;font-size:.68rem;color:var(--ink);font-weight:500;}
+.preset-note .preset-lbl{color:var(--gold);}
+.preset-note .preset-val{color:var(--gold);font-size:.62rem;}
+/* ── FILTER BAR ── */
+.filter-bar{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;margin-bottom:2rem;}
+.f-label{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.2em;color:var(--muted);margin-right:.3rem;}
+.f-btn{background:none;border:1px solid var(--border);color:var(--muted);font-family:'Noto Sans TC',sans-serif;font-size:.76rem;padding:.28rem .75rem;border-radius:2px;cursor:pointer;transition:all .18s;}
+.f-btn:hover{border-color:var(--gold);color:var(--ink);}
+.f-btn.active{background:var(--ink);color:var(--gold-lt);border-color:var(--ink);}
+
+/* ── COPY BUTTON ── */
+.cp-btn{background:none;border:1px solid var(--border);color:var(--muted);font-family:'Space Mono',monospace;font-size:.56rem;padding:.22rem .52rem;cursor:pointer;border-radius:2px;white-space:nowrap;transition:all .14s;flex-shrink:0;}
+.cp-btn:hover{background:var(--ink);color:var(--gold-lt);border-color:var(--ink);}
+.cp-btn.copied{background:var(--sage);color:#fff;border-color:var(--sage);}
+
+/* ── PROMPT BOX ── */
+.prompt-box{padding:.75rem 1.2rem;background:var(--cream);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.65rem;}
+.pt{font-family:'Space Mono',monospace;font-size:.65rem;color:var(--ink);flex:1;word-break:break-all;line-height:1.6;}
+.pt-toggle{display:none;font-size:.65rem;color:var(--gold);cursor:pointer;white-space:nowrap;padding:.1rem .3rem;}
+
+/* ── THUMB GRID ── */
+.tg5{display:grid;grid-template-columns:repeat(5,1fr);gap:0;}
+.tg4{display:grid;grid-template-columns:repeat(4,1fr);gap:0;}
+.tc{aspect-ratio:3/4;position:relative;overflow:hidden;border-right:1px solid var(--border);}
+.tc:last-child{border-right:none;}
+.tc img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s;}
+.tc-ph{width:100%;height:100%;background:var(--parchment);display:flex;align-items:center;justify-content:center;}
+.tc-ph svg{width:22px;height:22px;opacity:.18;}
+.tc-pixai-badge{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.55);color:#fff;font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.06em;text-align:center;padding:.3rem .4rem;opacity:0;transition:opacity .2s;}
+.tc a:hover .tc-pixai-badge{opacity:1;}
+.tc-lbl{position:absolute;bottom:0;left:0;right:0;background:rgba(26,21,16,.68);color:rgba(245,240,232,.82);font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.07em;padding:.18rem .3rem;text-align:center;}
+
+/* ── EXPAND ── */
+.xbtn{width:100%;background:none;border:none;border-top:1px solid var(--border);padding:.6rem;font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.14em;color:var(--muted);cursor:pointer;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:.45rem;transition:background .14s,color .14s;}
+.xbtn:hover{background:var(--parchment);color:var(--ink);}
+.xbtn.open .ea{transform:rotate(180deg);}
+.ea{display:inline-block;transition:transform .2s;}
+.xpanel{display:none;border-top:1px solid var(--border);overflow-x:auto;}
+.xpanel.open{display:block;}
+.xtable{width:100%;border-collapse:collapse;min-width:460px;}
+.xtable th{background:var(--ink);color:var(--gold-lt);font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.12em;padding:.62rem 1rem;text-align:left;font-weight:400;}
+.xtable td{padding:.72rem 1rem;border-bottom:1px solid var(--border);vertical-align:middle;font-size:.78rem;}
+.xtable tr:last-child td{border-bottom:none;}
+.xtable tr:hover td{background:var(--cream);}
+.mn{font-family:'Space Mono',monospace;font-size:.62rem;color:var(--gold);white-space:nowrap;}
+.tph{width:52px;height:65px;background:var(--parchment);border-radius:2px;display:flex;align-items:center;justify-content:center;opacity:.35;}
+.tph svg{width:18px;height:18px;}
+.nt{font-size:.74rem;color:var(--muted);line-height:1.6;}
+
+/* tag colours */
+.t-sil{color:var(--rust);}
+.t-fab{color:var(--sage);}
+.t-tai{color:var(--blue);}
+.t-col{color:var(--orange);}
+.t-fin{color:var(--gold);}
+.t-rtw{color:var(--purple);}
+.t-arc{color:var(--muted);}
+
+/* ═══════════════════════════
+   INTRO
+═══════════════════════════ */
+.intro-wrap{max-width:1200px;margin:0 auto;padding:3.8rem 2rem 4.5rem;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;}
+.i-eyebrow{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.3em;color:var(--gold);text-transform:uppercase;margin-bottom:.9rem;}
+.i-hl{font-family:'Dancing Script',cursive;font-size:clamp(1.7rem,3.2vw,2.6rem);font-weight:300;line-height:1.2;margin-bottom:1.1rem;}
+.i-hl em{font-style:italic;color:var(--gold);}
+.i-body{font-size:.83rem;line-height:2;color:#3a3228;margin-bottom:1.6rem;}
+.i-body p+p{margin-top:.6rem;}
+.tool-bar{display:flex;align-items:center;gap:.9rem;background:var(--ink);color:var(--parchment);padding:.85rem 1.25rem;border-radius:3px;margin-bottom:1.8rem;}
+.tool-badge{background:var(--gold);color:var(--ink);font-family:'Space Mono',monospace;font-size:.6rem;font-weight:700;padding:.22rem .6rem;border-radius:2px;letter-spacing:.08em;white-space:nowrap;flex-shrink:0;}
+.tool-desc{font-size:.73rem;line-height:1.6;color:rgba(245,240,232,.62);}
+.tool-desc strong{color:var(--gold-lt);font-weight:400;}
+.i-nav{display:flex;flex-direction:column;gap:.75rem;}
+.i-card{background:var(--card);border:1px solid var(--border);border-radius:3px;padding:1rem 1.25rem;display:flex;align-items:center;gap:.95rem;cursor:pointer;transition:all .2s;text-align:left;width:100%;}
+.i-card:hover{border-color:var(--gold);box-shadow:0 4px 14px var(--shadow);transform:translateX(3px);}
+.ic-num{font-family:'Dancing Script',cursive;font-size:1.7rem;font-weight:300;color:var(--gold);opacity:.42;line-height:1;flex-shrink:0;width:1.9rem;text-align:right;}
+.ic-info{flex:1;}
+.ic-en{font-family:'Dancing Script',cursive;font-style:italic;font-size:.82rem;color:var(--gold);display:block;margin-bottom:.1rem;}
+.ic-title{font-family:'Dancing Script',cursive;font-size:1.1rem;font-weight:400;}
+.ic-desc{font-size:.7rem;color:var(--muted);margin-top:.18rem;line-height:1.5;}
+.ic-arr{color:var(--border);font-size:.85rem;transition:transform .2s,color .2s;}
+.i-card:hover .ic-arr{transform:translateX(3px);color:var(--gold);}
+.leg-block{background:var(--card);border:1px solid var(--border);border-radius:3px;overflow:hidden;margin-bottom:1.1rem;}
+.leg-title{background:var(--cream);border-bottom:1px solid var(--border);padding:.55rem 1.05rem;font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.2em;color:var(--muted);}
+.leg-row{display:flex;align-items:flex-start;gap:.85rem;padding:.75rem 1.05rem;border-bottom:1px solid var(--border);}
+.leg-row:last-child{border-bottom:none;}
+.leg-tag{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.1em;padding:.16rem .52rem;border:1px solid currentColor;border-radius:1px;white-space:nowrap;flex-shrink:0;margin-top:.1rem;}
+.leg-text{font-size:.76rem;line-height:1.6;color:#3a3228;}
+.leg-text strong{font-weight:500;}
+.steps-block{background:var(--card);border:1px solid var(--border);border-radius:3px;overflow:hidden;}
+.srow{display:flex;gap:.85rem;padding:.85rem 1.05rem;border-bottom:1px solid var(--border);align-items:flex-start;}
+.srow:last-child{border-bottom:none;}
+.sn{font-family:'Dancing Script',cursive;font-size:1.35rem;font-weight:300;color:var(--gold);opacity:.52;line-height:1.1;flex-shrink:0;width:1.3rem;text-align:center;}
+.st{font-size:.76rem;line-height:1.7;color:#3a3228;}
+.st strong{font-weight:500;display:block;}
+
+/* ═══════════════════════════
+   SECTION 1 – ARCHIVES
+═══════════════════════════ */
+.sub-label{font-family:'Space Mono',monospace;font-size:.85rem;letter-spacing:.2em;color:var(--rust);text-transform:uppercase;margin-bottom:.85rem;display:flex;align-items:center;gap:.65rem;}
+.sub-label::after{content:'';flex:1;height:1px;background:var(--border);}
+.sub-code{color:var(--gold);margin-right:.25rem;}
+
+.arc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:.9rem;margin-bottom:2rem;}
+.arc-card{background:var(--card);border:1px solid var(--border);border-radius:3px;overflow:hidden;cursor:pointer;transition:box-shadow .2s,transform .2s,border-color .2s;}
+.arc-card:hover{box-shadow:0 5px 18px var(--shadow);transform:translateY(-2px);border-color:var(--gold);}
+.ac-img{aspect-ratio:3/4;position:relative;overflow:hidden;background:var(--parchment);}
+.ac-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s;}
+.arc-card:hover .ac-img img{transform:scale(1.04);}
+.ac-ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.35rem;}
+.ac-ph svg{width:26px;height:26px;opacity:.18;}
+.ac-ph span{font-family:'Space Mono',monospace;font-size:.48rem;opacity:.28;letter-spacing:.1em;}
+.ac-info{padding:.65rem .82rem .6rem;border-top:1px solid var(--border);}
+.ac-en{font-family:'Dancing Script',cursive;font-size:.92rem;font-weight:400;line-height:1.2;}
+.ac-zh{font-size:.68rem;color:var(--muted);margin-top:.1rem;}
+.ac-prompt{font-family:'Space Mono',monospace;font-size:.52rem;color:var(--gold);margin-top:.38rem;word-break:break-all;line-height:1.5;}
+.ac-foot{padding:.42rem .82rem;border-top:1px solid var(--border);display:flex;justify-content:flex-end;}
+
+.amc{background:var(--card);border:1px solid var(--border);border-radius:3px;overflow:hidden;margin-bottom:2.5rem;}
+.amc-head{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.2rem;border-bottom:1px solid var(--border);background:linear-gradient(135deg,var(--ink),#2d2520);color:var(--parchment);}
+.amc-title{font-family:'Dancing Script',cursive;font-size:1.05rem;font-weight:400;}
+.amc-prompt{font-family:'Space Mono',monospace;font-size:.55rem;color:rgba(245,240,232,.42);margin-top:.18rem;}
+.amc-tag{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.1em;padding:.16rem .5rem;border:1px solid currentColor;border-radius:1px;flex-shrink:0;}
+
+/* ═══════════════════════════
+   SECTION 2 – ATELIER
+═══════════════════════════ */
+.mod-table-wrap{background:var(--card);border:1px solid var(--border);border-radius:3px;overflow:hidden;margin-bottom:2.5rem;}
+.mod-table{width:100%;border-collapse:collapse;}
+.mod-table th{background:var(--ink);color:var(--gold-lt);font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.14em;padding:.65rem 1rem;text-align:left;font-weight:400;}
+.mod-table td{padding:.82rem 1rem;border-bottom:1px solid var(--border);vertical-align:top;font-size:.78rem;line-height:1.7;}
+.mod-table tr:last-child td{border-bottom:none;}
+.mod-table tr:hover td{background:var(--cream);}
+.mc{font-family:'Space Mono',monospace;font-size:.62rem;color:var(--gold);font-weight:700;}
+.mtag{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.1em;padding:.14rem .44rem;border:1px solid currentColor;border-radius:1px;display:inline-block;margin-bottom:.18rem;}
+.mcat{font-weight:500;font-size:.8rem;}
+.mnote{color:var(--muted);font-size:.72rem;}
+.chips{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.28rem;}
+.chip{font-family:'Space Mono',monospace;font-size:.57rem;background:var(--cream);border:1px solid var(--border);padding:.13rem .46rem;border-radius:2px;color:var(--ink);}
+
+.cat-group{margin-bottom:2.8rem;}
+.cg-head{display:flex;align-items:center;gap:.9rem;margin-bottom:.95rem;padding-bottom:.55rem;border-bottom:1px solid var(--border);}
+.cg-title{font-family:'Dancing Script',cursive;font-size:1.35rem;font-weight:400;}
+.cg-count{margin-left:auto;font-family:'Space Mono',monospace;font-size:.58rem;color:var(--muted);}
+
+.item-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:.9rem;}
+.fi{background:var(--card);border:1px solid var(--border);border-radius:3px;overflow:hidden;cursor:pointer;transition:box-shadow .2s,transform .2s,border-color .2s;}
+.fi:hover{box-shadow:0 5px 16px var(--shadow);transform:translateY(-2px);border-color:var(--gold);}
+.fi-img{aspect-ratio:3/4;position:relative;overflow:hidden;background:var(--parchment);}
+.fi-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s;}
+.fi:hover .fi-img img{transform:scale(1.04);}
+.fi-ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.35rem;}
+.fi-ph svg{width:26px;height:26px;opacity:.18;}
+.fi-ph span{font-family:'Space Mono',monospace;font-size:.48rem;opacity:.28;letter-spacing:.1em;}
+.fi-info{padding:.65rem .82rem .6rem;border-top:1px solid var(--border);}
+.fi-en{font-family:'Dancing Script',cursive;font-size:.92rem;font-weight:400;line-height:1.2;}
+.fi-zh{font-size:.68rem;color:var(--muted);margin-top:.1rem;}
+.fi-prompt{font-family:'Space Mono',monospace;font-size:.52rem;color:var(--gold);margin-top:.38rem;word-break:break-all;line-height:1.5;}
+.fi-foot{padding:.42rem .82rem;border-top:1px solid var(--border);display:flex;justify-content:flex-end;}
+
+.bkd{background:var(--card);border:1px solid var(--border);border-radius:3px;overflow:hidden;margin-top:1.1rem;margin-bottom:.5rem;}
+.bkd-head{padding:.9rem 1.2rem;border-bottom:1px solid var(--border);background:linear-gradient(135deg,var(--ink),#2d2520);color:var(--parchment);}
+.bkd-title{font-family:'Dancing Script',cursive;font-size:1.05rem;font-weight:400;}
+.bkd-sub{font-size:.65rem;color:rgba(245,240,232,.42);margin-top:.18rem;font-family:'Space Mono',monospace;}
+.bkd-cols{display:grid;grid-template-columns:repeat(3,1fr);}
+.bkd-col{border-right:1px solid var(--border);}
+.bkd-col:last-child{border-right:none;}
+.bkd-clbl{background:var(--cream);border-bottom:1px solid var(--border);padding:.4rem .75rem;font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.1em;color:var(--muted);text-align:center;}
+.bkd-cimg{aspect-ratio:3/4;overflow:hidden;background:var(--parchment);display:flex;align-items:center;justify-content:center;}
+.bkd-cimg svg{width:24px;height:24px;opacity:.18;}
+.bkd-cinfo{padding:.55rem .75rem;border-top:1px solid var(--border);}
+.bkd-var{font-family:'Space Mono',monospace;font-size:.58rem;color:var(--gold);}
+.bkd-note{font-size:.7rem;color:var(--muted);margin-top:.18rem;line-height:1.5;}
+
+/* ═══════════════════════════
+   SECTION 3 – RTW
+═══════════════════════════ */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.3rem;}
+.fc{background:var(--card);border:1px solid var(--border);border-radius:3px;overflow:hidden;transition:box-shadow .22s,transform .22s;}
+.fc:hover{box-shadow:0 7px 24px var(--shadow);transform:translateY(-2px);}
+.fc-head{padding:1.1rem 1.3rem;border-bottom:1px solid var(--border);background:linear-gradient(135deg,var(--ink),#2d2520);color:var(--parchment);}
+.fc-title{font-family:'Dancing Script',cursive;font-size:1.2rem;font-weight:400;}
+.fc-title em{font-style:italic;color:var(--gold-lt);}
+.fc-sub{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.1em;color:rgba(245,240,232,.35);margin-top:.2rem;}
+.fml{margin-top:.8rem;display:flex;align-items:center;flex-wrap:wrap;gap:.32rem;}
+.ft{font-family:'Space Mono',monospace;font-size:.6rem;background:rgba(184,150,62,.12);border:1px solid rgba(184,150,62,.28);color:var(--gold-lt);padding:.16rem .46rem;border-radius:2px;}
+.fop{color:rgba(245,240,232,.25);font-size:.65rem;}
+.fr{background:var(--gold);color:var(--ink);font-family:'Space Mono',monospace;font-size:.6rem;padding:.16rem .55rem;border-radius:2px;font-weight:700;}
+.wt-strip{padding:.55rem 1.3rem;background:rgba(184,150,62,.05);border-bottom:1px solid var(--border);display:flex;flex-wrap:wrap;gap:.45rem;align-items:center;}
+.wt-lbl{font-family:'Space Mono',monospace;font-size:.55rem;color:var(--muted);letter-spacing:.1em;margin-right:.25rem;}
+.wt-chip{font-family:'Space Mono',monospace;font-size:.55rem;background:var(--cream);border:1px solid var(--border);padding:.13rem .46rem;border-radius:2px;}
+.wt-chip span{color:var(--gold);}
+
+/* ── FOOTER ── */
+footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;padding:1.6rem;font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.14em;}
+
+.ate-info-row{display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;}
+.ate-info-zh{font-size:.72rem;color:var(--ink);font-family:'Noto Sans TC',sans-serif;}
+.ate-info-note{font-size:.65rem;color:var(--muted);margin-left:auto;text-align:right;}
+/* ── 製衣工坊 篩選 ── */
+.ate-filter-bar{display:flex;flex-wrap:wrap;gap:.4rem;padding:0 0 1.2rem;}
+.ate-tag{background:transparent;border:1px solid var(--border);border-radius:3px;padding:.28rem .7rem;font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.06em;cursor:pointer;color:var(--muted);transition:all .15s;display:flex;align-items:center;gap:.35rem;}
+.ate-tag:hover,.ate-tag.active{background:var(--ink);color:var(--parchment);border-color:var(--ink);}
+.ate-list{display:flex;flex-direction:column;gap:.5rem;}
+.ate-entry{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:.9rem 1rem;transition:border .15s;}
+.ate-entry:hover{border-color:var(--gold);}
+.ate-entry[style*="none"]{display:none;}
+.ate-entry-head{display:flex;align-items:baseline;gap:.6rem;margin-bottom:.35rem;flex-wrap:wrap;}
+.ate-en{font-family:'Dancing Script',cursive;font-size:1.2rem;font-weight:600;color:var(--purple);}
+.ate-zh{font-size:.78rem;color:var(--muted);}
+.ate-prompt{font-family:'Space Mono',monospace;font-size:.78rem;color:var(--rust);letter-spacing:.03em;line-height:1.5;margin-bottom:.3rem;}
+.ate-note{font-size:.72rem;color:var(--muted);font-style:italic;margin-bottom:.3rem;}
+.ate-foot{display:flex;justify-content:flex-end;}
+
+/* ── QA ── */
+.qa-wrap{display:grid;grid-template-columns:200px 1fr;gap:2rem;align-items:start;}
+.qa-cat-list{position:sticky;top:80px;display:flex;flex-direction:column;gap:.3rem;}
+.qa-cat-btn{background:none;border:none;text-align:left;padding:.5rem .8rem;border-radius:6px;cursor:pointer;font-size:.8rem;font-family:'Noto Sans TC',sans-serif;color:var(--body);transition:background .15s,color .15s;}
+.qa-cat-btn:hover{background:var(--border);}
+.qa-cat-btn.active{background:var(--gold);color:#fff;font-weight:600;}
+.qa-group{margin-bottom:2rem;}
+.qa-group-title{font-family:'Space Mono',monospace;font-size:.65rem;letter-spacing:.12em;color:var(--gold);margin-bottom:.8rem;padding-bottom:.4rem;border-bottom:1px solid var(--border);}
+.qa-item{border:1px solid var(--border);border-radius:8px;margin-bottom:.6rem;overflow:hidden;}
+.qa-q{padding:.85rem 1rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:1rem;font-size:.85rem;font-weight:500;background:var(--card);transition:background .15s;}
+.qa-q:hover{background:var(--parchment);}
+.qa-q-arrow{flex-shrink:0;font-size:.7rem;color:var(--muted);transition:transform .25s;}
+.qa-item.open .qa-q-arrow{transform:rotate(180deg);}
+.qa-a{display:none;padding:.85rem 1rem 1rem;font-size:.82rem;line-height:1.75;color:var(--body);border-top:1px solid var(--border);background:var(--cream);}
+.qa-item.open .qa-a{display:block;}
+/* 中間導引區塊 */
+.qa-nudge{margin:2.5rem 0 0;padding:1rem 1.4rem;background:var(--card);border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;}
+.qa-nudge-text{font-size:.82rem;color:var(--body);line-height:1.6;}
+.qa-nudge-text strong{color:var(--rust);display:block;margin-bottom:.2rem;font-size:.85rem;}
+.qa-nudge-btn{flex-shrink:0;padding:.5rem 1.2rem;background:var(--gold);color:#fff;border:none;border-radius:6px;font-size:.78rem;font-family:'Noto Sans TC',sans-serif;cursor:pointer;white-space:nowrap;transition:opacity .15s;}
+.qa-nudge-btn:hover{opacity:.85;}
+@media(max-width:640px){
+  .qa-wrap{grid-template-columns:1fr;}
+  .qa-cat-list{flex-direction:row;flex-wrap:wrap;position:static;}
+  .qa-nudge{flex-direction:column;align-items:flex-start;}
 }
- 
-async function fetchDB(dbId) {
-  const pages = [];
-  let cursor;
-  do {
-    const res = await notion.databases.query({
-      database_id: dbId,
-      filter: { property: "發布", checkbox: { equals: true } },
-      start_cursor: cursor,
-    });
-    pages.push(...res.results);
-    cursor = res.has_more ? res.next_cursor : undefined;
-  } while (cursor);
-  return pages;
+.rtw-catalog{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.2rem;margin-top:.8rem;}
+.outfit-runway{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1.2rem;margin-top:.8rem;}
+.outfit-card{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;display:flex;flex-direction:column;}
+.outfit-img{aspect-ratio:2/3;overflow:hidden;background:var(--parchment);position:relative;}
+.outfit-img img{width:100%;height:100%;object-fit:cover;display:block;}
+.outfit-slides{width:100%;height:100%;display:flex;transition:transform .3s ease;}
+.outfit-slides img{flex:0 0 100%;width:100%;height:100%;object-fit:cover;display:block;}
+.outfit-arr{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.35);color:#fff;border:none;width:28px;height:28px;border-radius:50%;font-size:.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2;opacity:0;transition:opacity .2s;}
+.outfit-card:hover .outfit-arr{opacity:1;}
+.outfit-arr.prev{left:6px;}
+.outfit-arr.next{right:6px;}
+.outfit-dots{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);display:flex;gap:4px;z-index:2;}
+.outfit-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.5);cursor:pointer;transition:background .2s;}
+.outfit-dot.active{background:#fff;}
+.outfit-body{padding:.8rem 1rem 1rem;display:flex;flex-direction:column;flex:1;gap:.4rem;}
+.rtw-card{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;display:flex;flex-direction:column;}
+.rtw-img{aspect-ratio:3/4;overflow:hidden;background:var(--parchment);}
+.rtw-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s;}
+.rtw-card:hover .rtw-img img{transform:scale(1.03);}
+.rtw-img-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;opacity:.2;}
+.rtw-img-ph svg{width:36px;height:36px;}
+.rtw-body{padding:.9rem 1rem 1rem;display:flex;flex-direction:column;flex:1;gap:.4rem;}
+.rtw-name{font-family:'Noto Sans TC',sans-serif;font-size:.95rem;font-weight:500;color:var(--rust);}
+.rtw-meta{display:flex;flex-wrap:wrap;gap:.3rem;}
+.rtw-tag{background:var(--parchment);border:1px solid var(--border);border-radius:2px;padding:.1rem .45rem;font-size:.62rem;color:var(--muted);font-family:'Space Mono',monospace;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .intro-wrap{grid-template-columns:1fr;}
+  .with-sidebar{grid-template-columns:1fr;}
+  .sidebar{position:static;}
+  .sb-box{display:flex;flex-wrap:wrap;}
+  .sb-link{flex:0 0 auto;border-bottom:none;border-right:1px solid var(--border);}
 }
- 
-function imgCell(url, label) {
-  if (url) return `<div class="tc"><img src="${esc(url)}" alt="${esc(label)}" loading="lazy"><div class="tc-lbl">${esc(label)}</div></div>`;
-  return `<div class="tc"><div class="tc-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div><div class="tc-lbl">${esc(label)}</div></div>`;
+@media(max-width:640px){
+  .with-sidebar{padding:0 1rem 3rem;}
+  .intro-wrap{padding:2.2rem 1rem 3rem;}
+  .sec-head{padding:2rem 1rem 1.4rem;flex-direction:column;gap:.5rem;align-items:flex-start;}
+  .sec-num{font-size:2.8rem;}
+  .main-nav button{padding:.72rem .85rem;font-size:.56rem;letter-spacing:.08em;}
+  .tg5{grid-template-columns:repeat(3,1fr);}
+  .tg4{grid-template-columns:repeat(2,1fr);}
+  .bkd-cols{grid-template-columns:1fr;}
+  .arc-grid,.item-row{grid-template-columns:repeat(2,1fr);}
+  .card-grid{grid-template-columns:1fr;}
+  .rtw-catalog{grid-template-columns:1fr;}
+  .outfit-runway{grid-template-columns:repeat(2,1fr);}
+  .rtw-card{flex-direction:row;}
+  .rtw-img{width:110px;min-width:110px;aspect-ratio:unset;height:auto;min-height:140px;}
+  .rtw-body{padding:.7rem .8rem;}
+  .pt-toggle{display:inline-block;}
+  .pt{display:-webkit-box !important;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;word-break:break-word;}
+  .pt.expanded{display:block !important;overflow:visible;}
+  .prompt-box{flex-wrap:wrap;gap:.4rem;}
+  .prompt-box .pt{width:100%;min-width:0;flex:none;}
+  .prompt-box .pt-toggle{margin-left:auto;}
 }
- 
-function singleImg(url) {
-  if (url) return `<img src="${esc(url)}" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">`;
-  return `<div class="ac-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><span>示意圖</span></div>`;
+</style>
+</head>
+<body class="theme-intro">
+
+<header>
+  <div class="h-label">PixAI · SDXL · Prompt Reference</div>
+  <h1>酌的裁縫舖與衣帽間</h1>
+  <div class="h-sub">THE CLOTHING PROMPT DICTIONARY & SHARING</div>
+  <div class="h-rule"></div>
+</header>
+
+<nav class="main-nav">
+  <button class="active" onclick="goTab('intro',this)">說明</button>
+  <button onclick="goTab('archives',this)">經典衣櫃</button>
+  <button onclick="goTab('atelier',this)">製衣工坊</button>
+  <button onclick="goTab('outfits',this)">成衣型錄</button>
+  <button onclick="goTab('salon',this)">寫真沙龍</button>
+  <button onclick="goTab('qa',this)">常見問題</button>
+</nav>
+
+<!-- ══════════ INTRO ══════════ -->
+<section id="intro" class="section active">
+<style>
+/* ── Intro page overrides ── */
+.intro-page{max-width:900px;margin:0 auto;padding:3rem 2rem 5rem;}
+.intro-block{background:var(--card);border:1px solid var(--border);border-radius:3px;overflow:hidden;margin-bottom:1.6rem;}
+.intro-block-head{display:flex;align-items:center;gap:.9rem;padding:1rem 1.4rem;background:var(--ink);color:var(--parchment);border-bottom:1px solid rgba(184,150,62,.2);}
+.ib-num{font-family:'Dancing Script',cursive;font-size:2rem;font-weight:300;color:var(--gold);opacity:.5;line-height:1;flex-shrink:0;}
+.ib-title{font-family:'Dancing Script',cursive;font-size:1.15rem;font-weight:400;}
+.ib-en{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.15em;color:rgba(245,240,232,.35);display:block;margin-top:.15rem;}
+.intro-block-body{padding:1.4rem 1.6rem;}
+.intro-block-body p{font-size:.83rem;line-height:2;color:#3a3228;}
+.intro-block-body p+p{margin-top:.7rem;}
+
+/* nav cards inside intro */
+.intro-nav-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;padding:1.2rem 1.4rem 1.4rem;}
+.inc2{background:var(--parchment);border:1px solid var(--border);border-radius:2px;padding:.9rem 1rem;cursor:pointer;transition:all .2s;text-align:left;width:100%;}
+.inc2:hover{border-color:var(--gold);background:var(--cream);transform:translateY(-2px);box-shadow:0 4px 12px var(--shadow);}
+.inc2-num{font-family:'Dancing Script',cursive;font-size:1.5rem;font-weight:300;color:var(--gold);opacity:.4;line-height:1;margin-bottom:.3rem;}
+.inc2-en{font-family:'Dancing Script',cursive;font-style:italic;font-size:.78rem;color:var(--gold);display:block;margin-bottom:.15rem;}
+.inc2-title{font-family:'Dancing Script',cursive;font-size:1rem;font-weight:400;}
+.inc2-desc{font-size:.68rem;color:var(--muted);margin-top:.25rem;line-height:1.55;}
+.inc2-arr{display:block;text-align:right;color:var(--border);font-size:.8rem;margin-top:.4rem;transition:color .2s;}
+.inc2:hover .inc2-arr{color:var(--gold);}
+
+/* model cards */
+.model-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem;padding:0 1.4rem 1.4rem;}
+.model-card{border:1px solid var(--border);border-radius:8px;overflow:hidden;background:var(--card);text-decoration:none;color:inherit;display:flex;flex-direction:column;transition:box-shadow .2s,transform .2s;}
+.model-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.1);transform:translateY(-2px);}
+.model-card-thumb{width:100%;aspect-ratio:1/1;overflow:hidden;background:var(--parchment);}
+.model-card-thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s;}
+.model-card:hover .model-card-thumb img{transform:scale(1.05);}
+.model-card-thumb-ph{width:100%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;background:var(--cream);color:var(--muted);font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.08em;}
+.model-card-body{padding:.7rem .85rem .85rem;display:flex;flex-direction:column;gap:.25rem;flex:1;}
+.model-card-id{font-family:'Space Mono',monospace;font-size:.55rem;color:var(--gold);font-weight:700;}
+.model-card-name{font-size:.78rem;font-weight:500;line-height:1.4;}
+.model-card-link{margin-top:auto;padding-top:.5rem;font-family:'Space Mono',monospace;font-size:.58rem;color:var(--gold);display:inline-flex;align-items:center;gap:.3rem;}
+@media(max-width:640px){.model-cards{grid-template-columns:repeat(2,1fr);}}
+
+/* model table */
+.model-table-wrap{padding:0 1.4rem 1.4rem;}
+.model-table{width:100%;border-collapse:collapse;}
+.model-table th{background:var(--cream);border-bottom:2px solid var(--border);font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.14em;color:var(--muted);padding:.6rem .9rem;text-align:left;font-weight:400;}
+.model-table td{padding:.8rem .9rem;border-bottom:1px solid var(--border);vertical-align:top;font-size:.8rem;line-height:1.6;}
+.model-table tr:last-child td{border-bottom:none;}
+.model-table tr:hover td{background:var(--parchment);}
+.model-id{font-family:'Space Mono',monospace;font-size:.65rem;font-weight:700;color:var(--gold);white-space:nowrap;}
+.model-name-cell{font-weight:500;}
+.model-params{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--muted);margin-top:.2rem;line-height:1.7;}
+.model-params span{color:var(--ink);}
+.pixai-link{display:inline-flex;align-items:center;gap:.35rem;font-family:'Space Mono',monospace;font-size:.58rem;color:var(--gold);text-decoration:none;border:1px solid rgba(184,150,62,.35);padding:.18rem .55rem;border-radius:2px;transition:all .15s;white-space:nowrap;}
+.pixai-link:hover{background:var(--gold);color:var(--ink);}
+.pixai-link svg{width:10px;height:10px;flex-shrink:0;}
+
+/* style swatch grid */
+.style-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid var(--border);}
+.style-cell{display:flex;flex-direction:column;}
+.style-cell-head{padding:.45rem .7rem;background:var(--cream);border-bottom:1px solid var(--border);border-right:1px solid var(--border);}
+.style-cell:last-child .style-cell-head,
+.style-cell:last-child .style-img-row{border-right:none;}
+.style-cell-id{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.1em;color:var(--gold);}
+.style-cell-label{font-size:.7rem;color:var(--ink);margin-top:.05rem;}
+.style-img-row{display:grid;grid-template-columns:1fr 1fr;border-right:1px solid var(--border);}
+.style-img{aspect-ratio:3/4;background:var(--parchment);position:relative;overflow:hidden;border-top:1px solid var(--border);border-right:1px solid var(--border);}
+.style-img:nth-child(2){border-right:none;}
+.style-img img{width:100%;height:100%;object-fit:cover;display:block;}
+.style-img-ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.2rem;}
+.style-img-ph svg{width:18px;height:18px;opacity:.15;}
+.style-img-lbl{position:absolute;bottom:0;left:0;right:0;font-family:'Space Mono',monospace;font-size:.46rem;letter-spacing:.05em;background:rgba(26,21,16,.6);color:rgba(245,240,232,.75);padding:.15rem .3rem;text-align:center;}
+
+/* usage steps */
+.steps-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;padding:1.2rem 1.4rem 1.4rem;}
+.step2{display:flex;gap:.8rem;padding:.7rem .8rem;border-radius:2px;}
+.step2:hover{background:var(--parchment);}
+.step2-n{font-family:'Dancing Script',cursive;font-size:1.6rem;font-weight:300;color:var(--gold);opacity:.4;line-height:1.1;flex-shrink:0;width:1.6rem;text-align:center;}
+.step2-body strong{font-weight:500;font-size:.8rem;display:block;margin-bottom:.2rem;}
+.step2-body p{font-size:.75rem;color:var(--muted);line-height:1.6;}
+
+/* notes */
+.notes-list{padding:1rem 1.6rem 1.4rem;display:flex;flex-direction:column;gap:.6rem;}
+.note-item{display:flex;gap:.75rem;align-items:flex-start;font-size:.8rem;line-height:1.7;color:#3a3228;}
+.note-bullet{color:var(--gold);font-family:'Space Mono',monospace;font-size:.65rem;margin-top:.2rem;flex-shrink:0;}
+
+@media(max-width:640px){
+  .intro-nav-grid{grid-template-columns:1fr;}
+  .style-grid{grid-template-columns:repeat(3,1fr);}
+  .steps-grid{grid-template-columns:1fr;}
 }
- 
-// 01 經典衣櫃
-function buildArchives(pages) {
-  const groups = {};
-  const order  = [];
-  for (const page of pages) {
-    const p   = page.properties;
-    const cat = text(p["分類"]) || "其他";
-    if (!groups[cat]) { groups[cat] = []; order.push(cat); }
-    groups[cat].push(p);
-  }
+</style>
 
-  function toSlug(str) {
-    return str.replace(/\s+/g, "-").replace(/[^\w\u4e00-\u9fff-]/g, "");
-  }
+<div class="intro-page">
 
-  const imgKeys     = ["ChocoMint_Mix","coco-Illustrious-NoobXL-Style","illustrious_Mix2","Plant_Milk","模型E示意圖"];
-  const modelLabels = ["ChocoMint","coco","illus_Mix2","Plant Milk","Hoshino v2"];
-
-  let toc    = "";
-  let filter = `<button class="f-btn active" onclick="filterArc(this,'all')">全部</button>`;
-  let html   = "";
-
-  order.forEach((cat, idx) => {
-    const items = groups[cat];
-    const slug  = toSlug(cat);
-    const code  = String(idx + 1).padStart(2, "0");
-    const first = idx === 0 ? " active" : "";
-
-    toc    += `<div class="sb-link${first}" onclick="scrollTo2('a-${slug}','arc-toc',this)"><span class="sb-dot"></span>${code} ${esc(cat)}</div>`;
-    filter += `<button class="f-btn" onclick="filterArc(this,'${slug}')">${esc(cat)}</button>`;
-
-    html += `<div id="a-${slug}" data-acat="${slug}">`;
-    html += `<div class="sub-label"><span class="sub-code">${code}</span>${esc(cat)}</div>`;
-    html += `<div class="arc-grid">`;
-
-    for (const p of items) {
-      const zh      = esc(text(p["中文名稱"]));
-      const en      = esc(text(p["Name"]));
-      const prompt  = esc(text(p["Prompt Tags"]));
-      const imgs    = imgKeys.map(k => (text(p[k]) || [])[0] || "");
-      const img0    = imgs[0] || "";
-      const imgData = esc(JSON.stringify(imgs));
-      const lblData = esc(JSON.stringify(modelLabels));
-      const linkKeys   = ["coco連結","ChocoMint連結","illus_Mix2連結","Plant_Milk連結","Hoshino連結"];
-      const links      = linkKeys.map(k => p[k]?.url || "");
-      const linksData  = esc(JSON.stringify(links));
-      html += `<div class="arc-card" onclick="openArcModal('${en}','${prompt}',${imgData},${lblData},${linksData})" style="cursor:pointer;"><div class="ac-img">${singleImg(img0)}</div><div class="ac-info"><div class="ac-en">${en}</div><div class="ac-zh">${zh}</div><div class="ac-prompt">${prompt}</div></div><div class="ac-foot"><button class="cp-btn" onclick="event.stopPropagation();cp(this,'${prompt}')">COPY</button></div></div>`;
-    }
-    html += `</div></div>`;
-  });
-
-  return { html, toc, filter };
-}
- 
-// 02 製衣工坊
-// 欄位：分類 中文名稱(title) Name Prompt Tags 備註 發布
-function buildAtelier(pages) {
-  const modules = {
-    "基礎版型":{ label:"", tag:"t-sil", tagText:"SILHOUETTE" },
-    "材質面料":{ label:"", tag:"t-fab", tagText:"FABRIC" },
-    "剪裁細節":{ label:"", tag:"t-tai", tagText:"TAILORING" },
-    "顏色系統":{ label:"", tag:"t-col", tagText:"COLOR LAB" },
-    "其他點綴":{ label:"", tag:"t-fin", tagText:"FINDINGS" },
-  };
- 
-  // 篩選按鈕
-  let html = `<div class="ate-filter-bar">
-    <button class="ate-tag active" data-mod="all" onclick="ateFilter(this,'all')">全部</button>`;
-  for (const [mod, { label, tag, tagText }] of Object.entries(modules)) {
-    html += `<button class="ate-tag" data-mod="${mod}" onclick="ateFilter(this,'${mod}')"><span class="mtag ${tag}" style="font-size:.55rem;padding:.1rem .35rem;">${tagText}</span> ${esc(mod)}</button>`;
-  }
-  html += `</div>`;
- 
-  // 詞條列表
-  html += `<div id="ate-list" class="ate-list">`;
-  for (const page of pages) {
-    const p      = page.properties;
-    const mod    = text(p["分類"]) || "";
-    if (!modules[mod]) continue;
-    const zh     = text(p["中文名稱"]);
-    const prompt = text(p["Prompt Tags"]);
-    const note   = text(p["備註"]);
-    const { tag="", tagText="" } = modules[mod] || {};
- 
-    html += `
-<div class="ate-entry" data-mod="${esc(mod)}">
-  <div class="ate-entry-head">
-    <span class="ate-zh">${esc(zh)}</span>
-    <span class="mtag ${tag}" style="font-size:.55rem;padding:.1rem .35rem;margin-left:auto;">${tagText}</span>
+  <!-- Block 1: About -->
+  <div class="intro-block">
+    <div class="intro-block-head">
+      <div class="ib-num">1</div>
+      <div><div class="ib-title">關於這份手冊</div><span class="ib-en">ABOUT THIS GUIDE</span></div>
+    </div>
+    <div class="intro-block-body">
+      <p>這是一份專為 <strong>PixAI</strong> 平台設計的服裝提示詞參考手冊，整理了三個層次的詞條與配方，方便在生圖時快速查找、複製、套用。</p>
+      <p>手冊分為三個主要區塊，可透過頂部導覽切換，或點擊下方卡片直接跳轉：</p>
+    </div>
+    <div class="intro-nav-grid">
+      <button class="inc2" onclick="goTabByID('archives')">
+        <div class="inc2-num">01</div>
+        <span class="inc2-en">The Archives</span>
+        <div class="inc2-title">經典衣櫃</div>
+        <div class="inc2-desc">資料庫原生支援的款式詞條，直出效果穩定，附不同模型對比。</div>
+        <span class="inc2-arr">→</span>
+      </button>
+      <button class="inc2" onclick="goTabByID('atelier')">
+        <div class="inc2-num">02</div>
+        <span class="inc2-en">The Atelier</span>
+        <div class="inc2-title">製衣工坊</div>
+        <div class="inc2-desc">五大模組元件：基礎版型、材質面料、剪裁工藝、顏色系統、其他點綴。</div>
+        <span class="inc2-arr">→</span>
+      </button>
+      <button class="inc2" onclick="goTabByID('rtw')">
+        <div class="inc2-num">03</div>
+        <span class="inc2-en">Ready-to-Wear</span>
+        <div class="inc2-title">成衣型錄</div>
+        <div class="inc2-desc">酌的非典型進階套裝提案。</div>
+        <span class="inc2-arr">→</span>
+      </button>
+    </div>
   </div>
-  <div class="ate-prompt">${esc(prompt)}</div>
-  ${note ? `<div class="ate-note">${esc(note)}</div>` : ""}
-  <div class="ate-foot"><button class="cp-btn" onclick="cp(this,'${esc(prompt)}')">COPY</button></div>
-</div>`;
-  }
-  html += `</div>`;
-  return html;
+
+  <!-- Block 2: Models -->
+  <div class="intro-block">
+    <div class="intro-block-head">
+      <div class="ib-num">2</div>
+      <div><div class="ib-title">使用模型</div><span class="ib-en">MODELS & CONFIGURATION</span></div>
+    </div>
+    <div class="model-cards">
+      <a class="model-card" href="https://pixai.art/model/1874095126418918009" target="_blank" rel="noopener">
+        <div class="model-card-thumb"><img src="assets/models/ChocoMint.jpg" alt="ChocoMint Mix" loading="lazy"></div>
+        <div class="model-card-body">
+          <div class="model-card-id">01</div>
+          <div class="model-card-name">ChocoMint Mix</div>
+          <div class="model-card-link">在 PixAI 開啟 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" width="10" height="10"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></div>
+        </div>
+      </a>
+      <a class="model-card" href="https://pixai.art/model/1825497827039510248" target="_blank" rel="noopener">
+        <div class="model-card-thumb"><img src="assets/models/coco_illus.jpg" alt="coco" loading="lazy"></div>
+        <div class="model-card-body">
+          <div class="model-card-id">02</div>
+          <div class="model-card-name">coco-Illustrious-NoobXL-Style</div>
+          <div class="model-card-link">在 PixAI 開啟 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" width="10" height="10"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></div>
+        </div>
+      </a>
+      <a class="model-card" href="https://pixai.art/model/1928756640085993575" target="_blank" rel="noopener">
+        <div class="model-card-thumb"><img src="assets/models/illus_mix2.jpg" alt="illustrious_Mix2" loading="lazy"></div>
+        <div class="model-card-body">
+          <div class="model-card-id">03</div>
+          <div class="model-card-name">illustrious_Mix2</div>
+          <div class="model-card-link">在 PixAI 開啟 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" width="10" height="10"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></div>
+        </div>
+      </a>
+      <a class="model-card" href="https://pixai.art/model/1840638240479764095" target="_blank" rel="noopener">
+        <div class="model-card-thumb"><img src="assets/models/plant_milk.jpg" alt="Plant Milk" loading="lazy"></div>
+        <div class="model-card-body">
+          <div class="model-card-id">04</div>
+          <div class="model-card-name">Plant Milk 🌿 - Model Suite</div>
+          <div class="model-card-link">在 PixAI 開啟 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" width="10" height="10"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></div>
+        </div>
+      </a>
+      <a class="model-card" href="https://pixai.art/model/1954632827019711809" target="_blank" rel="noopener">
+        <div class="model-card-thumb"><img src="assets/models/hoshino_v2.jpg" alt="Hoshino v2" loading="lazy"></div>
+        <div class="model-card-body">
+          <div class="model-card-id">05</div>
+          <div class="model-card-name">Hoshino v2</div>
+          <div class="model-card-link">在 PixAI 開啟 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" width="10" height="10"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></div>
+        </div>
+      </a>
+    </div>
+    </div>
+
+    <!-- 經典衣櫃範例圖配置 -->
+    <div style="padding:0 1.4rem 1.8rem;">
+      <div style="font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.14em;color:var(--muted);margin-bottom:.9rem;">ARCHIVES SAMPLE CONFIG</div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:6px;overflow:hidden;">
+        <div style="padding:.7rem 1rem;font-size:.75rem;color:var(--muted);line-height:1.7;">
+          經典衣櫃的範例圖均以相同 LoRA 組合搭配各模型生成，僅更換底模，其餘參數固定不動，方便直觀比較模型風格差異。
+        </div>
+      </div>
+    </div>
+
+  <!-- Block 3: How to use -->
+  <div class="intro-block">
+    <div class="intro-block-head">
+      <div class="ib-num">3</div>
+      <div><div class="ib-title">使用方法</div><span class="ib-en">HOW TO USE</span></div>
+    </div>
+    <div class="steps-grid">
+      <div class="step2">
+        <div class="step2-n">1</div>
+        <div class="step2-body">
+          <strong>查經典衣櫃</strong>
+          <p>確認目標款式是否已有原生詞條。有的話直接複製使用，模型識別效果最穩定，不需要加很多補充描述。</p>
+        </div>
+      </div>
+      <div class="step2">
+        <div class="step2-n">2</div>
+        <div class="step2-body">
+          <strong>進製衣工坊挑模組</strong>
+          <p>按 基礎版型 → 材質面料 → 剪裁工藝 → 顏色系統 → 其他點綴的順序，選擇不同詞條拼成提示詞草稿。</p>
+        </div>
+      </div>
+      <div class="step2">
+        <div class="step2-n">3</div>
+        <div class="step2-body">
+          <strong>在 PixAI 測試與調權重</strong>
+          <p>貼入自組的prompt草稿後開始生圖。若某個效果不夠明顯，可嘗試用括號提高權重：<code style="font-family:'Space Mono',monospace;font-size:.72rem;background:var(--cream);padding:.05rem .3rem;border-radius:2px;">(keyword:1.3)</code>，建議範圍 1.2–1.5。</p>
+        </div>
+      </div>
+      <div class="step2">
+        <div class="step2-n">4</div>
+        <div class="step2-body">
+          <strong>開啟 PixAI 範例直接套用</strong>
+          <p>點擊寫真沙龍或成衣型錄的圖片，會連結到對應的 PixAI 作品頁面。進入後點擊右上角的<strong>「參考模板」</strong>按鈕，即可直接載入該圖使用的模型、LoRA、提示詞與所有參數設定。只需將提示詞中的人設部分替換成自己的，按下生成即可算出同款風格。</p>
+        </div>
+      </div>      
+    </div>
+  </div>
+
+  <!-- Block 4: Notes -->
+  <div class="intro-block">
+    <div class="intro-block-head">
+      <div class="ib-num">4</div>
+      <div><div class="ib-title">備註</div><span class="ib-en">NOTES & TIPS</span></div>
+    </div>
+    <div class="notes-list">
+      <div class="note-item"><span class="note-bullet">◆</span><span>本手冊所有提示詞以 <strong>SDXL 架構</strong>為測試基準，DiT架構的模型及不同生圖平台的識別率可能有差異。</span></div>
+      <div class="note-item"><span class="note-bullet">◆</span><span>權重建議值為參考範圍，<strong>模型不同、配置不同都會影響效果</strong>。如果效果偏弱可嘗試調高 0.1–0.2，過度強調會導致畫面失真。</span></div>
+      <div class="note-item"><span class="note-bullet">◆</span><span>成衣型錄的「套裝提案」是本人嘗試過的不同紀錄，可作為靈感與參考。</span></div>
+      <div class="note-item"><span class="note-bullet">◆</span><span>手冊持續更新中，有新的詞條測試結果或組合配方會慢慢補充到對應區塊。</span></div>
+    </div>
+  </div>
+
+</div>
+</section>
+
+<!-- ══════════ SECTION 1 – ARCHIVES ══════════ -->
+<section id="archives" class="section">
+  <div class="sec-head">
+    <div class="sec-num">01</div>
+    <div class="sec-info">
+      <span class="sec-en">The Archives</span>
+      <h2>經典衣櫃</h2>
+      <p>模型原本就能識別的「成衣」詞條，無需複雜描述即可生成的單品。</p>
+      <p style="font-size:.8rem;color:var(--muted);margin-top:.4rem;">所有服裝詞條男女皆可使用，分類僅供參考，依據常見穿搭習慣大致歸類。</p>
+    </div>
+  </div>
+  <div class="with-sidebar">
+    <div class="sidebar">
+      <div class="sb-box" id="arc-toc">
+        <div class="sb-head">JUMP TO</div>
+        <!-- ARCHIVES_TOC -->
+      </div>
+    </div>
+    <div>
+      <div class="filter-bar">
+        <span class="f-label">FILTER</span>
+        <!-- ARCHIVES_FILTER -->
+      </div>
+
+      <!-- ARCHIVES_CONTENT -->
+
+      <div class="qa-nudge">
+        <div class="qa-nudge-text"><strong>圖出來不滿意？</strong>遇到服裝跑掉、比例怪怪的問題？去 QA 頁面看看常見排錯說明。</div>
+        <button class="qa-nudge-btn" onclick="goTabByID('qa')">前往 QA →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ SECTION 2 – ATELIER ══════════ -->
+<section id="atelier" class="section">
+  <div class="sec-head">
+    <div class="sec-num">02</div>
+    <div class="sec-info">
+      <span class="sec-en">The Atelier — Production Line</span>
+      <h2>製衣工坊</h2>
+      <p>模組化元件組合，手動建構服裝細節。</p>
+    </div>
+  </div>
+  <div class="with-sidebar">
+    <div class="sidebar">
+      <div class="sb-box" id="ate-toc">
+        <div class="sb-head">MODULES</div>
+        <div class="sb-link" onclick="openAteInfoModal()" style="color:var(--muted);font-size:.7rem;letter-spacing:.05em;">欄目說明</div>
+        <div class="sb-link" onclick="openComboModal()" style="color:var(--muted);font-size:.7rem;letter-spacing:.05em;">組合示範</div>
+        <div class="sb-link active" onclick="scrollTo2('ma01','ate-toc',this)"><span class="sb-dot"></span>01 基礎版型</div>
+        <div class="sb-link" onclick="scrollTo2('ma02','ate-toc',this)"><span class="sb-dot"></span>02 材質面料</div>
+        <div class="sb-link" onclick="scrollTo2('ma03','ate-toc',this)"><span class="sb-dot"></span>03 剪裁工藝</div>
+        <div class="sb-link" onclick="scrollTo2('ma04','ate-toc',this)"><span class="sb-dot"></span>04 顏色系統</div>
+        <div class="sb-link" onclick="scrollTo2('ma05','ate-toc',this)"><span class="sb-dot"></span>05 其他點綴</div>
+      </div>
+    </div>
+    <div>
+      <!-- ATELIER_CONTENT -->
+
+      <div class="qa-nudge">
+        <div class="qa-nudge-text"><strong>組合出來怪怪的？</strong>詞條衝突或效果不如預期？去 QA 看看有沒有對應的解法。</div>
+        <button class="qa-nudge-btn" onclick="goTabByID('qa')">前往 QA →</button>
+      </div>
+  </div>
+</section>
+
+<!-- ══════════ SECTION 3 – RTW ══════════ -->
+<!-- ══════════ SECTION 3 – OUTFITS ══════════ -->
+<section id="outfits" class="section">
+  <div class="sec-head">
+    <div class="sec-num">03</div>
+    <div class="sec-info">
+      <span class="sec-en">The Outfit Catalogue</span>
+      <h2>成衣型錄</h2>
+      <p>整套穿搭組合，純服裝 prompt，可直接拆解或套用。</p>
+    </div>
+  </div>
+  <div class="with-sidebar">
+    <div class="sidebar">
+      <div class="sb-box" id="outfit-toc">
+        <div class="sb-head">MODEL</div>
+        <!-- OUTFITS_TOC -->
+      </div>
+    </div>
+    <div>
+      <div class="filter-bar">
+        <span class="f-label">FILTER</span>
+        <!-- OUTFITS_FILTER -->
+      </div>
+      <!-- OUTFITS_CONTENT -->
+
+      <div class="qa-nudge">
+        <div class="qa-nudge-text"><strong>穿搭出來不對味？</strong>服裝詞條沒效果或效果跑掉？去 QA 看看有沒有對應的解法。</div>
+        <button class="qa-nudge-btn" onclick="goTabByID('qa')">前往 QA →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ SECTION 4 – SALON ══════════ -->
+<section id="salon" class="section">
+  <div class="sec-head">
+    <div class="sec-num">04</div>
+    <div class="sec-info">
+      <span class="sec-en">The Photography Studio</span>
+      <h2>寫真沙龍</h2>
+      <p>嘗試過的不同主題 prompt 分享，可直接套用自己的人設進行試穿。</p>
+    </div>
+  </div>
+  <div class="with-sidebar">
+    <div class="sidebar">
+      <div class="sb-box" id="salon-toc">
+        <div class="sb-head">SERIES</div>
+        <!-- SALON_TOC -->
+      </div>
+    </div>
+    <div>
+      <!-- SALON_CONTENT -->
+
+      <div class="qa-nudge">
+        <div class="qa-nudge-text"><strong>場景沒出來？光影跑掉？</strong>來 QA 找找常見的場景生成問題解法。</div>
+        <button class="qa-nudge-btn" onclick="goTabByID('qa')">前往 QA →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ SECTION 5 – QA ══════════ -->
+<section id="qa" class="section">
+  <div class="sec-head">
+    <div class="sec-num">05</div>
+    <div class="sec-info">
+      <span class="sec-en">Troubleshooting Q&amp;A</span>
+      <h2>常見問題</h2>
+      <p>算圖過程遇到問題？這裡收錄常見的排錯說明，點擊題目展開答案。</p>
+    </div>
+  </div>
+  <div class="qa-wrap">
+
+    <!-- 左側分類 -->
+    <div class="qa-cat-list" id="qa-cats">
+      <button class="qa-cat-btn active" onclick="qaScroll('qa-usage',this)">基本 QA</button>
+      <button class="qa-cat-btn" onclick="qaScroll('qa-quality',this)">圖面品質</button>
+      <button class="qa-cat-btn" onclick="qaScroll('qa-clothing',this)">服裝生成</button>
+      <button class="qa-cat-btn" onclick="qaScroll('qa-lora',this)">LoRA 搭配</button>
+      <button class="qa-cat-btn" onclick="qaScroll('qa-model',this)">模型選擇</button>
+      <button class="qa-cat-btn" onclick="qaScroll('qa-misc',this)">其他問題</button>
+    </div>
+
+    <!-- 右側問答 -->
+    <div>
+
+      <!-- 使用說明 -->
+      <div class="qa-group" id="qa-usage">
+        <div class="qa-group-title">BASIC Q&amp;A — 基本 QA</div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">這個網站的 prompt 要怎麼用？<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">點擊任一卡片右下角的 <strong>COPY</strong> 按鈕，prompt 就會複製到剪貼簿。<br>直接貼到 PixAI 或其他算圖工具的正向 prompt 欄位即可。<br>建議在最前面放你自己的人設描述，再接服裝詞條。</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">（人設）是什麼意思？要怎麼填？<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">「人設」是指你的角色基本外觀描述，例如髮色、髮型、眼睛顏色、身材特徵等固定詞條，把這些詞統稱為「人設」。<br><br>把人設放在服裝 prompt 前面，模型才能在套上衣服的同時維持角色外觀。<br><br>範例：<code>1girl, long black hair, blue eyes, maid dress, white apron</code><br>其中 <code>1girl, long black hair, blue eyes</code> 就是人設的部分。</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">經典衣櫃和成衣型錄有什麼差別？<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">· <strong>經典衣櫃</strong> — 收錄模型本來就認識的服裝詞組，例如護士裝就是從護士帽到鞋子的完整一套詞條，可以直接套用或拆開使用<br>· <strong>成衣型錄</strong> — 作者自己嘗試組合出來的穿搭詞條，是用製衣工坊的概念拼湊出的新組合<br><br>想找現成認識度高的服裝用經典衣櫃；想找有趣的穿搭組合靈感用成衣型錄。</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">製衣工坊的詞條要怎麼搭配使用？<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">製衣工坊把服裝拆成五個模組：版型、材質、剪裁、顏色、點綴。<br>建議的組合邏輯是：<br><br><strong>版型</strong>（決定輪廓）→ <strong>材質</strong>（決定質感）→ <strong>剪裁細節</strong>（加特色）→ <strong>顏色</strong> → <strong>點綴</strong>（可選）<br><br>散詞：<code>dress, silk, off-shoulder, white, lace trim</code><br>組合成：<code>white silk off-shoulder dress, lace trim</code>，表示「白色絲質露肩洋裝，蕾絲裝飾」。<br><br>形容詞放在服裝詞前面，點綴類的配件詞用逗號接在後面即可。<br>可以參考頁面上的「組合示範」彈窗看更多例子。</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">寫真沙龍的「在 PixAI 開啟」連結是什麼？<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">點擊連結會直接在 PixAI 開啟對應的模型頁面，並帶入預設的 prompt 和參數設定。<br>你只需要換上自己的人設描述，其餘設定都已經調好，省去重新設定的步驟。</div>
+        </div>
+      </div>
+
+      <!-- 圖面品質 -->
+      <div class="qa-group" id="qa-quality">
+        <div class="qa-group-title">QUALITY — 圖面品質</div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">圖片整體很模糊，細節不夠清晰<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">可以嘗試以下幾個方向：<br>① 增加 steps 或提高 cfg<br>② 在 prompt 加入 <code>masterpiece, best quality, highres</code><br>③ 使用 Hires.fix 或圖生圖放大，效果比直接拉大尺寸好</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">圖片有很多噪點或顆粒感<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">通常是 steps 不夠或取樣方式設定的問題。<br>① 增加 steps<br>② 取樣方式改用 DPM++ 2M Karras 或 Euler a<br>③ 確認 denoise strength 沒有設太高（圖生圖模式）</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">圖面出現奇怪的色塊或色斑<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">色斑通常是 cfg 設太高導致模型過度渲染。<br>① 嘗試降低 cfg（PixAI 建議維持在 7 以下）<br>② 也可以換個 seed 重跑，有時候只是那張 seed 不穩定</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">人物比例看起來很奇怪，頭太大或手很詭異<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">手部變形是目前模型的通病，可以嘗試：<br>① 在正向 prompt 加入 <code>correct anatomy, hand details</code><br>② 指定構圖讓手不出現在畫面內，例如 <code>upper body</code>、<code>portrait</code><br>③ 用 inpaint 局部重繪手部區域</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">臉部崩掉或五官位置不對<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">① 在正向 prompt 加入 <code>detailed face, perfect face</code><br>② 可以開啟 PixAI 的<strong>面部修復</strong>功能自動修正臉部<br>③ 也可以局部 inpaint 臉部區域重繪</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">想算人外角色（人魚、人馬、有義肢等），但一直長出不想要的部位<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">模型對人形有很強的預設傾向，遇到特殊體型時會自動「補全」成一般人體。建議：<br>① 明確描述你要的特殊部位，例如 <code>mermaid tail, no legs, fish tail</code><br>② 在 negative prompt 排除不想要的部位，例如不想要腿就加 <code>legs, human legs, feet</code><br>③ 越特殊的體型模型認識度越低，可能需要多跑幾次或調高相關詞條的權重<br>④ 如果有對應的 LoRA 會有效很多，建議搜尋看看有沒有相關資源</div>
+        </div>
+      </div>
+
+      <!-- 服裝生成 -->
+      <div class="qa-group" id="qa-clothing">
+        <div class="qa-group-title">CLOTHING — 服裝生成</div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">服裝出來是對的，但人物性別跑掉了（例如護士服變女生）<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">部分服裝詞條帶有性別刻板印象，模型會預設生成特定性別。如果要強調男性人設，建議在人設描述後面補充以下詞條：<br><br><code>male focus, manly, masculine, 1boy</code><br><br>例如：<code>（你的人設）, nurse, male focus, manly, 1boy</code><br><br>反之若要強調女性，可以加 <code>female focus, 1girl</code>。詞條放在服裝詞附近效果較好。</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">男性人設穿女裝／女性人設穿男裝，體型特徵跑掉了<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">模型容易根據服裝「猜測」體型，導致穿女裝的男角胸部跑出來，或穿男裝的女角體型變中性。<br><br>可以在 negative prompt 裡明確排除不想要的特徵，例如：<br>· 男角穿女裝時加 <code>female, breasts, wide hips</code> 到 negative<br>· 女角穿男裝時加 <code>male, flat chest</code> 到 negative（依需求調整）<br><br>同時在正向 prompt 強調體型描述效果更好。</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">衣服根本沒出現，還是原本的便服<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">① 確認服裝詞條是否放在 prompt 前段（權重較高的位置）<br>② 嘗試用括號提高權重，例如 <code>(maid dress:1.3)</code><br>③ 部分款式模型認識度較低，可以用更通用的詞替代，或參考經典衣櫃的建議詞條</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">兩種衣服的元素混在一起了<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">同時描述太多服裝類型時容易互相干擾。建議：<br>① 先確定主視覺的服裝，其他作為配件補充<br>② 使用製衣工坊的方式，從版型出發逐層疊加<br>③ 衝突的詞（如 <code>dress</code> 和 <code>pants</code>）盡量擇一描述</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">服裝顏色和我描述的不一樣<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">顏色詞要明確放在服裝詞前面，例如 <code>red dress</code> 而非 <code>dress, red</code>。<br>若要精確控色可以加 <code>solid color</code> 避免模型自由發揮，或提高顏色詞的權重。</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">服裝版型正確但布料材質感不對<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">可以直接在服裝詞前加材質，例如 <code>silk dress</code>、<code>lace blouse</code>、<code>PVC skirt</code>。<br>材質詞的效果因模型而異，可以參考製衣工坊的材質面料分類選用認識度較高的詞條。</div>
+        </div>
+      </div>
+
+      <!-- LoRA 搭配 -->
+      <div class="qa-group" id="qa-lora">
+        <div class="qa-group-title">LORA — LoRA 搭配</div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">LoRA 是什麼？和模型有什麼不同？<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">底模（模型）決定整體的畫風基礎，可以把它想成畫圖用的紙和畫材。<br>LoRA 則是疊加在底模上的「風格或特徵補丁」，用來強化特定的畫風、角色特徵、或服裝效果，但不能單獨使用，必須搭配底模。<br><br>同一個 LoRA 套在不同底模上，呈現效果也會不同。</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">要去哪裡找 LoRA？<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">可以直接在 PixAI 平台上搜尋，有很多公開的 LoRA 資源。<br>搜尋時可以用功能描述下關鍵字，例如服裝風格、畫風名稱、角色名等。<br>建議選擇下載量或使用量較高、且有附範例圖的 LoRA，比較容易評估效果是否符合需求。</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">LoRA 的權重要設多少？<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">通常建議從 <code>0.7–0.8</code> 開始測試，觀察效果再調整。<br>· 權重太高（接近 1 或超過）容易讓畫面過於風格化，甚至出現變形<br>· 權重太低則效果不明顯<br><br>部分 LoRA 的作者會在說明頁建議適合的權重範圍，可以優先參考。</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">同時用多個 LoRA 會有問題嗎？<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">可以疊加使用，但需要注意：<br>① 多個 LoRA 的效果會互相影響，總權重建議不要太高，可以嘗試每個都稍微降低<br>② 風格差異太大的 LoRA 疊在一起容易打架，造成畫面混亂<br>③ 建議一次加一個測試，確認效果後再疊加第二個，比較容易排查問題</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">可以用服裝 LoRA 嗎？效果怎麼樣？<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">可以！服裝 LoRA 專門強化特定服裝的生成效果，對於模型原本認識度較低的款式特別有用。<br><br>使用方式和一般 LoRA 相同，建議搭配對應的觸發詞（trigger word）使用，通常在 LoRA 的說明頁會標註。<br>如果已經有服裝 LoRA，可以搭配本站的製衣工坊詞條一起使用，效果會更精準。</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">加了 LoRA 之後服裝出來了，但臉或身體跑掉了<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">服裝 LoRA 有時會連帶影響人物的臉部或體型，這是訓練資料的問題。<br>① 嘗試降低 LoRA 的權重<br>② 在正向 prompt 加強人設描述，明確指定你要的臉部和體型特徵<br>③ 如果影響太嚴重，可以考慮換一個同類型但訓練品質更好的 LoRA</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">LoRA 的觸發詞是什麼？一定要加嗎？<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">觸發詞（trigger word）是啟動 LoRA 特定效果的關鍵字，通常由 LoRA 作者設定。<br>有些 LoRA 沒有觸發詞也有效果，但有些必須加了觸發詞才會正常運作。<br><br>觸發詞通常標註在 LoRA 的說明頁，建議使用前先查看一下。</div>
+        </div>
+      </div>
+
+      <!-- 模型選擇 -->
+      <div class="qa-group" id="qa-model">
+        <div class="qa-group-title">MODEL — 模型選擇</div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">不知道要選哪個模型，有推薦嗎？<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">模型的風格差異很難用文字說清楚，而且套上不同 LoRA 後表現也會不一樣。<br>建議直接去<strong>經典衣櫃</strong>點開任一單品，可以看到五個模型用相同 prompt 的直出對比圖，實際效果一目瞭然。</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">同樣的 prompt 換模型後效果差很多<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">這是正常現象。不同底模對詞條的認識程度不一樣，建議：<br>① 先在多個模型各跑幾張觀察差異<br>② 經典衣櫃的對比圖可以幫助快速判斷哪個模型比較能識別該款服裝<br>③ 認識度低的模型可以加強詞條權重補救</div>
+        </div>
+      </div>
+
+      <!-- 其他問題 -->
+      <div class="qa-group" id="qa-misc">
+        <div class="qa-group-title">MISC — 其他問題</div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">加了很多 prompt 但效果和沒加一樣<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">prompt 太長時後面的詞影響力會衰減。建議：<br>① 把最重要的詞放在最前面<br>② 刪除冗餘或重複的描述，聚焦在關鍵詞<br>③ 適當使用括號提高重要詞的權重，但不要全部都加，反而會互相抵消</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">每次生成的圖差異太大，風格不穩定<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">① 固定 seed 可以讓構圖和風格更穩定<br>② 降低 cfg 可以減少隨機性（建議 6–7 之間）<br>③ 增加 prompt 中對風格的描述，例如 <code>anime style</code>、<code>illustration</code></div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">這個網站的 prompt 可以直接複製去其他平台用嗎？<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">可以！這裡的 prompt 都是純文字服裝詞條，沒有綁定特定平台或模型。<br>不過不同平台的底模和參數設定不同，實際效果可能會有落差，建議搭配對應的基本品質詞使用。</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div id="ate-info-modal" style="display:none;position:fixed;inset:0;z-index:900;background:rgba(26,20,16,.72);backdrop-filter:blur(3px);align-items:center;justify-content:center;padding:1.5rem;" onclick="closeAteInfoModal()">
+  <div style="background:var(--cream);border-radius:8px;max-width:420px;width:100%;box-shadow:0 8px 32px rgba(0,0,0,.3);" onclick="event.stopPropagation()">
+    <div style="padding:1rem 1.4rem;border-bottom:1px solid var(--border);background:linear-gradient(135deg,var(--ink),#2d2520);color:var(--parchment);display:flex;justify-content:space-between;align-items:center;border-radius:8px 8px 0 0;">
+      <div>
+        <div style="font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.12em;opacity:.5;margin-bottom:.2rem;">THE ATELIER</div>
+        <div style="font-family:'Dancing Script',cursive;font-size:1.2rem;">欄目說明</div>
+      </div>
+      <button onclick="closeAteInfoModal()" style="background:none;border:none;color:var(--parchment);font-size:1.2rem;cursor:pointer;opacity:.6;padding:.2rem .4rem;">✕</button>
+    </div>
+    <div style="padding:1rem 1.2rem;display:flex;flex-direction:column;gap:.55rem;">
+      <div class="ate-info-row"><span class="mtag t-sil" style="font-size:.5rem;padding:.15rem .4rem;">SILHOUETTE</span><span class="ate-info-zh">基礎版型</span><span class="ate-info-note">決定服裝基底</span></div>
+      <div class="ate-info-row"><span class="mtag t-fab" style="font-size:.5rem;padding:.15rem .4rem;">FABRIC</span><span class="ate-info-zh">材質面料</span><span class="ate-info-note">影響光影與圖案紋理</span></div>
+      <div class="ate-info-row"><span class="mtag t-tai" style="font-size:.5rem;padding:.15rem .4rem;">TAILORING</span><span class="ate-info-zh">剪裁工藝</span><span class="ate-info-note">決定空間結構</span></div>
+      <div class="ate-info-row"><span class="mtag t-col" style="font-size:.5rem;padding:.15rem .4rem;">COLOR LAB</span><span class="ate-info-zh">顏色系統</span><span class="ate-info-note">特定色名增加精準度</span></div>
+      <div class="ate-info-row"><span class="mtag t-fin" style="font-size:.5rem;padding:.15rem .4rem;">FINDINGS</span><span class="ate-info-zh">其他點綴</span><span class="ate-info-note">視覺點綴細節</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ COMBO MODAL ══════════ -->
+<div id="combo-modal" style="display:none;position:fixed;inset:0;z-index:900;background:rgba(26,20,16,.72);backdrop-filter:blur(3px);align-items:center;justify-content:center;padding:1.5rem;" onclick="closeComboModal()">
+  <div style="background:var(--cream);border-radius:8px;max-width:520px;width:100%;max-height:80vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,.3);" onclick="event.stopPropagation()">
+    <div style="padding:1rem 1.4rem;border-bottom:1px solid var(--border);background:linear-gradient(135deg,var(--ink),#2d2520);color:var(--parchment);display:flex;justify-content:space-between;align-items:center;border-radius:8px 8px 0 0;">
+      <div>
+        <div style="font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.12em;opacity:.5;margin-bottom:.2rem;">THE ATELIER</div>
+        <div style="font-family:'Dancing Script',cursive;font-size:1.2rem;">組合應用邏輯</div>
+      </div>
+      <button onclick="closeComboModal()" style="background:none;border:none;color:var(--parchment);font-size:1.2rem;cursor:pointer;opacity:.6;padding:.2rem .4rem;">✕</button>
+    </div>
+    <div style="padding:1.2rem 1.4rem;display:flex;flex-direction:column;gap:1.2rem;">
+      <div>
+        <div style="font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.12em;color:var(--gold);margin-bottom:.7rem;">APPLICATION LOGIC</div>
+        <div style="display:flex;flex-direction:column;gap:.45rem;">
+          <div style="display:flex;align-items:center;gap:.6rem;font-size:.78rem;flex-wrap:wrap;">
+            <span style="background:var(--ink);color:var(--parchment);font-family:'Space Mono',monospace;font-size:.55rem;padding:.15rem .5rem;border-radius:2px;white-space:nowrap;">基礎版型 ＋ 材質面料</span>
+            <span style="color:var(--muted);">→</span><span style="color:var(--ink);">決定主體</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:.6rem;font-size:.78rem;flex-wrap:wrap;">
+            <span style="background:var(--ink);color:var(--parchment);font-family:'Space Mono',monospace;font-size:.55rem;padding:.15rem .5rem;border-radius:2px;white-space:nowrap;">＋ 剪裁細節</span>
+            <span style="color:var(--muted);">→</span><span style="color:var(--ink);">改變輪廓</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:.6rem;font-size:.78rem;flex-wrap:wrap;">
+            <span style="background:var(--ink);color:var(--parchment);font-family:'Space Mono',monospace;font-size:.55rem;padding:.15rem .5rem;border-radius:2px;white-space:nowrap;">＋ 點綴</span>
+            <span style="color:var(--muted);">→</span><span style="color:var(--ink);">出細節感</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.12em;color:var(--gold);margin-bottom:.7rem;">EXAMPLES</div>
+        <div style="display:flex;flex-direction:column;gap:.55rem;">
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:5px;padding:.65rem .9rem;">
+            <div style="font-family:'Space Mono',monospace;font-size:.65rem;color:var(--ink);margin-bottom:.25rem;"><span style="color:var(--muted);">thong</span> ＋ <span style="color:var(--muted);">pearl</span> → <span style="color:var(--rust);font-weight:600;">pearl thong</span></div>
+            <div style="font-size:.7rem;color:var(--muted);">材質點綴 × 基礎版型，直接合成新詞 ── 珍珠丁字褲</div>
+          </div>
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:5px;padding:.65rem .9rem;">
+            <div style="font-family:'Space Mono',monospace;font-size:.65rem;color:var(--ink);margin-bottom:.25rem;"><span style="color:var(--muted);">off-shoulder</span> ＋ <span style="color:var(--muted);">lace</span> ＋ <span style="color:var(--muted);">ruffle</span> → <span style="color:var(--rust);font-weight:600;">off-shoulder lace top, ruffle trim top</span></div>
+            <div style="font-size:.7rem;color:var(--muted);">剪裁 × 材質 × 細節，三層疊加 ── 蕾絲荷葉邊露肩上衣</div>
+          </div>
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:5px;padding:.65rem .9rem;">
+            <div style="font-family:'Space Mono',monospace;font-size:.65rem;color:var(--ink);margin-bottom:.25rem;"><span style="color:var(--muted);">qipao</span> ＋ <span style="color:var(--muted);">side slit</span> ＋ <span style="color:var(--muted);">PVC</span> → <span style="color:var(--rust);font-weight:600;">PVC cheongsam, side slit</span></div>
+            <div style="font-size:.7rem;color:var(--muted);">經典版型 × 剪裁工藝 × 材質改造 ── PVC 開衩旗袍</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ ARC MODAL ══════════ -->
+<div id="arc-modal" style="display:none;position:fixed;inset:0;z-index:900;background:rgba(26,20,16,.72);backdrop-filter:blur(3px);align-items:center;justify-content:center;padding:1.5rem;">
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:6px;max-width:900px;width:100%;max-height:90vh;overflow-y:auto;position:relative;">
+    <div id="arc-modal-head" style="padding:1.1rem 1.4rem;border-bottom:1px solid var(--border);background:linear-gradient(135deg,var(--ink),#2d2520);color:var(--parchment);display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;">
+      <div>
+        <div id="arc-modal-title" style="font-family:'Dancing Script',cursive;font-size:1.3rem;font-weight:400;"></div>
+        <div id="arc-modal-prompt" style="font-family:'Space Mono',monospace;font-size:.58rem;color:rgba(245,240,232,.42);margin-top:.3rem;line-height:1.6;"></div>
+      </div>
+      <div style="display:flex;gap:.6rem;align-items:center;flex-shrink:0;">
+        <button id="arc-modal-copy" class="cp-btn" onclick="arcModalCopy()">COPY</button>
+        <button onclick="closeArcModal()" style="background:none;border:1px solid rgba(245,240,232,.2);color:rgba(245,240,232,.6);font-family:'Space Mono',monospace;font-size:.58rem;padding:.22rem .6rem;cursor:pointer;border-radius:2px;">✕</button>
+      </div>
+    </div>
+    <div id="arc-modal-grid" class="tg5" style="border-bottom:none;"></div>
+  </div>
+</div>
+
+<footer>AI CLOTHING PROMPT DICTIONARY & SHARING · PixAI · SDXL · v0.1 · 酌的衣帽間</footer>
+
+<script>
+function goTab(id,btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.main-nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  document.body.className='theme-'+id;
+  window.scrollTo({top:0,behavior:'smooth'});
 }
- 
-// 03 成衣型錄
-// 欄位：序號 名稱(title) 系列(select) 性別(select) 發布 Prompt pixAI衣櫃(files) pixAI連結(url)
-function buildSalon(pages) {
-  const groups = {};
-  const order  = [];
-  for (const page of pages) {
-    const p   = page.properties;
-    const key = text(p["系列"]) || "其他";
-    if (!groups[key]) { groups[key] = []; order.push(key); }
-    groups[key].push(p);
-  }
-
-  let toc  = "";
-  let html = "";
-
-  order.forEach((series, idx) => {
-    const items    = groups[series];
-    const anchorId = `salon-${series.replace(/\s/g,"-")}`;
-    const first    = idx === 0 ? " active" : "";
-
-    toc += `<div class="sb-link${first}" onclick="scrollTo2('${anchorId}','salon-toc',this)"><span class="sb-dot"></span>${esc(series)}</div>`;
-
-    html += `<div id="${anchorId}" style="margin-top:2.5rem;">`;
-    html += `<div class="sub-label"><span class="sub-code">${esc(series)}</span></div>`;
-    html += `<div class="rtw-catalog">`;
-
-    for (const p of items) {
-      const name     = esc(text(p["名稱"]));
-      const prompt   = esc(text(p["Prompt"]));
-      const imgs     = text(p["PixAI衣櫃"]) || [];
-      const img0     = imgs[0] || "";
-      const pixaiUrl = p["PixAI連結"]?.url || "";
-      const _gender  = text(p["性別"]);
-      const genders  = _gender ? `<span class="rtw-tag">${esc(_gender)}</span>` : "";
-
-      html += `<div class="rtw-card"><div class="rtw-img">`;
-      if (img0) {
-        if (pixaiUrl) {
-          html += `<a href="${esc(pixaiUrl)}" target="_blank" rel="noopener" style="display:block;height:100%;"><img src="${esc(img0)}" alt="${name}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;"></a>`;
-        } else {
-          html += `<img src="${esc(img0)}" alt="${name}" loading="lazy">`;
-        }
-      } else {
-        html += `<div class="rtw-img-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>`;
-      }
-      html += `</div><div class="rtw-body"><div class="rtw-name">${name}</div>${genders ? `<div class="rtw-meta">${genders}</div>` : ""}<div class="prompt-box" style="margin:.6rem 0 .5rem;"><span class="pt">${prompt}</span><span class="pt-toggle" onclick="togglePt(this)">展開</span><button class="cp-btn" onclick="cp(this,'${prompt}')">COPY</button></div></div></div>`;
-    }
-    html += `</div></div>`;
+function goTabByID(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.main-nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const map={intro:0,archives:1,atelier:2,outfits:3,salon:4,qa:5};
+  const btns=document.querySelectorAll('.main-nav button');
+  if(map[id]!==undefined)btns[map[id]].classList.add('active');
+  document.body.className='theme-'+id;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function scrollTo2(anchorId,tocId,link){
+  const el=document.getElementById(anchorId);
+  if(el){setTimeout(()=>{const off=el.getBoundingClientRect().top+window.scrollY-70;window.scrollTo({top:off,behavior:'smooth'});},40);}
+  document.querySelectorAll('#'+tocId+' .sb-link').forEach(l=>l.classList.remove('active'));
+  link.classList.add('active');
+}
+function toggleX(btn){
+  const p=btn.nextElementSibling;
+  const o=p.classList.contains('open');
+  p.classList.toggle('open',!o);
+  btn.classList.toggle('open',!o);
+}
+function openAteInfoModal(){
+  document.getElementById('ate-info-modal').style.display='flex';
+  document.body.style.overflow='hidden';
+}
+function closeAteInfoModal(){
+  document.getElementById('ate-info-modal').style.display='none';
+  document.body.style.overflow='';
+}
+function openComboModal(){
+  const m=document.getElementById('combo-modal');
+  m.style.display='flex';
+  document.body.style.overflow='hidden';
+}
+function closeComboModal(){
+  document.getElementById('combo-modal').style.display='none';
+  document.body.style.overflow='';
+}
+function togglePt(el){
+  const pt=el.previousElementSibling;
+  pt.classList.toggle('expanded');
+  el.textContent=pt.classList.contains('expanded')?'收合':'展開';
+}
+function cp(btn,text){
+  navigator.clipboard.writeText(text).then(()=>{
+    const orig=btn.textContent;btn.textContent='COPIED';btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent=orig;btn.classList.remove('copied');},1500);
   });
-
-  return { html, toc };
 }
-
-function buildOutfits(pages) {
-  const groups = { "女": [], "男": [] };
-  for (const page of pages) {
-    const p      = page.properties;
-    const gender = text(p["性別"]) || "女";
-    if (!groups[gender]) groups[gender] = [];
-    groups[gender].push(p);
-  }
-
-  let toc    = "";
-  let filter = `<button class="f-btn active" onclick="filterOutfit(this,'all')">全部</button>`;
-  let html   = "";
-
-  [["女","female"],["男","male"]].forEach(([gender, slug], idx) => {
-    const items = groups[gender];
-    if (!items.length) return;
-    const first = idx === 0 ? " active" : "";
-
-    toc    += `<div class="sb-link${first}" onclick="scrollTo2('outfit-${slug}','outfit-toc',this)"><span class="sb-dot"></span>${gender}模特兒</div>`;
-    filter += `<button class="f-btn" onclick="filterOutfit(this,'${slug}')">${gender}</button>`;
-
-    html += `<div id="outfit-${slug}" data-ocat="${slug}" style="margin-top:2rem;">`;
-    html += `<div class="sub-label"><span class="sub-code">${gender}模特兒</span></div>`;
-    html += `<div class="outfit-runway">`;
-
-    for (const p of items) {
-      const name     = esc(text(p["名稱"]));
-      const prompt   = esc(text(p["Prompt"]));
-      const imgs     = text(p["示意圖"]) || [];
-      const pixaiUrl = p["PixAI連結"]?.url || "";
-      const cid      = `oc-${Math.random().toString(36).slice(2,8)}`;
-
-      html += `<div class="outfit-card"><div class="outfit-img" id="${cid}">`;
-      if (imgs.length === 0) {
-        html += `<div class="rtw-img-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>`;
-      } else if (imgs.length === 1) {
-        if (pixaiUrl) {
-          html += `<a href="${esc(pixaiUrl)}" target="_blank" rel="noopener" style="display:block;width:100%;height:100%;"><img src="${esc(imgs[0])}" alt="${name}" loading="lazy" style="width:100%;height:100%;object-fit:cover;"></a>`;
-        } else {
-          html += `<img src="${esc(imgs[0])}" alt="${name}" loading="lazy" style="width:100%;height:100%;object-fit:cover;">`;
-        }
-      } else {
-        html += `<div class="outfit-slides" id="${cid}-slides">`;
-        imgs.forEach(u => { html += `<img src="${esc(u)}" alt="${name}" loading="lazy">`; });
-        html += `</div>`;
-        html += `<button class="outfit-arr prev" onclick="outfitSlide('${cid}',-1)">‹</button>`;
-        html += `<button class="outfit-arr next" onclick="outfitSlide('${cid}',1)">›</button>`;
-        html += `<div class="outfit-dots" id="${cid}-dots">`;
-        imgs.forEach((_,i) => { html += `<div class="outfit-dot${i===0?' active':''}" onclick="outfitGo('${cid}',${i})"></div>`; });
-        html += `</div>`;
-      }
-      html += `</div><div class="outfit-body"><div class="rtw-name">${name}</div><div class="prompt-box" style="margin:.5rem 0;"><span class="pt">${prompt}</span><span class="pt-toggle" onclick="togglePt(this)">展開</span><button class="cp-btn" onclick="cp(this,'${prompt}')">COPY</button></div></div></div>`;
-    }
-    html += `</div></div>`;
+const _ocIdx={};
+function outfitSlide(cid,dir){
+  const slides=document.getElementById(cid+'-slides');
+  const dots=document.querySelectorAll('#'+cid+'-dots .outfit-dot');
+  const total=dots.length;
+  if(!total)return;
+  _ocIdx[cid]=(((_ocIdx[cid]||0)+dir)+total)%total;
+  slides.style.transform=`translateX(-${_ocIdx[cid]*100}%)`;
+  dots.forEach((d,i)=>d.classList.toggle('active',i===_ocIdx[cid]));
+}
+function outfitGo(cid,idx){
+  const slides=document.getElementById(cid+'-slides');
+  const dots=document.querySelectorAll('#'+cid+'-dots .outfit-dot');
+  _ocIdx[cid]=idx;
+  slides.style.transform=`translateX(-${idx*100}%)`;
+  dots.forEach((d,i)=>d.classList.toggle('active',i===idx));
+}
+// touch swipe
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('.outfit-img').forEach(el=>{
+    const cid=el.id;
+    if(!cid||!el.querySelector('.outfit-slides'))return;
+    let sx=0;
+    el.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;},{passive:true});
+    el.addEventListener('touchend',e=>{
+      const dx=e.changedTouches[0].clientX-sx;
+      if(Math.abs(dx)>40)outfitSlide(cid,dx<0?1:-1);
+    },{passive:true});
   });
-
-  return { html, toc, filter };
+});
+function toggleQA(qEl){
+  const item=qEl.parentElement;
+  item.classList.toggle('open');
+}
+function qaScroll(id,btn){
+  const el=document.getElementById(id);
+  if(el){setTimeout(()=>{const off=el.getBoundingClientRect().top+window.scrollY-80;window.scrollTo({top:off,behavior:'smooth'});},40);}
+  document.querySelectorAll('#qa-cats .qa-cat-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function filterOutfit(btn,cat){
+  document.querySelectorAll('#outfits .f-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('#outfits [data-ocat]').forEach(g=>{
+    g.style.display=(cat==='all'||g.dataset.ocat===cat)?'':'none';
+  });
+}
+function filterArc(btn,cat){
+  document.querySelectorAll('#archives .f-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('#archives [data-acat]').forEach(g=>{
+    g.style.display=(cat==='all'||g.dataset.acat===cat)?'':'none';
+  });
 }
 
-async function main() {
-  console.log("📦 抓取 Notion 資料...");
-  const [archivesPages, atelierPages, salonPages, outfitsPages] = await Promise.all([
-    fetchDB(DB.archives),
-    fetchDB(DB.atelier),
-    fetchDB(DB.salon),
-    fetchDB(DB.outfits),
-  ]);
-  console.log(`✅ 經典衣櫃：${archivesPages.length} 筆`);
-  console.log(`✅ 製衣工坊：${atelierPages.length} 筆`);
-  console.log(`✅ 寫真沙龍：${salonPages.length} 筆`);
-  console.log(`✅ 成衣型錄：${outfitsPages.length} 筆`);
-
-  const { html: archivesHtml, toc: archivesToc, filter: archivesFilter } = buildArchives(archivesPages);
-  const { html: salonHtml,    toc: salonToc }                            = buildSalon(salonPages);
-  const { html: outfitsHtml,  toc: outfitsToc, filter: outfitsFilter }  = buildOutfits(outfitsPages);
-
-  let template = fs.readFileSync("template.html", "utf8");
-  template = template
-    .replace("<!-- ARCHIVES_CONTENT -->", archivesHtml)
-    .replace("<!-- ARCHIVES_TOC -->",     archivesToc)
-    .replace("<!-- ARCHIVES_FILTER -->",  archivesFilter)
-    .replace("<!-- ATELIER_CONTENT -->",  buildAtelier(atelierPages))
-    .replace("<!-- SALON_CONTENT -->",    salonHtml)
-    .replace("<!-- SALON_TOC -->",        salonToc)
-    .replace("<!-- OUTFITS_CONTENT -->",  outfitsHtml)
-    .replace("<!-- OUTFITS_TOC -->",      outfitsToc)
-    .replace("<!-- OUTFITS_FILTER -->",   outfitsFilter)
-    .replace("<!-- BUILD_TIME -->",       `<!-- built: ${new Date().toISOString()} -->`);
-
-  if (!fs.existsSync("dist")) fs.mkdirSync("dist");
-  fs.writeFileSync("dist/index.html", template, "utf8");
-  console.log("🎉 dist/index.html 產生完成！");
+// 製衣工坊篩選
+function ateFilter(btn, mod){
+  document.querySelectorAll('.ate-tag').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.ate-entry').forEach(el=>{
+    el.style.display = (mod==='all' || el.dataset.mod===mod) ? '' : 'none';
+  });
 }
-
-main().catch(err => { console.error("❌ 錯誤：", err); process.exit(1); });
+// ── Arc Modal ──
+let _arcPrompt = "";
+function openArcModal(en, prompt, imgs, labels, links) {
+  links = links || [];
+  _arcPrompt = prompt;
+  document.getElementById("arc-modal-title").textContent = en + " — 五模型直出對比";
+  document.getElementById("arc-modal-prompt").textContent = prompt;
+  const grid = document.getElementById("arc-modal-grid");
+  grid.innerHTML = "";
+  for (let i = 0; i < 5; i++) {
+    const cell = document.createElement("div");
+    cell.className = "tc";
+    const url = links[i] || "";
+    const imgHtml = imgs[i]
+      ? `<img src="${imgs[i]}" alt="${labels[i]}" loading="lazy">`
+      : `<div class="tc-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div>`;
+    const inner = url
+      ? `<a href="${url}" target="_blank" rel="noopener" style="display:block;position:relative;">${imgHtml}<div class="tc-pixai-badge">在 PixAI 開啟</div></a><div class="tc-lbl">${labels[i]}</div>`
+      : `${imgHtml}<div class="tc-lbl">${labels[i]}</div>`;
+    cell.innerHTML = inner;
+    grid.appendChild(cell);
+  }
+  const modal = document.getElementById("arc-modal");
+  modal.style.display = "flex";
+}
+function closeArcModal() {
+  document.getElementById("arc-modal").style.display = "none";
+}
+function arcModalCopy() {
+  const btn = document.getElementById("arc-modal-copy");
+  navigator.clipboard.writeText(_arcPrompt).then(() => {
+    btn.textContent = "COPIED"; btn.classList.add("copied");
+    setTimeout(() => { btn.textContent = "COPY"; btn.classList.remove("copied"); }, 1500);
+  });
+}
+document.getElementById("arc-modal").addEventListener("click", function(e) {
+  if (e.target === this) closeArcModal();
+});
+</script>
+</body>
+</html>
