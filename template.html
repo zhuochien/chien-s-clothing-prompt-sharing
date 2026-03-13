@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI生圖｜酌的裁縫鋪</title>
 <!-- BUILD_TIME -->
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Noto+Serif+TC:wght@300;400;500&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Noto+Sans+TC:wght@300;400;500;700&family=Dancing+Script:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --ink:#283f38;--parchment:#f0ece6;--cream:#f7f4f0;
@@ -67,12 +67,12 @@ body.theme-outfits  .main-nav button.active,
 body.theme-qa       .main-nav button.active{color:#1e2238;border-bottom-color:#2e1a40;}
 
 *{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--parchment);color:var(--ink);font-family:'Noto Serif TC',serif;font-weight:300;min-height:100vh;overflow-x:hidden;}
+body{background:var(--parchment);color:var(--ink);font-family:'Noto Sans TC',sans-serif;font-weight:300;min-height:100vh;overflow-x:hidden;}
 
 /* ── HEADER ── */
 header{background:var(--ink);color:var(--parchment);padding:3.2rem 2rem 2.2rem;text-align:center;position:relative;overflow:hidden;}
 header::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 40px,rgba(184,150,62,.04) 40px,rgba(184,150,62,.04) 41px);}
-.h-label{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;margin-bottom:.9rem;position:relative;}
+.h-label{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;margin-bottom:.9rem;position:relative;}
 header h1{font-family:'Dancing Script',cursive;font-weight:300;font-size:clamp(2.2rem,6vw,4.5rem);line-height:1.05;position:relative;}
 header h1 em{font-style:italic;color:var(--gold-lt);}
 .h-sub{margin-top:.7rem;font-size:.72rem;color:rgba(245,240,232,.4);letter-spacing:.12em;position:relative;}
@@ -80,7 +80,7 @@ header h1 em{font-style:italic;color:var(--gold-lt);}
 
 /* ── MAIN NAV ── */
 .main-nav{background:var(--ink);border-top:1px solid rgba(184,150,62,.18);display:flex;justify-content:center;position:sticky;top:0;z-index:200;}
-.main-nav button{background:none;border:none;border-bottom:2px solid transparent;color:rgba(245,240,232,.42);font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.16em;padding:.82rem 1.5rem;cursor:pointer;transition:color .2s,border-color .2s;white-space:nowrap;}
+.main-nav button{background:none;border:none;border-bottom:2px solid transparent;color:rgba(245,240,232,.42);font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.16em;padding:.82rem 1.5rem;cursor:pointer;transition:color .2s,border-color .2s;white-space:nowrap;}
 .main-nav button:hover{color:var(--parchment);}
 .main-nav button.active{color:var(--gold-lt);border-bottom-color:var(--gold);}
 
@@ -100,7 +100,7 @@ header h1 em{font-style:italic;color:var(--gold-lt);}
 .with-sidebar{max-width:1200px;margin:0 auto;padding:0 2rem 4rem;display:grid;grid-template-columns:156px 1fr;gap:1.8rem;align-items:start;}
 .sidebar{position:sticky;top:calc(var(--nav-h) + 8px);}
 .sb-box{background:var(--card);border:1px solid var(--border);border-radius:3px;overflow:hidden;}
-.sb-head{padding:.55rem .95rem;background:var(--cream);border-bottom:1px solid var(--border);font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.2em;color:var(--muted);}
+.sb-head{padding:.55rem .95rem;background:var(--cream);border-bottom:1px solid var(--border);font-family:'Space Mono',monospace;font-size:.68rem;letter-spacing:.2em;color:var(--muted);}
 .sb-link{display:flex;align-items:center;gap:.55rem;padding:.62rem .95rem;border-bottom:1px solid var(--border);font-size:.85rem;color:var(--ink);cursor:pointer;transition:background .15s;user-select:none;}
 .sb-link:last-child{border-bottom:none;}
 .sb-link:hover{background:var(--parchment);}
@@ -111,28 +111,28 @@ header h1 em{font-style:italic;color:var(--gold-lt);}
 .preset-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.7rem;}
 .preset-card{background:var(--cream);border:1px solid var(--border);border-radius:6px;overflow:hidden;}
 .preset-head{padding:.55rem .8rem;background:var(--ink);display:flex;align-items:center;gap:.5rem;}
-.preset-name{font-family:'DM Mono',monospace;font-size:.6rem;color:var(--gold-lt);line-height:1.3;}
+.preset-name{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--gold-lt);line-height:1.3;}
 .preset-rows{padding:.5rem .8rem .6rem;display:flex;flex-direction:column;gap:.3rem;}
 .preset-row{display:flex;justify-content:space-between;align-items:center;font-size:.7rem;}
 .preset-lbl{color:var(--muted);font-size:.65rem;}
-.preset-val{font-family:'DM Mono',monospace;font-size:.68rem;color:var(--ink);font-weight:500;}
+.preset-val{font-family:'Space Mono',monospace;font-size:.68rem;color:var(--ink);font-weight:500;}
 .preset-note .preset-lbl{color:var(--gold);}
 .preset-note .preset-val{color:var(--gold);font-size:.62rem;}
 /* ── FILTER BAR ── */
 .filter-bar{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;margin-bottom:2rem;}
-.f-label{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.2em;color:var(--muted);margin-right:.3rem;}
-.f-btn{background:none;border:1px solid var(--border);color:var(--muted);font-family:'Noto Serif TC',serif;font-size:.76rem;padding:.28rem .75rem;border-radius:2px;cursor:pointer;transition:all .18s;}
+.f-label{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.2em;color:var(--muted);margin-right:.3rem;}
+.f-btn{background:none;border:1px solid var(--border);color:var(--muted);font-family:'Noto Sans TC',sans-serif;font-size:.76rem;padding:.28rem .75rem;border-radius:2px;cursor:pointer;transition:all .18s;}
 .f-btn:hover{border-color:var(--gold);color:var(--ink);}
 .f-btn.active{background:var(--ink);color:var(--gold-lt);border-color:var(--ink);}
 
 /* ── COPY BUTTON ── */
-.cp-btn{background:none;border:1px solid var(--border);color:var(--muted);font-family:'DM Mono',monospace;font-size:.56rem;padding:.22rem .52rem;cursor:pointer;border-radius:2px;white-space:nowrap;transition:all .14s;flex-shrink:0;}
+.cp-btn{background:none;border:1px solid var(--border);color:var(--muted);font-family:'Space Mono',monospace;font-size:.56rem;padding:.22rem .52rem;cursor:pointer;border-radius:2px;white-space:nowrap;transition:all .14s;flex-shrink:0;}
 .cp-btn:hover{background:var(--ink);color:var(--gold-lt);border-color:var(--ink);}
 .cp-btn.copied{background:var(--sage);color:#fff;border-color:var(--sage);}
 
 /* ── PROMPT BOX ── */
 .prompt-box{padding:.75rem 1.2rem;background:var(--cream);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.65rem;}
-.pt{font-family:'DM Mono',monospace;font-size:.65rem;color:var(--ink);flex:1;word-break:break-all;line-height:1.6;}
+.pt{font-family:'Space Mono',monospace;font-size:.65rem;color:var(--ink);flex:1;word-break:break-all;line-height:1.6;}
 .pt-toggle{display:none;font-size:.65rem;color:var(--gold);cursor:pointer;white-space:nowrap;padding:.1rem .3rem;}
 
 /* ── THUMB GRID ── */
@@ -143,21 +143,23 @@ header h1 em{font-style:italic;color:var(--gold-lt);}
 .tc img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s;}
 .tc-ph{width:100%;height:100%;background:var(--parchment);display:flex;align-items:center;justify-content:center;}
 .tc-ph svg{width:22px;height:22px;opacity:.18;}
-.tc-lbl{position:absolute;bottom:0;left:0;right:0;background:rgba(26,21,16,.68);color:rgba(245,240,232,.82);font-family:'DM Mono',monospace;font-size:.5rem;letter-spacing:.07em;padding:.18rem .3rem;text-align:center;}
+.tc-pixai-badge{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.55);color:#fff;font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.06em;text-align:center;padding:.3rem .4rem;opacity:0;transition:opacity .2s;}
+.tc a:hover .tc-pixai-badge{opacity:1;}
+.tc-lbl{position:absolute;bottom:0;left:0;right:0;background:rgba(26,21,16,.68);color:rgba(245,240,232,.82);font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.07em;padding:.18rem .3rem;text-align:center;}
 
 /* ── EXPAND ── */
-.xbtn{width:100%;background:none;border:none;border-top:1px solid var(--border);padding:.6rem;font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.14em;color:var(--muted);cursor:pointer;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:.45rem;transition:background .14s,color .14s;}
+.xbtn{width:100%;background:none;border:none;border-top:1px solid var(--border);padding:.6rem;font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.14em;color:var(--muted);cursor:pointer;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:.45rem;transition:background .14s,color .14s;}
 .xbtn:hover{background:var(--parchment);color:var(--ink);}
 .xbtn.open .ea{transform:rotate(180deg);}
 .ea{display:inline-block;transition:transform .2s;}
 .xpanel{display:none;border-top:1px solid var(--border);overflow-x:auto;}
 .xpanel.open{display:block;}
 .xtable{width:100%;border-collapse:collapse;min-width:460px;}
-.xtable th{background:var(--ink);color:var(--gold-lt);font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.12em;padding:.62rem 1rem;text-align:left;font-weight:400;}
+.xtable th{background:var(--ink);color:var(--gold-lt);font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.12em;padding:.62rem 1rem;text-align:left;font-weight:400;}
 .xtable td{padding:.72rem 1rem;border-bottom:1px solid var(--border);vertical-align:middle;font-size:.78rem;}
 .xtable tr:last-child td{border-bottom:none;}
 .xtable tr:hover td{background:var(--cream);}
-.mn{font-family:'DM Mono',monospace;font-size:.62rem;color:var(--gold);white-space:nowrap;}
+.mn{font-family:'Space Mono',monospace;font-size:.62rem;color:var(--gold);white-space:nowrap;}
 .tph{width:52px;height:65px;background:var(--parchment);border-radius:2px;display:flex;align-items:center;justify-content:center;opacity:.35;}
 .tph svg{width:18px;height:18px;}
 .nt{font-size:.74rem;color:var(--muted);line-height:1.6;}
@@ -175,13 +177,13 @@ header h1 em{font-style:italic;color:var(--gold-lt);}
    INTRO
 ═══════════════════════════ */
 .intro-wrap{max-width:1200px;margin:0 auto;padding:3.8rem 2rem 4.5rem;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;}
-.i-eyebrow{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.3em;color:var(--gold);text-transform:uppercase;margin-bottom:.9rem;}
+.i-eyebrow{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.3em;color:var(--gold);text-transform:uppercase;margin-bottom:.9rem;}
 .i-hl{font-family:'Dancing Script',cursive;font-size:clamp(1.7rem,3.2vw,2.6rem);font-weight:300;line-height:1.2;margin-bottom:1.1rem;}
 .i-hl em{font-style:italic;color:var(--gold);}
 .i-body{font-size:.83rem;line-height:2;color:#3a3228;margin-bottom:1.6rem;}
 .i-body p+p{margin-top:.6rem;}
 .tool-bar{display:flex;align-items:center;gap:.9rem;background:var(--ink);color:var(--parchment);padding:.85rem 1.25rem;border-radius:3px;margin-bottom:1.8rem;}
-.tool-badge{background:var(--gold);color:var(--ink);font-family:'DM Mono',monospace;font-size:.6rem;font-weight:700;padding:.22rem .6rem;border-radius:2px;letter-spacing:.08em;white-space:nowrap;flex-shrink:0;}
+.tool-badge{background:var(--gold);color:var(--ink);font-family:'Space Mono',monospace;font-size:.6rem;font-weight:700;padding:.22rem .6rem;border-radius:2px;letter-spacing:.08em;white-space:nowrap;flex-shrink:0;}
 .tool-desc{font-size:.73rem;line-height:1.6;color:rgba(245,240,232,.62);}
 .tool-desc strong{color:var(--gold-lt);font-weight:400;}
 .i-nav{display:flex;flex-direction:column;gap:.75rem;}
@@ -195,10 +197,10 @@ header h1 em{font-style:italic;color:var(--gold-lt);}
 .ic-arr{color:var(--border);font-size:.85rem;transition:transform .2s,color .2s;}
 .i-card:hover .ic-arr{transform:translateX(3px);color:var(--gold);}
 .leg-block{background:var(--card);border:1px solid var(--border);border-radius:3px;overflow:hidden;margin-bottom:1.1rem;}
-.leg-title{background:var(--cream);border-bottom:1px solid var(--border);padding:.55rem 1.05rem;font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.2em;color:var(--muted);}
+.leg-title{background:var(--cream);border-bottom:1px solid var(--border);padding:.55rem 1.05rem;font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.2em;color:var(--muted);}
 .leg-row{display:flex;align-items:flex-start;gap:.85rem;padding:.75rem 1.05rem;border-bottom:1px solid var(--border);}
 .leg-row:last-child{border-bottom:none;}
-.leg-tag{font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.1em;padding:.16rem .52rem;border:1px solid currentColor;border-radius:1px;white-space:nowrap;flex-shrink:0;margin-top:.1rem;}
+.leg-tag{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.1em;padding:.16rem .52rem;border:1px solid currentColor;border-radius:1px;white-space:nowrap;flex-shrink:0;margin-top:.1rem;}
 .leg-text{font-size:.76rem;line-height:1.6;color:#3a3228;}
 .leg-text strong{font-weight:500;}
 .steps-block{background:var(--card);border:1px solid var(--border);border-radius:3px;overflow:hidden;}
@@ -211,7 +213,7 @@ header h1 em{font-style:italic;color:var(--gold-lt);}
 /* ═══════════════════════════
    SECTION 1 – ARCHIVES
 ═══════════════════════════ */
-.sub-label{font-family:'DM Mono',monospace;font-size:.85rem;letter-spacing:.2em;color:var(--rust);text-transform:uppercase;margin-bottom:.85rem;display:flex;align-items:center;gap:.65rem;}
+.sub-label{font-family:'Space Mono',monospace;font-size:.85rem;letter-spacing:.2em;color:var(--rust);text-transform:uppercase;margin-bottom:.85rem;display:flex;align-items:center;gap:.65rem;}
 .sub-label::after{content:'';flex:1;height:1px;background:var(--border);}
 .sub-code{color:var(--gold);margin-right:.25rem;}
 
@@ -223,39 +225,39 @@ header h1 em{font-style:italic;color:var(--gold-lt);}
 .arc-card:hover .ac-img img{transform:scale(1.04);}
 .ac-ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.35rem;}
 .ac-ph svg{width:26px;height:26px;opacity:.18;}
-.ac-ph span{font-family:'DM Mono',monospace;font-size:.48rem;opacity:.28;letter-spacing:.1em;}
+.ac-ph span{font-family:'Space Mono',monospace;font-size:.48rem;opacity:.28;letter-spacing:.1em;}
 .ac-info{padding:.65rem .82rem .6rem;border-top:1px solid var(--border);}
 .ac-en{font-family:'Dancing Script',cursive;font-size:.92rem;font-weight:400;line-height:1.2;}
 .ac-zh{font-size:.68rem;color:var(--muted);margin-top:.1rem;}
-.ac-prompt{font-family:'DM Mono',monospace;font-size:.52rem;color:var(--gold);margin-top:.38rem;word-break:break-all;line-height:1.5;}
+.ac-prompt{font-family:'Space Mono',monospace;font-size:.52rem;color:var(--gold);margin-top:.38rem;word-break:break-all;line-height:1.5;}
 .ac-foot{padding:.42rem .82rem;border-top:1px solid var(--border);display:flex;justify-content:flex-end;}
 
 .amc{background:var(--card);border:1px solid var(--border);border-radius:3px;overflow:hidden;margin-bottom:2.5rem;}
 .amc-head{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.2rem;border-bottom:1px solid var(--border);background:linear-gradient(135deg,var(--ink),#2d2520);color:var(--parchment);}
 .amc-title{font-family:'Dancing Script',cursive;font-size:1.05rem;font-weight:400;}
-.amc-prompt{font-family:'DM Mono',monospace;font-size:.55rem;color:rgba(245,240,232,.42);margin-top:.18rem;}
-.amc-tag{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.1em;padding:.16rem .5rem;border:1px solid currentColor;border-radius:1px;flex-shrink:0;}
+.amc-prompt{font-family:'Space Mono',monospace;font-size:.55rem;color:rgba(245,240,232,.42);margin-top:.18rem;}
+.amc-tag{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.1em;padding:.16rem .5rem;border:1px solid currentColor;border-radius:1px;flex-shrink:0;}
 
 /* ═══════════════════════════
    SECTION 2 – ATELIER
 ═══════════════════════════ */
 .mod-table-wrap{background:var(--card);border:1px solid var(--border);border-radius:3px;overflow:hidden;margin-bottom:2.5rem;}
 .mod-table{width:100%;border-collapse:collapse;}
-.mod-table th{background:var(--ink);color:var(--gold-lt);font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.14em;padding:.65rem 1rem;text-align:left;font-weight:400;}
+.mod-table th{background:var(--ink);color:var(--gold-lt);font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.14em;padding:.65rem 1rem;text-align:left;font-weight:400;}
 .mod-table td{padding:.82rem 1rem;border-bottom:1px solid var(--border);vertical-align:top;font-size:.78rem;line-height:1.7;}
 .mod-table tr:last-child td{border-bottom:none;}
 .mod-table tr:hover td{background:var(--cream);}
-.mc{font-family:'DM Mono',monospace;font-size:.62rem;color:var(--gold);font-weight:700;}
-.mtag{font-family:'DM Mono',monospace;font-size:.52rem;letter-spacing:.1em;padding:.14rem .44rem;border:1px solid currentColor;border-radius:1px;display:inline-block;margin-bottom:.18rem;}
+.mc{font-family:'Space Mono',monospace;font-size:.62rem;color:var(--gold);font-weight:700;}
+.mtag{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.1em;padding:.14rem .44rem;border:1px solid currentColor;border-radius:1px;display:inline-block;margin-bottom:.18rem;}
 .mcat{font-weight:500;font-size:.8rem;}
 .mnote{color:var(--muted);font-size:.72rem;}
 .chips{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.28rem;}
-.chip{font-family:'DM Mono',monospace;font-size:.57rem;background:var(--cream);border:1px solid var(--border);padding:.13rem .46rem;border-radius:2px;color:var(--ink);}
+.chip{font-family:'Space Mono',monospace;font-size:.57rem;background:var(--cream);border:1px solid var(--border);padding:.13rem .46rem;border-radius:2px;color:var(--ink);}
 
 .cat-group{margin-bottom:2.8rem;}
 .cg-head{display:flex;align-items:center;gap:.9rem;margin-bottom:.95rem;padding-bottom:.55rem;border-bottom:1px solid var(--border);}
 .cg-title{font-family:'Dancing Script',cursive;font-size:1.35rem;font-weight:400;}
-.cg-count{margin-left:auto;font-family:'DM Mono',monospace;font-size:.58rem;color:var(--muted);}
+.cg-count{margin-left:auto;font-family:'Space Mono',monospace;font-size:.58rem;color:var(--muted);}
 
 .item-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:.9rem;}
 .fi{background:var(--card);border:1px solid var(--border);border-radius:3px;overflow:hidden;cursor:pointer;transition:box-shadow .2s,transform .2s,border-color .2s;}
@@ -265,25 +267,25 @@ header h1 em{font-style:italic;color:var(--gold-lt);}
 .fi:hover .fi-img img{transform:scale(1.04);}
 .fi-ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.35rem;}
 .fi-ph svg{width:26px;height:26px;opacity:.18;}
-.fi-ph span{font-family:'DM Mono',monospace;font-size:.48rem;opacity:.28;letter-spacing:.1em;}
+.fi-ph span{font-family:'Space Mono',monospace;font-size:.48rem;opacity:.28;letter-spacing:.1em;}
 .fi-info{padding:.65rem .82rem .6rem;border-top:1px solid var(--border);}
 .fi-en{font-family:'Dancing Script',cursive;font-size:.92rem;font-weight:400;line-height:1.2;}
 .fi-zh{font-size:.68rem;color:var(--muted);margin-top:.1rem;}
-.fi-prompt{font-family:'DM Mono',monospace;font-size:.52rem;color:var(--gold);margin-top:.38rem;word-break:break-all;line-height:1.5;}
+.fi-prompt{font-family:'Space Mono',monospace;font-size:.52rem;color:var(--gold);margin-top:.38rem;word-break:break-all;line-height:1.5;}
 .fi-foot{padding:.42rem .82rem;border-top:1px solid var(--border);display:flex;justify-content:flex-end;}
 
 .bkd{background:var(--card);border:1px solid var(--border);border-radius:3px;overflow:hidden;margin-top:1.1rem;margin-bottom:.5rem;}
 .bkd-head{padding:.9rem 1.2rem;border-bottom:1px solid var(--border);background:linear-gradient(135deg,var(--ink),#2d2520);color:var(--parchment);}
 .bkd-title{font-family:'Dancing Script',cursive;font-size:1.05rem;font-weight:400;}
-.bkd-sub{font-size:.65rem;color:rgba(245,240,232,.42);margin-top:.18rem;font-family:'DM Mono',monospace;}
+.bkd-sub{font-size:.65rem;color:rgba(245,240,232,.42);margin-top:.18rem;font-family:'Space Mono',monospace;}
 .bkd-cols{display:grid;grid-template-columns:repeat(3,1fr);}
 .bkd-col{border-right:1px solid var(--border);}
 .bkd-col:last-child{border-right:none;}
-.bkd-clbl{background:var(--cream);border-bottom:1px solid var(--border);padding:.4rem .75rem;font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.1em;color:var(--muted);text-align:center;}
+.bkd-clbl{background:var(--cream);border-bottom:1px solid var(--border);padding:.4rem .75rem;font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.1em;color:var(--muted);text-align:center;}
 .bkd-cimg{aspect-ratio:3/4;overflow:hidden;background:var(--parchment);display:flex;align-items:center;justify-content:center;}
 .bkd-cimg svg{width:24px;height:24px;opacity:.18;}
 .bkd-cinfo{padding:.55rem .75rem;border-top:1px solid var(--border);}
-.bkd-var{font-family:'DM Mono',monospace;font-size:.58rem;color:var(--gold);}
+.bkd-var{font-family:'Space Mono',monospace;font-size:.58rem;color:var(--gold);}
 .bkd-note{font-size:.7rem;color:var(--muted);margin-top:.18rem;line-height:1.5;}
 
 /* ═══════════════════════════
@@ -295,25 +297,25 @@ header h1 em{font-style:italic;color:var(--gold-lt);}
 .fc-head{padding:1.1rem 1.3rem;border-bottom:1px solid var(--border);background:linear-gradient(135deg,var(--ink),#2d2520);color:var(--parchment);}
 .fc-title{font-family:'Dancing Script',cursive;font-size:1.2rem;font-weight:400;}
 .fc-title em{font-style:italic;color:var(--gold-lt);}
-.fc-sub{font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.1em;color:rgba(245,240,232,.35);margin-top:.2rem;}
+.fc-sub{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.1em;color:rgba(245,240,232,.35);margin-top:.2rem;}
 .fml{margin-top:.8rem;display:flex;align-items:center;flex-wrap:wrap;gap:.32rem;}
-.ft{font-family:'DM Mono',monospace;font-size:.6rem;background:rgba(184,150,62,.12);border:1px solid rgba(184,150,62,.28);color:var(--gold-lt);padding:.16rem .46rem;border-radius:2px;}
+.ft{font-family:'Space Mono',monospace;font-size:.6rem;background:rgba(184,150,62,.12);border:1px solid rgba(184,150,62,.28);color:var(--gold-lt);padding:.16rem .46rem;border-radius:2px;}
 .fop{color:rgba(245,240,232,.25);font-size:.65rem;}
-.fr{background:var(--gold);color:var(--ink);font-family:'DM Mono',monospace;font-size:.6rem;padding:.16rem .55rem;border-radius:2px;font-weight:700;}
+.fr{background:var(--gold);color:var(--ink);font-family:'Space Mono',monospace;font-size:.6rem;padding:.16rem .55rem;border-radius:2px;font-weight:700;}
 .wt-strip{padding:.55rem 1.3rem;background:rgba(184,150,62,.05);border-bottom:1px solid var(--border);display:flex;flex-wrap:wrap;gap:.45rem;align-items:center;}
-.wt-lbl{font-family:'DM Mono',monospace;font-size:.55rem;color:var(--muted);letter-spacing:.1em;margin-right:.25rem;}
-.wt-chip{font-family:'DM Mono',monospace;font-size:.55rem;background:var(--cream);border:1px solid var(--border);padding:.13rem .46rem;border-radius:2px;}
+.wt-lbl{font-family:'Space Mono',monospace;font-size:.55rem;color:var(--muted);letter-spacing:.1em;margin-right:.25rem;}
+.wt-chip{font-family:'Space Mono',monospace;font-size:.55rem;background:var(--cream);border:1px solid var(--border);padding:.13rem .46rem;border-radius:2px;}
 .wt-chip span{color:var(--gold);}
 
 /* ── FOOTER ── */
-footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;padding:1.6rem;font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.14em;}
+footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;padding:1.6rem;font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.14em;}
 
 .ate-info-row{display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;}
-.ate-info-zh{font-size:.72rem;color:var(--ink);font-family:'Noto Serif TC',serif;}
+.ate-info-zh{font-size:.72rem;color:var(--ink);font-family:'Noto Sans TC',sans-serif;}
 .ate-info-note{font-size:.65rem;color:var(--muted);margin-left:auto;text-align:right;}
 /* ── 製衣工坊 篩選 ── */
 .ate-filter-bar{display:flex;flex-wrap:wrap;gap:.4rem;padding:0 0 1.2rem;}
-.ate-tag{background:transparent;border:1px solid var(--border);border-radius:3px;padding:.28rem .7rem;font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.06em;cursor:pointer;color:var(--muted);transition:all .15s;display:flex;align-items:center;gap:.35rem;}
+.ate-tag{background:transparent;border:1px solid var(--border);border-radius:3px;padding:.28rem .7rem;font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.06em;cursor:pointer;color:var(--muted);transition:all .15s;display:flex;align-items:center;gap:.35rem;}
 .ate-tag:hover,.ate-tag.active{background:var(--ink);color:var(--parchment);border-color:var(--ink);}
 .ate-list{display:flex;flex-direction:column;gap:.5rem;}
 .ate-entry{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:.9rem 1rem;transition:border .15s;}
@@ -322,18 +324,18 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
 .ate-entry-head{display:flex;align-items:baseline;gap:.6rem;margin-bottom:.35rem;flex-wrap:wrap;}
 .ate-en{font-family:'Dancing Script',cursive;font-size:1.2rem;font-weight:600;color:var(--purple);}
 .ate-zh{font-size:.78rem;color:var(--muted);}
-.ate-prompt{font-family:'DM Mono',monospace;font-size:.78rem;color:var(--rust);letter-spacing:.03em;line-height:1.5;margin-bottom:.3rem;}
+.ate-prompt{font-family:'Space Mono',monospace;font-size:.78rem;color:var(--rust);letter-spacing:.03em;line-height:1.5;margin-bottom:.3rem;}
 .ate-note{font-size:.72rem;color:var(--muted);font-style:italic;margin-bottom:.3rem;}
 .ate-foot{display:flex;justify-content:flex-end;}
 
 /* ── QA ── */
 .qa-wrap{display:grid;grid-template-columns:200px 1fr;gap:2rem;align-items:start;}
 .qa-cat-list{position:sticky;top:80px;display:flex;flex-direction:column;gap:.3rem;}
-.qa-cat-btn{background:none;border:none;text-align:left;padding:.5rem .8rem;border-radius:6px;cursor:pointer;font-size:.8rem;font-family:'Noto Serif TC',serif;color:var(--body);transition:background .15s,color .15s;}
+.qa-cat-btn{background:none;border:none;text-align:left;padding:.5rem .8rem;border-radius:6px;cursor:pointer;font-size:.8rem;font-family:'Noto Sans TC',sans-serif;color:var(--body);transition:background .15s,color .15s;}
 .qa-cat-btn:hover{background:var(--border);}
 .qa-cat-btn.active{background:var(--gold);color:#fff;font-weight:600;}
 .qa-group{margin-bottom:2rem;}
-.qa-group-title{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.12em;color:var(--gold);margin-bottom:.8rem;padding-bottom:.4rem;border-bottom:1px solid var(--border);}
+.qa-group-title{font-family:'Space Mono',monospace;font-size:.65rem;letter-spacing:.12em;color:var(--gold);margin-bottom:.8rem;padding-bottom:.4rem;border-bottom:1px solid var(--border);}
 .qa-item{border:1px solid var(--border);border-radius:8px;margin-bottom:.6rem;overflow:hidden;}
 .qa-q{padding:.85rem 1rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:1rem;font-size:.85rem;font-weight:500;background:var(--card);transition:background .15s;}
 .qa-q:hover{background:var(--parchment);}
@@ -345,7 +347,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
 .qa-nudge{margin:2.5rem 0 0;padding:1rem 1.4rem;background:var(--card);border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;}
 .qa-nudge-text{font-size:.82rem;color:var(--body);line-height:1.6;}
 .qa-nudge-text strong{color:var(--rust);display:block;margin-bottom:.2rem;font-size:.85rem;}
-.qa-nudge-btn{flex-shrink:0;padding:.5rem 1.2rem;background:var(--gold);color:#fff;border:none;border-radius:6px;font-size:.78rem;font-family:'Noto Serif TC',serif;cursor:pointer;white-space:nowrap;transition:opacity .15s;}
+.qa-nudge-btn{flex-shrink:0;padding:.5rem 1.2rem;background:var(--gold);color:#fff;border:none;border-radius:6px;font-size:.78rem;font-family:'Noto Sans TC',sans-serif;cursor:pointer;white-space:nowrap;transition:opacity .15s;}
 .qa-nudge-btn:hover{opacity:.85;}
 @media(max-width:640px){
   .qa-wrap{grid-template-columns:1fr;}
@@ -374,9 +376,9 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
 .rtw-img-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;opacity:.2;}
 .rtw-img-ph svg{width:36px;height:36px;}
 .rtw-body{padding:.9rem 1rem 1rem;display:flex;flex-direction:column;flex:1;gap:.4rem;}
-.rtw-name{font-family:'Noto Serif TC',serif;font-size:.95rem;font-weight:500;color:var(--rust);}
+.rtw-name{font-family:'Noto Sans TC',sans-serif;font-size:.95rem;font-weight:500;color:var(--rust);}
 .rtw-meta{display:flex;flex-wrap:wrap;gap:.3rem;}
-.rtw-tag{background:var(--parchment);border:1px solid var(--border);border-radius:2px;padding:.1rem .45rem;font-size:.62rem;color:var(--muted);font-family:'DM Mono',monospace;}
+.rtw-tag{background:var(--parchment);border:1px solid var(--border);border-radius:2px;padding:.1rem .45rem;font-size:.62rem;color:var(--muted);font-family:'Space Mono',monospace;}
 
 /* ── RESPONSIVE ── */
 @media(max-width:900px){
@@ -414,7 +416,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
 <body class="theme-intro">
 
 <header>
-  <div class="h-label">pixAI · SDXL · Prompt Reference</div>
+  <div class="h-label">PixAI · SDXL · Prompt Reference</div>
   <h1>酌的裁縫舖與衣帽間</h1>
   <div class="h-sub">THE CLOTHING PROMPT DICTIONARY & SHARING</div>
   <div class="h-rule"></div>
@@ -438,7 +440,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
 .intro-block-head{display:flex;align-items:center;gap:.9rem;padding:1rem 1.4rem;background:var(--ink);color:var(--parchment);border-bottom:1px solid rgba(184,150,62,.2);}
 .ib-num{font-family:'Dancing Script',cursive;font-size:2rem;font-weight:300;color:var(--gold);opacity:.5;line-height:1;flex-shrink:0;}
 .ib-title{font-family:'Dancing Script',cursive;font-size:1.15rem;font-weight:400;}
-.ib-en{font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.15em;color:rgba(245,240,232,.35);display:block;margin-top:.15rem;}
+.ib-en{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.15em;color:rgba(245,240,232,.35);display:block;margin-top:.15rem;}
 .intro-block-body{padding:1.4rem 1.6rem;}
 .intro-block-body p{font-size:.83rem;line-height:2;color:#3a3228;}
 .intro-block-body p+p{margin-top:.7rem;}
@@ -454,18 +456,32 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
 .inc2-arr{display:block;text-align:right;color:var(--border);font-size:.8rem;margin-top:.4rem;transition:color .2s;}
 .inc2:hover .inc2-arr{color:var(--gold);}
 
+/* model cards */
+.model-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem;padding:0 1.4rem 1.4rem;}
+.model-card{border:1px solid var(--border);border-radius:8px;overflow:hidden;background:var(--card);text-decoration:none;color:inherit;display:flex;flex-direction:column;transition:box-shadow .2s,transform .2s;}
+.model-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.1);transform:translateY(-2px);}
+.model-card-thumb{width:100%;aspect-ratio:1/1;overflow:hidden;background:var(--parchment);}
+.model-card-thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s;}
+.model-card:hover .model-card-thumb img{transform:scale(1.05);}
+.model-card-thumb-ph{width:100%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;background:var(--cream);color:var(--muted);font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.08em;}
+.model-card-body{padding:.7rem .85rem .85rem;display:flex;flex-direction:column;gap:.25rem;flex:1;}
+.model-card-id{font-family:'Space Mono',monospace;font-size:.55rem;color:var(--gold);font-weight:700;}
+.model-card-name{font-size:.78rem;font-weight:500;line-height:1.4;}
+.model-card-link{margin-top:auto;padding-top:.5rem;font-family:'Space Mono',monospace;font-size:.58rem;color:var(--gold);display:inline-flex;align-items:center;gap:.3rem;}
+@media(max-width:640px){.model-cards{grid-template-columns:repeat(2,1fr);}}
+
 /* model table */
 .model-table-wrap{padding:0 1.4rem 1.4rem;}
 .model-table{width:100%;border-collapse:collapse;}
-.model-table th{background:var(--cream);border-bottom:2px solid var(--border);font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.14em;color:var(--muted);padding:.6rem .9rem;text-align:left;font-weight:400;}
+.model-table th{background:var(--cream);border-bottom:2px solid var(--border);font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.14em;color:var(--muted);padding:.6rem .9rem;text-align:left;font-weight:400;}
 .model-table td{padding:.8rem .9rem;border-bottom:1px solid var(--border);vertical-align:top;font-size:.8rem;line-height:1.6;}
 .model-table tr:last-child td{border-bottom:none;}
 .model-table tr:hover td{background:var(--parchment);}
-.model-id{font-family:'DM Mono',monospace;font-size:.65rem;font-weight:700;color:var(--gold);white-space:nowrap;}
+.model-id{font-family:'Space Mono',monospace;font-size:.65rem;font-weight:700;color:var(--gold);white-space:nowrap;}
 .model-name-cell{font-weight:500;}
-.model-params{font-family:'DM Mono',monospace;font-size:.6rem;color:var(--muted);margin-top:.2rem;line-height:1.7;}
+.model-params{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--muted);margin-top:.2rem;line-height:1.7;}
 .model-params span{color:var(--ink);}
-.pixai-link{display:inline-flex;align-items:center;gap:.35rem;font-family:'DM Mono',monospace;font-size:.58rem;color:var(--gold);text-decoration:none;border:1px solid rgba(184,150,62,.35);padding:.18rem .55rem;border-radius:2px;transition:all .15s;white-space:nowrap;}
+.pixai-link{display:inline-flex;align-items:center;gap:.35rem;font-family:'Space Mono',monospace;font-size:.58rem;color:var(--gold);text-decoration:none;border:1px solid rgba(184,150,62,.35);padding:.18rem .55rem;border-radius:2px;transition:all .15s;white-space:nowrap;}
 .pixai-link:hover{background:var(--gold);color:var(--ink);}
 .pixai-link svg{width:10px;height:10px;flex-shrink:0;}
 
@@ -475,7 +491,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
 .style-cell-head{padding:.45rem .7rem;background:var(--cream);border-bottom:1px solid var(--border);border-right:1px solid var(--border);}
 .style-cell:last-child .style-cell-head,
 .style-cell:last-child .style-img-row{border-right:none;}
-.style-cell-id{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.1em;color:var(--gold);}
+.style-cell-id{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.1em;color:var(--gold);}
 .style-cell-label{font-size:.7rem;color:var(--ink);margin-top:.05rem;}
 .style-img-row{display:grid;grid-template-columns:1fr 1fr;border-right:1px solid var(--border);}
 .style-img{aspect-ratio:3/4;background:var(--parchment);position:relative;overflow:hidden;border-top:1px solid var(--border);border-right:1px solid var(--border);}
@@ -483,7 +499,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
 .style-img img{width:100%;height:100%;object-fit:cover;display:block;}
 .style-img-ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.2rem;}
 .style-img-ph svg{width:18px;height:18px;opacity:.15;}
-.style-img-lbl{position:absolute;bottom:0;left:0;right:0;font-family:'DM Mono',monospace;font-size:.46rem;letter-spacing:.05em;background:rgba(26,21,16,.6);color:rgba(245,240,232,.75);padding:.15rem .3rem;text-align:center;}
+.style-img-lbl{position:absolute;bottom:0;left:0;right:0;font-family:'Space Mono',monospace;font-size:.46rem;letter-spacing:.05em;background:rgba(26,21,16,.6);color:rgba(245,240,232,.75);padding:.15rem .3rem;text-align:center;}
 
 /* usage steps */
 .steps-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;padding:1.2rem 1.4rem 1.4rem;}
@@ -496,7 +512,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
 /* notes */
 .notes-list{padding:1rem 1.6rem 1.4rem;display:flex;flex-direction:column;gap:.6rem;}
 .note-item{display:flex;gap:.75rem;align-items:flex-start;font-size:.8rem;line-height:1.7;color:#3a3228;}
-.note-bullet{color:var(--gold);font-family:'DM Mono',monospace;font-size:.65rem;margin-top:.2rem;flex-shrink:0;}
+.note-bullet{color:var(--gold);font-family:'Space Mono',monospace;font-size:.65rem;margin-top:.2rem;flex-shrink:0;}
 
 @media(max-width:640px){
   .intro-nav-grid{grid-template-columns:1fr;}
@@ -514,7 +530,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
       <div><div class="ib-title">關於這份手冊</div><span class="ib-en">ABOUT THIS GUIDE</span></div>
     </div>
     <div class="intro-block-body">
-      <p>這是一份專為 <strong>pixAI</strong> 平台設計的服裝提示詞參考手冊，整理了三個層次的詞條與配方，方便在生圖時快速查找、複製、套用。</p>
+      <p>這是一份專為 <strong>PixAI</strong> 平台設計的服裝提示詞參考手冊，整理了三個層次的詞條與配方，方便在生圖時快速查找、複製、套用。</p>
       <p>手冊分為三個主要區塊，可透過頂部導覽切換，或點擊下方卡片直接跳轉：</p>
     </div>
     <div class="intro-nav-grid">
@@ -548,43 +564,53 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
       <div class="ib-num">2</div>
       <div><div class="ib-title">使用模型</div><span class="ib-en">MODELS & CONFIGURATION</span></div>
     </div>
-    <div class="model-table-wrap" style="padding-top:1.2rem;">
-      <table class="model-table">
-        <thead>
-          <tr>
-            <th>編號</th>
-            <th>模型名稱 / 連結</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><span class="model-id">01</span></td>
-            <td><div class="model-name-cell">ChocoMint Mix</div><a href="https://pixai.art/model/1874095126418918009" target="_blank" rel="noopener" class="pixai-link" style="font-size:.65rem;">在 pixAI 開啟 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></a></td>
-          </tr>
-          <tr>
-            <td><span class="model-id">02</span></td>
-            <td><div class="model-name-cell">coco-Illustrious-NoobXL-Style</div><a href="https://pixai.art/model/1825497827039510248" target="_blank" rel="noopener" class="pixai-link" style="font-size:.65rem;">在 pixAI 開啟 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></a></td>
-          </tr>
-          <tr>
-            <td><span class="model-id">03</span></td>
-            <td><div class="model-name-cell">illustrious_Mix2</div><a href="https://pixai.art/model/1928756640085993575" target="_blank" rel="noopener" class="pixai-link" style="font-size:.65rem;">在 pixAI 開啟 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></a></td>
-          </tr>
-          <tr>
-            <td><span class="model-id">04</span></td>
-            <td><div class="model-name-cell">Plant Milk 🌿 - Model Suite</div><a href="https://pixai.art/model/1840638240479764095" target="_blank" rel="noopener" class="pixai-link" style="font-size:.65rem;">在 pixAI 開啟 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></a></td>
-          </tr>
-          <tr>
-            <td><span class="model-id">05</span></td>
-            <td><div class="model-name-cell">Hoshino v2</div><a href="https://pixai.art/model/1954632827019711809" target="_blank" rel="noopener" class="pixai-link" style="font-size:.65rem;">在 pixAI 開啟 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></a></td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="model-cards">
+      <a class="model-card" href="https://pixai.art/model/1874095126418918009" target="_blank" rel="noopener">
+        <div class="model-card-thumb"><img src="https://pixai.art/model/1874095126418918009/thumbnail" alt="ChocoMint Mix" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\'model-card-thumb-ph\'>NO PREVIEW</div>'"></div>
+        <div class="model-card-body">
+          <div class="model-card-id">01</div>
+          <div class="model-card-name">ChocoMint Mix</div>
+          <div class="model-card-link">在 PixAI 開啟 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" width="10" height="10"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></div>
+        </div>
+      </a>
+      <a class="model-card" href="https://pixai.art/model/1825497827039510248" target="_blank" rel="noopener">
+        <div class="model-card-thumb"><img src="https://pixai.art/model/1825497827039510248/thumbnail" alt="coco" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\'model-card-thumb-ph\'>NO PREVIEW</div>'"></div>
+        <div class="model-card-body">
+          <div class="model-card-id">02</div>
+          <div class="model-card-name">coco-Illustrious-NoobXL-Style</div>
+          <div class="model-card-link">在 PixAI 開啟 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" width="10" height="10"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></div>
+        </div>
+      </a>
+      <a class="model-card" href="https://pixai.art/model/1928756640085993575" target="_blank" rel="noopener">
+        <div class="model-card-thumb"><img src="https://pixai.art/model/1928756640085993575/thumbnail" alt="illustrious_Mix2" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\'model-card-thumb-ph\'>NO PREVIEW</div>'"></div>
+        <div class="model-card-body">
+          <div class="model-card-id">03</div>
+          <div class="model-card-name">illustrious_Mix2</div>
+          <div class="model-card-link">在 PixAI 開啟 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" width="10" height="10"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></div>
+        </div>
+      </a>
+      <a class="model-card" href="https://pixai.art/model/1840638240479764095" target="_blank" rel="noopener">
+        <div class="model-card-thumb"><img src="https://pixai.art/model/1840638240479764095/thumbnail" alt="Plant Milk" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\'model-card-thumb-ph\'>NO PREVIEW</div>'"></div>
+        <div class="model-card-body">
+          <div class="model-card-id">04</div>
+          <div class="model-card-name">Plant Milk 🌿 - Model Suite</div>
+          <div class="model-card-link">在 PixAI 開啟 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" width="10" height="10"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></div>
+        </div>
+      </a>
+      <a class="model-card" href="https://pixai.art/model/1954632827019711809" target="_blank" rel="noopener">
+        <div class="model-card-thumb"><img src="https://pixai.art/model/1954632827019711809/thumbnail" alt="Hoshino v2" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\'model-card-thumb-ph\'>NO PREVIEW</div>'"></div>
+        <div class="model-card-body">
+          <div class="model-card-id">05</div>
+          <div class="model-card-name">Hoshino v2</div>
+          <div class="model-card-link">在 PixAI 開啟 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" width="10" height="10"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></div>
+        </div>
+      </a>
     </div>
     </div>
 
     <!-- 經典衣櫃範例圖配置 -->
     <div style="padding:0 1.4rem 1.8rem;">
-      <div style="font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.14em;color:var(--muted);margin-bottom:.9rem;">ARCHIVES SAMPLE CONFIG</div>
+      <div style="font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.14em;color:var(--muted);margin-bottom:.9rem;">ARCHIVES SAMPLE CONFIG</div>
       <div style="background:var(--card);border:1px solid var(--border);border-radius:6px;overflow:hidden;">
         <div style="padding:.7rem 1rem;font-size:.75rem;color:var(--muted);line-height:1.7;">
           經典衣櫃的範例圖均以相同 LoRA 組合搭配各模型生成，僅更換底模，其餘參數固定不動，方便直觀比較模型風格差異。
@@ -616,15 +642,15 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
       <div class="step2">
         <div class="step2-n">3</div>
         <div class="step2-body">
-          <strong>在 pixAI 測試與調權重</strong>
-          <p>貼入自組的prompt草稿後開始生圖。若某個效果不夠明顯，可嘗試用括號提高權重：<code style="font-family:'DM Mono',monospace;font-size:.72rem;background:var(--cream);padding:.05rem .3rem;border-radius:2px;">(keyword:1.3)</code>，建議範圍 1.2–1.5。</p>
+          <strong>在 PixAI 測試與調權重</strong>
+          <p>貼入自組的prompt草稿後開始生圖。若某個效果不夠明顯，可嘗試用括號提高權重：<code style="font-family:'Space Mono',monospace;font-size:.72rem;background:var(--cream);padding:.05rem .3rem;border-radius:2px;">(keyword:1.3)</code>，建議範圍 1.2–1.5。</p>
         </div>
       </div>
       <div class="step2">
         <div class="step2-n">4</div>
         <div class="step2-body">
-          <strong>也可以開啟 pixAI 範例直接套用</strong>
-          <p>點擊成衣型錄圖片下的「在pixAI開啟」，可直接在 pixAI 載入配置與提示詞，修改人設後即可生圖，省去重新設定參數的步驟。</p>
+          <strong>開啟 PixAI 範例直接套用</strong>
+          <p>點擊寫真沙龍或成衣型錄的圖片，會連結到對應的 PixAI 作品頁面。進入後點擊右上角的<strong>「參考模板」</strong>按鈕，即可直接載入該圖使用的模型、LoRA、提示詞與所有參數設定。只需將提示詞中的人設部分替換成自己的，按下生成即可算出同款風格。</p>
         </div>
       </div>      
     </div>
@@ -792,6 +818,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
       <button class="qa-cat-btn active" onclick="qaScroll('qa-usage',this)">基本 QA</button>
       <button class="qa-cat-btn" onclick="qaScroll('qa-quality',this)">圖面品質</button>
       <button class="qa-cat-btn" onclick="qaScroll('qa-clothing',this)">服裝生成</button>
+      <button class="qa-cat-btn" onclick="qaScroll('qa-lora',this)">LoRA 搭配</button>
       <button class="qa-cat-btn" onclick="qaScroll('qa-model',this)">模型選擇</button>
       <button class="qa-cat-btn" onclick="qaScroll('qa-misc',this)">其他問題</button>
     </div>
@@ -805,7 +832,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
 
         <div class="qa-item">
           <div class="qa-q" onclick="toggleQA(this)">這個網站的 prompt 要怎麼用？<span class="qa-q-arrow">▼</span></div>
-          <div class="qa-a">點擊任一卡片右下角的 <strong>COPY</strong> 按鈕，prompt 就會複製到剪貼簿。<br>直接貼到 pixAI 或其他算圖工具的正向 prompt 欄位即可。<br>建議在最前面放你自己的人設描述，再接服裝詞條。</div>
+          <div class="qa-a">點擊任一卡片右下角的 <strong>COPY</strong> 按鈕，prompt 就會複製到剪貼簿。<br>直接貼到 PixAI 或其他算圖工具的正向 prompt 欄位即可。<br>建議在最前面放你自己的人設描述，再接服裝詞條。</div>
         </div>
 
         <div class="qa-item">
@@ -824,8 +851,8 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
         </div>
 
         <div class="qa-item">
-          <div class="qa-q" onclick="toggleQA(this)">寫真沙龍的「在 pixAI 開啟」連結是什麼？<span class="qa-q-arrow">▼</span></div>
-          <div class="qa-a">點擊連結會直接在 pixAI 開啟對應的模型頁面，並帶入預設的 prompt 和參數設定。<br>你只需要換上自己的人設描述，其餘設定都已經調好，省去重新設定的步驟。</div>
+          <div class="qa-q" onclick="toggleQA(this)">寫真沙龍的「在 PixAI 開啟」連結是什麼？<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">點擊連結會直接在 PixAI 開啟對應的模型頁面，並帶入預設的 prompt 和參數設定。<br>你只需要換上自己的人設描述，其餘設定都已經調好，省去重新設定的步驟。</div>
         </div>
       </div>
 
@@ -845,7 +872,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
 
         <div class="qa-item">
           <div class="qa-q" onclick="toggleQA(this)">圖面出現奇怪的色塊或色斑<span class="qa-q-arrow">▼</span></div>
-          <div class="qa-a">色斑通常是 cfg 設太高導致模型過度渲染。<br>① 嘗試降低 cfg（pixAI 建議維持在 7 以下）<br>② 也可以換個 seed 重跑，有時候只是那張 seed 不穩定</div>
+          <div class="qa-a">色斑通常是 cfg 設太高導致模型過度渲染。<br>① 嘗試降低 cfg（PixAI 建議維持在 7 以下）<br>② 也可以換個 seed 重跑，有時候只是那張 seed 不穩定</div>
         </div>
 
         <div class="qa-item">
@@ -855,7 +882,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
 
         <div class="qa-item">
           <div class="qa-q" onclick="toggleQA(this)">臉部崩掉或五官位置不對<span class="qa-q-arrow">▼</span></div>
-          <div class="qa-a">① 在正向 prompt 加入 <code>detailed face, perfect face</code><br>② 可以開啟 pixAI 的<strong>面部修復</strong>功能自動修正臉部<br>③ 也可以局部 inpaint 臉部區域重繪</div>
+          <div class="qa-a">① 在正向 prompt 加入 <code>detailed face, perfect face</code><br>② 可以開啟 PixAI 的<strong>面部修復</strong>功能自動修正臉部<br>③ 也可以局部 inpaint 臉部區域重繪</div>
         </div>
 
         <div class="qa-item">
@@ -869,8 +896,8 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
         <div class="qa-group-title">CLOTHING — 服裝生成</div>
 
         <div class="qa-item">
-          <div class="qa-q" onclick="toggleQA(this)">服裝出來是對的，但人物性別跑掉了怎麼辦？<span class="qa-q-arrow">▼</span></div>
-          <div class="qa-a">部分服裝詞條帶有性別刻板印象，模型會預設生成特定性別。如果要強調男性的人設，建議在人設描述後面補充以下詞條：<br><br><code>male focus, manly, masculine, 1boy</code><br><br>例如：<code>（你的人設）, nurse, male focus, manly, 1boy</code><br><br>反之若要強調女性，可以加 <code>female focus, 1girl</code>。詞條放在服裝詞附近效果較好。</div>
+          <div class="qa-q" onclick="toggleQA(this)">服裝出來是對的，但人物性別跑掉了（例如護士服變女生）<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">部分服裝詞條帶有性別刻板印象，模型會預設生成特定性別。如果要強調男性人設，建議在人設描述後面補充以下詞條：<br><br><code>male focus, manly, masculine, 1boy</code><br><br>例如：<code>（你的人設）, nurse, male focus, manly, 1boy</code><br><br>反之若要強調女性，可以加 <code>female focus, 1girl</code>。詞條放在服裝詞附近效果較好。</div>
         </div>
 
         <div class="qa-item">
@@ -880,7 +907,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
 
         <div class="qa-item">
           <div class="qa-q" onclick="toggleQA(this)">衣服根本沒出現，還是原本的便服<span class="qa-q-arrow">▼</span></div>
-          <div class="qa-a">① 確認服裝詞條是否都有放上<br>② 嘗試用括號提高權重，例如 <code>(maid dress:1.3)</code><br>③ 部分款式模型認識度較低，可以用更通用的詞替代，或參考經典衣櫃的建議詞條</div>
+          <div class="qa-a">① 確認服裝詞條是否放在 prompt 前段（權重較高的位置）<br>② 嘗試用括號提高權重，例如 <code>(maid dress:1.3)</code><br>③ 部分款式模型認識度較低，可以用更通用的詞替代，或參考經典衣櫃的建議詞條</div>
         </div>
 
         <div class="qa-item">
@@ -896,6 +923,46 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
         <div class="qa-item">
           <div class="qa-q" onclick="toggleQA(this)">服裝版型正確但布料材質感不對<span class="qa-q-arrow">▼</span></div>
           <div class="qa-a">可以直接在服裝詞前加材質，例如 <code>silk dress</code>、<code>lace blouse</code>、<code>PVC skirt</code>。<br>材質詞的效果因模型而異，可以參考製衣工坊的材質面料分類選用認識度較高的詞條。</div>
+        </div>
+      </div>
+
+      <!-- LoRA 搭配 -->
+      <div class="qa-group" id="qa-lora">
+        <div class="qa-group-title">LORA — LoRA 搭配</div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">LoRA 是什麼？和模型有什麼不同？<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">底模（模型）決定整體的畫風基礎，可以把它想成畫圖用的紙和畫材。<br>LoRA 則是疊加在底模上的「風格或特徵補丁」，用來強化特定的畫風、角色特徵、或服裝效果，但不能單獨使用，必須搭配底模。<br><br>同一個 LoRA 套在不同底模上，呈現效果也會不同。</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">要去哪裡找 LoRA？<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">可以直接在 PixAI 平台上搜尋，有很多公開的 LoRA 資源。<br>搜尋時可以用功能描述下關鍵字，例如服裝風格、畫風名稱、角色名等。<br>建議選擇下載量或使用量較高、且有附範例圖的 LoRA，比較容易評估效果是否符合需求。</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">LoRA 的權重要設多少？<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">通常建議從 <code>0.7–0.8</code> 開始測試，觀察效果再調整。<br>· 權重太高（接近 1 或超過）容易讓畫面過於風格化，甚至出現變形<br>· 權重太低則效果不明顯<br><br>部分 LoRA 的作者會在說明頁建議適合的權重範圍，可以優先參考。</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">同時用多個 LoRA 會有問題嗎？<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">可以疊加使用，但需要注意：<br>① 多個 LoRA 的效果會互相影響，總權重建議不要太高，可以嘗試每個都稍微降低<br>② 風格差異太大的 LoRA 疊在一起容易打架，造成畫面混亂<br>③ 建議一次加一個測試，確認效果後再疊加第二個，比較容易排查問題</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">可以用服裝 LoRA 嗎？效果怎麼樣？<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">可以！服裝 LoRA 專門強化特定服裝的生成效果，對於模型原本認識度較低的款式特別有用。<br><br>使用方式和一般 LoRA 相同，建議搭配對應的觸發詞（trigger word）使用，通常在 LoRA 的說明頁會標註。<br>如果已經有服裝 LoRA，可以搭配本站的製衣工坊詞條一起使用，效果會更精準。</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">加了 LoRA 之後服裝出來了，但臉或身體跑掉了<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">服裝 LoRA 有時會連帶影響人物的臉部或體型，這是訓練資料的問題。<br>① 嘗試降低 LoRA 的權重<br>② 在正向 prompt 加強人設描述，明確指定你要的臉部和體型特徵<br>③ 如果影響太嚴重，可以考慮換一個同類型但訓練品質更好的 LoRA</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">LoRA 的觸發詞是什麼？一定要加嗎？<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">觸發詞（trigger word）是啟動 LoRA 特定效果的關鍵字，通常由 LoRA 作者設定。<br>有些 LoRA 沒有觸發詞也有效果，但有些必須加了觸發詞才會正常運作。<br><br>觸發詞通常標註在 LoRA 的說明頁，建議使用前先查看一下。</div>
         </div>
       </div>
 
@@ -942,7 +1009,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
   <div style="background:var(--cream);border-radius:8px;max-width:420px;width:100%;box-shadow:0 8px 32px rgba(0,0,0,.3);" onclick="event.stopPropagation()">
     <div style="padding:1rem 1.4rem;border-bottom:1px solid var(--border);background:linear-gradient(135deg,var(--ink),#2d2520);color:var(--parchment);display:flex;justify-content:space-between;align-items:center;border-radius:8px 8px 0 0;">
       <div>
-        <div style="font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.12em;opacity:.5;margin-bottom:.2rem;">THE ATELIER</div>
+        <div style="font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.12em;opacity:.5;margin-bottom:.2rem;">THE ATELIER</div>
         <div style="font-family:'Dancing Script',cursive;font-size:1.2rem;">欄目說明</div>
       </div>
       <button onclick="closeAteInfoModal()" style="background:none;border:none;color:var(--parchment);font-size:1.2rem;cursor:pointer;opacity:.6;padding:.2rem .4rem;">✕</button>
@@ -962,42 +1029,42 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
   <div style="background:var(--cream);border-radius:8px;max-width:520px;width:100%;max-height:80vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,.3);" onclick="event.stopPropagation()">
     <div style="padding:1rem 1.4rem;border-bottom:1px solid var(--border);background:linear-gradient(135deg,var(--ink),#2d2520);color:var(--parchment);display:flex;justify-content:space-between;align-items:center;border-radius:8px 8px 0 0;">
       <div>
-        <div style="font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.12em;opacity:.5;margin-bottom:.2rem;">THE ATELIER</div>
+        <div style="font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.12em;opacity:.5;margin-bottom:.2rem;">THE ATELIER</div>
         <div style="font-family:'Dancing Script',cursive;font-size:1.2rem;">組合應用邏輯</div>
       </div>
       <button onclick="closeComboModal()" style="background:none;border:none;color:var(--parchment);font-size:1.2rem;cursor:pointer;opacity:.6;padding:.2rem .4rem;">✕</button>
     </div>
     <div style="padding:1.2rem 1.4rem;display:flex;flex-direction:column;gap:1.2rem;">
       <div>
-        <div style="font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.12em;color:var(--gold);margin-bottom:.7rem;">APPLICATION LOGIC</div>
+        <div style="font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.12em;color:var(--gold);margin-bottom:.7rem;">APPLICATION LOGIC</div>
         <div style="display:flex;flex-direction:column;gap:.45rem;">
           <div style="display:flex;align-items:center;gap:.6rem;font-size:.78rem;flex-wrap:wrap;">
-            <span style="background:var(--ink);color:var(--parchment);font-family:'DM Mono',monospace;font-size:.55rem;padding:.15rem .5rem;border-radius:2px;white-space:nowrap;">基礎版型 ＋ 材質面料</span>
+            <span style="background:var(--ink);color:var(--parchment);font-family:'Space Mono',monospace;font-size:.55rem;padding:.15rem .5rem;border-radius:2px;white-space:nowrap;">基礎版型 ＋ 材質面料</span>
             <span style="color:var(--muted);">→</span><span style="color:var(--ink);">決定主體</span>
           </div>
           <div style="display:flex;align-items:center;gap:.6rem;font-size:.78rem;flex-wrap:wrap;">
-            <span style="background:var(--ink);color:var(--parchment);font-family:'DM Mono',monospace;font-size:.55rem;padding:.15rem .5rem;border-radius:2px;white-space:nowrap;">＋ 剪裁細節</span>
+            <span style="background:var(--ink);color:var(--parchment);font-family:'Space Mono',monospace;font-size:.55rem;padding:.15rem .5rem;border-radius:2px;white-space:nowrap;">＋ 剪裁細節</span>
             <span style="color:var(--muted);">→</span><span style="color:var(--ink);">改變輪廓</span>
           </div>
           <div style="display:flex;align-items:center;gap:.6rem;font-size:.78rem;flex-wrap:wrap;">
-            <span style="background:var(--ink);color:var(--parchment);font-family:'DM Mono',monospace;font-size:.55rem;padding:.15rem .5rem;border-radius:2px;white-space:nowrap;">＋ 點綴</span>
+            <span style="background:var(--ink);color:var(--parchment);font-family:'Space Mono',monospace;font-size:.55rem;padding:.15rem .5rem;border-radius:2px;white-space:nowrap;">＋ 點綴</span>
             <span style="color:var(--muted);">→</span><span style="color:var(--ink);">出細節感</span>
           </div>
         </div>
       </div>
       <div>
-        <div style="font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.12em;color:var(--gold);margin-bottom:.7rem;">EXAMPLES</div>
+        <div style="font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.12em;color:var(--gold);margin-bottom:.7rem;">EXAMPLES</div>
         <div style="display:flex;flex-direction:column;gap:.55rem;">
           <div style="background:var(--card);border:1px solid var(--border);border-radius:5px;padding:.65rem .9rem;">
-            <div style="font-family:'DM Mono',monospace;font-size:.65rem;color:var(--ink);margin-bottom:.25rem;"><span style="color:var(--muted);">thong</span> ＋ <span style="color:var(--muted);">pearl</span> → <span style="color:var(--rust);font-weight:600;">pearl thong</span></div>
+            <div style="font-family:'Space Mono',monospace;font-size:.65rem;color:var(--ink);margin-bottom:.25rem;"><span style="color:var(--muted);">thong</span> ＋ <span style="color:var(--muted);">pearl</span> → <span style="color:var(--rust);font-weight:600;">pearl thong</span></div>
             <div style="font-size:.7rem;color:var(--muted);">材質點綴 × 基礎版型，直接合成新詞 ── 珍珠丁字褲</div>
           </div>
           <div style="background:var(--card);border:1px solid var(--border);border-radius:5px;padding:.65rem .9rem;">
-            <div style="font-family:'DM Mono',monospace;font-size:.65rem;color:var(--ink);margin-bottom:.25rem;"><span style="color:var(--muted);">off-shoulder</span> ＋ <span style="color:var(--muted);">lace</span> ＋ <span style="color:var(--muted);">ruffle</span> → <span style="color:var(--rust);font-weight:600;">off-shoulder lace top, ruffle trim top</span></div>
+            <div style="font-family:'Space Mono',monospace;font-size:.65rem;color:var(--ink);margin-bottom:.25rem;"><span style="color:var(--muted);">off-shoulder</span> ＋ <span style="color:var(--muted);">lace</span> ＋ <span style="color:var(--muted);">ruffle</span> → <span style="color:var(--rust);font-weight:600;">off-shoulder lace top, ruffle trim top</span></div>
             <div style="font-size:.7rem;color:var(--muted);">剪裁 × 材質 × 細節，三層疊加 ── 蕾絲荷葉邊露肩上衣</div>
           </div>
           <div style="background:var(--card);border:1px solid var(--border);border-radius:5px;padding:.65rem .9rem;">
-            <div style="font-family:'DM Mono',monospace;font-size:.65rem;color:var(--ink);margin-bottom:.25rem;"><span style="color:var(--muted);">qipao</span> ＋ <span style="color:var(--muted);">side slit</span> ＋ <span style="color:var(--muted);">PVC</span> → <span style="color:var(--rust);font-weight:600;">PVC cheongsam, side slit</span></div>
+            <div style="font-family:'Space Mono',monospace;font-size:.65rem;color:var(--ink);margin-bottom:.25rem;"><span style="color:var(--muted);">qipao</span> ＋ <span style="color:var(--muted);">side slit</span> ＋ <span style="color:var(--muted);">PVC</span> → <span style="color:var(--rust);font-weight:600;">PVC cheongsam, side slit</span></div>
             <div style="font-size:.7rem;color:var(--muted);">經典版型 × 剪裁工藝 × 材質改造 ── PVC 開衩旗袍</div>
           </div>
         </div>
@@ -1012,18 +1079,18 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
     <div id="arc-modal-head" style="padding:1.1rem 1.4rem;border-bottom:1px solid var(--border);background:linear-gradient(135deg,var(--ink),#2d2520);color:var(--parchment);display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;">
       <div>
         <div id="arc-modal-title" style="font-family:'Dancing Script',cursive;font-size:1.3rem;font-weight:400;"></div>
-        <div id="arc-modal-prompt" style="font-family:'DM Mono',monospace;font-size:.58rem;color:rgba(245,240,232,.42);margin-top:.3rem;line-height:1.6;"></div>
+        <div id="arc-modal-prompt" style="font-family:'Space Mono',monospace;font-size:.58rem;color:rgba(245,240,232,.42);margin-top:.3rem;line-height:1.6;"></div>
       </div>
       <div style="display:flex;gap:.6rem;align-items:center;flex-shrink:0;">
         <button id="arc-modal-copy" class="cp-btn" onclick="arcModalCopy()">COPY</button>
-        <button onclick="closeArcModal()" style="background:none;border:1px solid rgba(245,240,232,.2);color:rgba(245,240,232,.6);font-family:'DM Mono',monospace;font-size:.58rem;padding:.22rem .6rem;cursor:pointer;border-radius:2px;">✕</button>
+        <button onclick="closeArcModal()" style="background:none;border:1px solid rgba(245,240,232,.2);color:rgba(245,240,232,.6);font-family:'Space Mono',monospace;font-size:.58rem;padding:.22rem .6rem;cursor:pointer;border-radius:2px;">✕</button>
       </div>
     </div>
     <div id="arc-modal-grid" class="tg5" style="border-bottom:none;"></div>
   </div>
 </div>
 
-<footer>AI CLOTHING PROMPT DICTIONARY & SHARING · pixAI · SDXL · v0.1 · 酌的衣帽間</footer>
+<footer>AI CLOTHING PROMPT DICTIONARY & SHARING · PixAI · SDXL · v0.1 · 酌的衣帽間</footer>
 
 <script>
 function goTab(id,btn){
@@ -1149,7 +1216,8 @@ function ateFilter(btn, mod){
 }
 // ── Arc Modal ──
 let _arcPrompt = "";
-function openArcModal(en, prompt, imgs, labels) {
+function openArcModal(en, prompt, imgs, labels, links) {
+  links = links || [];
   _arcPrompt = prompt;
   document.getElementById("arc-modal-title").textContent = en + " — 五模型直出對比";
   document.getElementById("arc-modal-prompt").textContent = prompt;
@@ -1158,11 +1226,14 @@ function openArcModal(en, prompt, imgs, labels) {
   for (let i = 0; i < 5; i++) {
     const cell = document.createElement("div");
     cell.className = "tc";
-    if (imgs[i]) {
-      cell.innerHTML = `<img src="${imgs[i]}" alt="${labels[i]}" loading="lazy"><div class="tc-lbl">${labels[i]}</div>`;
-    } else {
-      cell.innerHTML = `<div class="tc-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div><div class="tc-lbl">${labels[i]}</div>`;
-    }
+    const url = links[i] || "";
+    const imgHtml = imgs[i]
+      ? `<img src="${imgs[i]}" alt="${labels[i]}" loading="lazy">`
+      : `<div class="tc-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div>`;
+    const inner = url
+      ? `<a href="${url}" target="_blank" rel="noopener" style="display:block;position:relative;">${imgHtml}<div class="tc-pixai-badge">在 PixAI 開啟</div></a><div class="tc-lbl">${labels[i]}</div>`
+      : `${imgHtml}<div class="tc-lbl">${labels[i]}</div>`;
+    cell.innerHTML = inner;
     grid.appendChild(cell);
   }
   const modal = document.getElementById("arc-modal");
