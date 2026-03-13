@@ -1269,8 +1269,7 @@ function ateFilter(btn, mod){
 }
 // ── Arc Modal ──
 let _arcPrompt = "";
-function openArcModal(en, prompt, imgs, labels, links) {
-  links = links || [];
+function openArcModal(en, prompt, imgs, labels) {
   _arcPrompt = prompt;
   document.getElementById("arc-modal-title").textContent = en + " — 五模型直出對比";
   document.getElementById("arc-modal-prompt").textContent = prompt;
@@ -1279,18 +1278,29 @@ function openArcModal(en, prompt, imgs, labels, links) {
   for (let i = 0; i < 5; i++) {
     const cell = document.createElement("div");
     cell.className = "tc";
-    const url = links[i] || "";
     const imgHtml = imgs[i]
-      ? `<img src="${imgs[i]}" alt="${labels[i]}" loading="lazy">`
+      ? `<img src="${imgs[i]}" alt="${labels[i]}" loading="lazy" style="cursor:zoom-in;" onclick="openLightbox('${imgs[i]}','${labels[i]}')">`
       : `<div class="tc-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div>`;
-    const inner = url
-      ? `<a href="${url}" target="_blank" rel="noopener" style="display:block;position:relative;">${imgHtml}<div class="tc-pixai-badge">在 PixAI 開啟</div></a><div class="tc-lbl">${labels[i]}</div>`
-      : `${imgHtml}<div class="tc-lbl">${labels[i]}</div>`;
-    cell.innerHTML = inner;
+    cell.innerHTML = `${imgHtml}<div class="tc-lbl">${labels[i]}</div>`;
     grid.appendChild(cell);
   }
   const modal = document.getElementById("arc-modal");
   modal.style.display = "flex";
+}
+function openLightbox(src, alt) {
+  let lb = document.getElementById("lightbox");
+  if (!lb) {
+    lb = document.createElement("div");
+    lb.id = "lightbox";
+    lb.style.cssText = "position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.88);display:flex;align-items:center;justify-content:center;cursor:zoom-out;";
+    lb.innerHTML = `<img id="lb-img" style="max-width:90vw;max-height:90vh;object-fit:contain;border-radius:3px;box-shadow:0 8px 40px rgba(0,0,0,.6);">`;
+    lb.addEventListener("click", () => lb.style.display = "none");
+    document.addEventListener("keydown", e => { if(e.key==="Escape") lb.style.display="none"; });
+    document.body.appendChild(lb);
+  }
+  document.getElementById("lb-img").src = src;
+  document.getElementById("lb-img").alt = alt;
+  lb.style.display = "flex";
 }
 function closeArcModal() {
   document.getElementById("arc-modal").style.display = "none";
