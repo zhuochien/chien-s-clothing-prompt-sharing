@@ -217,7 +217,7 @@ header h1 em{font-style:italic;color:var(--gold-lt);}
 .sub-label::after{content:'';flex:1;height:1px;background:var(--border);}
 .sub-code{color:var(--gold);margin-right:.25rem;}
 
-.arc-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.9rem;margin-bottom:2rem;}
+.arc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:.9rem;margin-bottom:2rem;}
 .arc-card{background:var(--card);border:1px solid var(--border);border-radius:3px;overflow:hidden;cursor:pointer;transition:box-shadow .2s,transform .2s,border-color .2s;}
 .arc-card:hover{box-shadow:0 5px 18px var(--shadow);transform:translateY(-2px);border-color:var(--gold);}
 .ac-img{aspect-ratio:3/4;position:relative;overflow:hidden;background:var(--parchment);}
@@ -354,8 +354,8 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
   .qa-cat-list{flex-direction:row;flex-wrap:wrap;position:static;}
   .qa-nudge{flex-direction:column;align-items:flex-start;}
 }
-.rtw-catalog{display:grid;grid-template-columns:repeat(5,1fr);gap:1.2rem;margin-top:.8rem;}
-.outfit-runway{display:grid;grid-template-columns:repeat(5,1fr);gap:1.2rem;margin-top:.8rem;}
+.rtw-catalog{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.2rem;margin-top:.8rem;}
+.outfit-runway{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1.2rem;margin-top:.8rem;}
 .outfit-card{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;display:flex;flex-direction:column;}
 .outfit-img{aspect-ratio:2/3;overflow:hidden;background:var(--parchment);position:relative;}
 .outfit-img img{width:100%;height:100%;object-fit:cover;display:block;}
@@ -710,6 +710,29 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
       <p style="font-size:.8rem;color:var(--muted);margin-top:.4rem;">所有服裝詞條男女皆可使用，分類僅供參考，依據常見穿搭習慣大致歸類。</p>
     </div>
   </div>
+  <div style="max-width:1200px;margin:0 auto;padding:0 2rem 1.5rem;">
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:3px;overflow:hidden;">
+    <div style="padding:.7rem 1.2rem;background:var(--ink);color:var(--parchment);display:flex;align-items:center;gap:.8rem;">
+      <div style="font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.15em;opacity:.5;">SAMPLE CONFIG</div>
+      <div style="font-family:'Dancing Script',cursive;font-size:1rem;">範例圖生成參數</div>
+    </div>
+    <div style="padding:.85rem 1.2rem;display:flex;gap:2rem;flex-wrap:wrap;align-items:center;">
+      <div style="display:flex;align-items:center;gap:.5rem;">
+        <span style="font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.1em;color:var(--muted);">STEPS</span>
+        <span style="font-family:'Space Mono',monospace;font-size:.78rem;color:var(--ink);font-weight:700;">16</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:.5rem;">
+        <span style="font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.1em;color:var(--muted);">CFG</span>
+        <span style="font-family:'Space Mono',monospace;font-size:.78rem;color:var(--ink);font-weight:700;">3.1</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:.5rem;">
+        <span style="font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.1em;color:var(--muted);">SAMPLER</span>
+        <span style="font-family:'Space Mono',monospace;font-size:.78rem;color:var(--ink);font-weight:700;">Euler a</span>
+      </div>
+      <div style="font-size:.72rem;color:var(--muted);margin-left:auto;line-height:1.6;">所有範例圖以相同參數搭配各底模直出，僅更換底模，其餘固定不動。</div>
+    </div>
+  </div>
+</div>
   <div class="with-sidebar">
     <div class="sidebar">
       <div class="sb-box" id="arc-toc">
