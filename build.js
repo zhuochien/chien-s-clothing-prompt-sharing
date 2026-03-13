@@ -59,51 +59,54 @@ function singleImg(url) {
 }
  
 // 01 經典衣櫃
-// 欄位：分類 中文名稱(title) Name Prompt Tags 備註 coco-Illustrious-NoobXL-Style ChocoMint_Mix illustrious_Mix2 Plant_Milk 發布
 function buildArchives(pages) {
-  const catMap  = { "經典女裝":"female","經典男裝":"male","其他":"others" };
-  const codeMap = { "經典女裝":"01","經典男裝":"02","其他":"03" };
-  const groups  = { "經典女裝":[],"經典男裝":[],"其他":[] };
- 
+  const groups = {};
+  const order  = [];
   for (const page of pages) {
-    const p = page.properties;
-    const cat = text(p["分類"]) || "";
-    if (!groups[cat]) continue;
+    const p   = page.properties;
+    const cat = text(p["分類"]) || "其他";
+    if (!groups[cat]) { groups[cat] = []; order.push(cat); }
     groups[cat].push(p);
   }
- 
-  let html = "";
-  for (const [cat, items] of Object.entries(groups)) {
-    if (!items.length) continue;
-    html += `<div id="a-${catMap[cat]}" data-acat="${catMap[cat]}">`;
-    html += `<div class="sub-label"><span class="sub-code">${codeMap[cat]}</span>${esc(cat)}</div>`;
-    html += `<div class="arc-grid">`;
- 
-    for (const p of items) {
-      const zh = esc(text(p["中文名稱"]));
-      const en = esc(text(p["Name"]));
-      const prompt = esc(text(p["Prompt Tags"]));
-      const img0 = (text(p["coco-Illustrious-NoobXL-Style"]) || [])[0] || "";
-      html += `<div class="arc-card"><div class="ac-img">${singleImg(img0)}</div><div class="ac-info"><div class="ac-en">${en}</div><div class="ac-zh">${zh}</div><div class="ac-prompt">${prompt}</div></div><div class="ac-foot"><button class="cp-btn" onclick="cp(this,'${prompt}')">COPY</button></div></div>`;
-    }
-    html += `</div>`;
- 
-    if (items.length > 0) {
-      const p = items[0];
-      const en = esc(text(p["Name"]));
-      const prompt = esc(text(p["Prompt Tags"]));
-      const imgKeys = ["coco-Illustrious-NoobXL-Style","ChocoMint_Mix","illustrious_Mix2","Plant_Milk","模型E示意圖"];
-      const modelLabels = ["coco","ChocoMint","illus_Mix2","Plant Milk","（待定）"];
-      const imgs = imgKeys.map(k => (text(p[k]) || [])[0] || "");
-      html += `<div class="amc"><div class="amc-head"><div><div class="amc-title">${en} — 五模型直出對比</div><div class="amc-prompt">${prompt}</div></div><span class="amc-tag t-arc">ARCHIVES</span></div><div class="tg5">`;
-      for (let i = 0; i < 5; i++) {
-        html += imgCell(imgs[i], modelLabels[i]);
-      }
-      html += `</div></div>`;
-    }
-    html += `</div>`;
+
+  function toSlug(str) {
+    return str.replace(/\s+/g, "-").replace(/[^\w\u4e00-\u9fff-]/g, "");
   }
-  return html;
+
+  const imgKeys     = ["coco-Illustrious-NoobXL-Style","ChocoMint_Mix","illustrious_Mix2","Plant_Milk","模型E示意圖"];
+  const modelLabels = ["coco","ChocoMint","illus_Mix2","Plant Milk","（待定）"];
+
+  let toc    = "";
+  let filter = `<button class="f-btn active" onclick="filterArc(this,'all')">全部</button>`;
+  let html   = "";
+
+  order.forEach((cat, idx) => {
+    const items = groups[cat];
+    const slug  = toSlug(cat);
+    const code  = String(idx + 1).padStart(2, "0");
+    const first = idx === 0 ? " active" : "";
+
+    toc    += `<div class="sb-link${first}" onclick="scrollTo2('a-${slug}','arc-toc',this)"><span class="sb-dot"></span>${code} ${esc(cat)}</div>`;
+    filter += `<button class="f-btn" onclick="filterArc(this,'${slug}')">${esc(cat)}</button>`;
+
+    html += `<div id="a-${slug}" data-acat="${slug}">`;
+    html += `<div class="sub-label"><span class="sub-code">${code}</span>${esc(cat)}</div>`;
+    html += `<div class="arc-grid">`;
+
+    for (const p of items) {
+      const zh      = esc(text(p["中文名稱"]));
+      const en      = esc(text(p["Name"]));
+      const prompt  = esc(text(p["Prompt Tags"]));
+      const imgs    = imgKeys.map(k => (text(p[k]) || [])[0] || "");
+      const img0    = imgs[0] || "";
+      const imgData = esc(JSON.stringify(imgs));
+      const lblData = esc(JSON.stringify(modelLabels));
+      html += `<div class="arc-card" onclick="openArcModal('${en}','${prompt}',${imgData},${lblData})" style="cursor:pointer;"><div class="ac-img">${singleImg(img0)}</div><div class="ac-info"><div class="ac-en">${en}</div><div class="ac-zh">${zh}</div><div class="ac-prompt">${prompt}</div></div><div class="ac-foot"><button class="cp-btn" onclick="event.stopPropagation();cp(this,'${prompt}')">COPY</button></div></div>`;
+    }
+    html += `</div></div>`;
+  });
+
+  return { html, toc, filter };
 }
  
 // 02 製衣工坊
