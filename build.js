@@ -73,7 +73,7 @@ function buildArchives(pages) {
     return str.replace(/\s+/g, "-").replace(/[^\w\u4e00-\u9fff-]/g, "");
   }
 
-  const imgKeys     = ["ChocoMint_Mix","coco-Illustrious-NoobXL-Style","illustrious_Mix2","Plant_Milk","模型E示意圖"];
+  const imgKeys     = ["ChocoMint_Mix","coco-Illustrious-NoobXL-Style","illustrious_Mix2","Plant_Milk","Hoshino_v2"];
   const modelLabels = ["ChocoMint","coco","illus_Mix2","Plant Milk","Hoshino v2"];
 
   let toc    = "";
