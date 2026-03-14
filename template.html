@@ -432,9 +432,15 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
 .rtw-meta{display:flex;flex-wrap:wrap;gap:.3rem;}
 .rtw-tag{background:var(--parchment);border:1px solid var(--border);border-radius:2px;padding:.1rem .45rem;font-size:.62rem;color:var(--muted);font-family:'Space Mono',monospace;}
 /* RTW / outfit 提示詞框 */
-.rtw-prompt-wrap,.outfit-prompt-wrap{position:relative;background:rgba(128,160,200,.08);border:1px solid rgba(128,160,200,.28);border-radius:2px;padding:.45rem .5rem .45rem .6rem;margin-top:.3rem;}
-.rtw-prompt,.outfit-prompt{font-family:'Space Mono',monospace;font-size:.52rem;color:var(--ink);word-break:break-all;line-height:1.6;padding-right:2.8rem;}
+.rtw-prompt-wrap,.outfit-prompt-wrap{position:relative;background:rgba(128,160,200,.08);border:1px solid rgba(128,160,200,.28);border-radius:2px;margin-top:.3rem;overflow:hidden;}
+.rtw-prompt,.outfit-prompt{font-family:'Space Mono',monospace;font-size:.52rem;color:var(--ink);line-height:1.65;padding:.45rem 3rem .45rem .6rem;max-height:3.6em;overflow:hidden;transition:max-height .35s cubic-bezier(.4,0,.2,1);}
+.rtw-prompt.open,.outfit-prompt.open{max-height:30em;}
 .rtw-foot,.outfit-foot{position:absolute;top:.3rem;right:.3rem;}
+.toggle-bar{display:flex;align-items:center;justify-content:center;padding:.22rem;border-top:1px solid rgba(128,160,200,.22);cursor:pointer;gap:.35rem;transition:background .15s;}
+.toggle-bar:hover{background:rgba(128,160,200,.12);}
+.toggle-label{font-family:'Space Mono',monospace;font-size:.46rem;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;}
+.toggle-arrow{font-size:.5rem;color:var(--muted);display:inline-block;transition:transform .3s;}
+.toggle-arrow.open{transform:rotate(180deg);}
 
 /* ── RESPONSIVE ── */
 @media(max-width:900px){
@@ -475,7 +481,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
   .outfit-card{flex-direction:column;}
   .outfit-img{width:100%;min-width:unset;aspect-ratio:2/3;}
   .outfit-body{border-left:none;border-top:1px solid var(--border);}
-  .rtw-foot,.outfit-foot{position:static;}
+  .rtw-foot,.outfit-foot{position:static;padding:.3rem .3rem 0 0;}
   .rtw-prompt,.outfit-prompt{padding-right:0;}
   .pt-toggle{display:inline-block;}
   .pt{display:-webkit-box !important;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;word-break:break-word;}
@@ -1319,6 +1325,14 @@ function togglePt(el){
   const pt=el.previousElementSibling;
   pt.classList.toggle('expanded');
   el.textContent=pt.classList.contains('expanded')?'收合':'展開';
+}
+function togglePrompt(id,bar){
+  const pt=document.getElementById(id);
+  const arr=bar.querySelector('.toggle-arrow');
+  const lbl=bar.querySelector('.toggle-label');
+  const isOpen=pt.classList.toggle('open');
+  arr.classList.toggle('open',isOpen);
+  lbl.textContent=isOpen?'收合':'展開';
 }
 function cp(btn,text){
   navigator.clipboard.writeText(text).then(()=>{
