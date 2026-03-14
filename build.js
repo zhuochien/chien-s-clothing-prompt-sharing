@@ -126,37 +126,82 @@ function buildArchives(pages) {
 }
  
 // 02 製衣工坊
-// 欄位：分類 中文名稱(title) Name Prompt Tags 備註 發布
+// 欄位：分類(select) 子分類(select) 中文名稱(title) Prompt Tags 備註 發布
 function buildAtelier(pages) {
-  const modules = {
-    "基礎版型":{ label:"", tag:"t-sil", tagText:"SILHOUETTE" },
-    "材質面料":{ label:"", tag:"t-fab", tagText:"FABRIC" },
-    "剪裁細節":{ label:"", tag:"t-tai", tagText:"TAILORING" },
-    "顏色系統":{ label:"", tag:"t-col", tagText:"COLOR LAB" },
-    "其他點綴":{ label:"", tag:"t-fin", tagText:"FINDINGS" },
+  // 五大分類對應的 tag 樣式（固定）
+  const modMeta = {
+    "基礎版型": { tag:"t-sil", tagText:"SILHOUETTE" },
+    "材質面料": { tag:"t-fab", tagText:"FABRIC" },
+    "剪裁細節": { tag:"t-tai", tagText:"TAILORING" },
+    "顏色系統": { tag:"t-col", tagText:"COLOR LAB" },
+    "其他點綴": { tag:"t-fin", tagText:"FINDINGS" },
   };
- 
-  // 篩選按鈕
-  let html = `<div class="ate-filter-bar">
-    <button class="ate-tag active" data-mod="all" onclick="ateFilter(this,'all')">全部</button>`;
-  for (const [mod, { label, tag, tagText }] of Object.entries(modules)) {
-    html += `<button class="ate-tag" data-mod="${mod}" onclick="ateFilter(this,'${mod}')"><span class="mtag ${tag}" style="font-size:.55rem;padding:.1rem .35rem;">${tagText}</span> ${esc(mod)}</button>`;
+
+  function toId(str) {
+    return "ate-" + str.replace(/\s+/g,"-").replace(/[^\w\u4e00-\u9fff-]/g,"");
   }
-  html += `</div>`;
- 
-  // 詞條列表
-  html += `<div id="ate-list" class="ate-list">`;
+
+  // 建立 大分類 → 子分類 → 詞條 的巢狀結構，保留出現順序
+  const catOrder = [];
+  const subOrder = {}; // cat -> [sub, ...]
+  const items    = {}; // cat -> sub -> [p, ...]
+
   for (const page of pages) {
-    const p      = page.properties;
-    const mod    = text(p["分類"]) || "";
-    if (!modules[mod]) continue;
-    const zh     = text(p["中文名稱"]);
-    const prompt = text(p["Prompt Tags"]);
-    const note   = text(p["備註"]);
-    const { tag="", tagText="" } = modules[mod] || {};
- 
-    html += `
-<div class="ate-entry" data-mod="${esc(mod)}">
+    const p   = page.properties;
+    const cat = text(p["分類"]) || "其他";
+    const sub = text(p["子分類"]) || "";
+
+    if (!items[cat]) { items[cat] = {}; catOrder.push(cat); subOrder[cat] = []; }
+    if (!items[cat][sub]) { items[cat][sub] = []; subOrder[cat].push(sub); }
+    items[cat][sub].push(p);
+  }
+
+  // ── sidebar TOC ──
+  let toc = "";
+  for (const cat of catOrder) {
+    const catId  = toId(cat);
+    const hasSub = subOrder[cat].some(s => s !== "");
+    toc += `
+<div class="ate-toc-cat" onclick="ateTocToggle(this,'${catId}')">
+  <span class="sb-dot"></span>
+  <span>${esc(cat)}</span>
+  ${hasSub ? `<span class="ate-toc-arrow">▾</span>` : ""}
+</div>`;
+    if (hasSub) {
+      toc += `<div class="ate-toc-subs" id="toc-subs-${catId}">`;
+      for (const sub of subOrder[cat]) {
+        if (!sub) continue;
+        const subId = toId(cat + "-" + sub);
+        toc += `<div class="ate-toc-sub" onclick="ateScrollTo('${subId}')">${esc(sub)}</div>`;
+      }
+      toc += `</div>`;
+    }
+  }
+
+  // ── 主內容 ──
+  let html = `<div id="ate-list" class="ate-list">`;
+
+  for (const cat of catOrder) {
+    const catId = toId(cat);
+    const { tag="", tagText="" } = modMeta[cat] || {};
+
+    html += `<div id="${catId}" class="ate-cat-block" data-cat="${esc(cat)}">`;
+    html += `<div class="sub-label"><span class="sub-code"><span class="mtag ${tag}" style="font-size:.55rem;padding:.1rem .45rem;">${tagText}</span></span>${esc(cat)}</div>`;
+
+    for (const sub of subOrder[cat]) {
+      if (sub) {
+        const subId = toId(cat + "-" + sub);
+        html += `<div id="${subId}" class="ate-sub-block">`;
+        html += `<div class="ate-sub-label">${esc(sub)}</div>`;
+      }
+
+      for (const p of items[cat][sub]) {
+        const zh     = text(p["中文名稱"]);
+        const prompt = text(p["Prompt Tags"]);
+        const note   = text(p["備註"]);
+
+        html += `
+<div class="ate-entry" data-cat="${esc(cat)}" data-sub="${esc(sub)}">
   <div class="ate-entry-head">
     <span class="ate-zh">${esc(zh)}</span>
     <span class="mtag ${tag}" style="font-size:.55rem;padding:.1rem .35rem;margin-left:auto;">${tagText}</span>
@@ -165,9 +210,16 @@ function buildAtelier(pages) {
   ${note ? `<div class="ate-note">${esc(note)}</div>` : ""}
   <div class="ate-foot"><button class="cp-btn" onclick="cp(this,'${esc(prompt)}')">COPY</button></div>
 </div>`;
+      }
+
+      if (sub) html += `</div>`; // .ate-sub-block
+    }
+
+    html += `</div>`; // .ate-cat-block
   }
+
   html += `</div>`;
-  return html;
+  return { html, toc };
 }
  
 // 03 成衣型錄
@@ -296,6 +348,7 @@ async function main() {
   console.log(`✅ 成衣型錄：${outfitsPages.length} 筆`);
 
   const { html: archivesHtml, toc: archivesToc, filter: archivesFilter } = buildArchives(archivesPages);
+  const { html: atelierHtml,  toc: atelierToc }                          = buildAtelier(atelierPages);
   const { html: salonHtml,    toc: salonToc }                            = buildSalon(salonPages);
   const { html: outfitsHtml,  toc: outfitsToc, filter: outfitsFilter }  = buildOutfits(outfitsPages);
 
@@ -304,7 +357,8 @@ async function main() {
     .replace("<!-- ARCHIVES_CONTENT -->", archivesHtml)
     .replace("<!-- ARCHIVES_TOC -->",     archivesToc)
     .replace("<!-- ARCHIVES_FILTER -->",  archivesFilter)
-    .replace("<!-- ATELIER_CONTENT -->",  buildAtelier(atelierPages))
+    .replace("<!-- ATELIER_CONTENT -->",  atelierHtml)
+    .replace("<!-- ATELIER_TOC -->",      atelierToc)
     .replace("<!-- SALON_CONTENT -->",    salonHtml)
     .replace("<!-- SALON_TOC -->",        salonToc)
     .replace("<!-- OUTFITS_CONTENT -->",  outfitsHtml)
