@@ -327,6 +327,15 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;font-
 .about-link:hover{color:var(--gold-lt);border-color:rgba(184,150,62,.45);}
 .about-link svg{width:10px;height:10px;flex-shrink:0;}
 
+/* ── 製衣工坊搜尋框 ── */
+.ate-search-bar{display:flex;gap:.5rem;align-items:center;margin-bottom:1.2rem;flex-wrap:wrap;}
+.ate-search-bar input{flex:1;min-width:200px;background:var(--card);border:1px solid var(--border);border-radius:3px;padding:.5rem .85rem;font-family:'Space Mono',monospace;font-size:.72rem;color:var(--ink);outline:none;transition:border-color .18s;}
+.ate-search-bar input:focus{border-color:var(--gold);}
+.ate-search-bar input::placeholder{color:var(--gold);opacity:.45;}
+.ate-search-bar button{background:var(--ink);border:none;color:var(--gold-lt);font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.1em;padding:.5rem .9rem;border-radius:3px;cursor:pointer;white-space:nowrap;transition:opacity .15s;}
+.ate-search-bar button:hover{opacity:.8;}
+.ate-search-count{font-family:'Space Mono',monospace;font-size:.62rem;color:var(--muted);letter-spacing:.1em;margin-bottom:.8rem;}
+
 .ate-info-row{display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;}
 .ate-info-zh{font-size:.72rem;color:var(--ink);font-family:'Iansui',sans-serif;}
 .ate-info-note{font-size:.65rem;color:var(--muted);margin-left:auto;text-align:right;}
@@ -926,6 +935,22 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;font-
       </div>
     </div>
     <div>
+      <!-- 搜尋框 -->
+      <div class="ate-search-bar">
+        <input
+          id="ate-search-input"
+          type="text"
+          placeholder="搜尋詞條或中文名稱⋯⋯按 Enter"
+          onkeydown="if(event.key==='Enter')ateSearch()"
+        >
+        <button onclick="ateSearch()">搜尋</button>
+        <button onclick="ateClearSearch()" id="ate-search-clear" style="display:none;">✕ 清除</button>
+      </div>
+      <div id="ate-search-results" style="display:none;">
+        <div class="ate-search-count" id="ate-search-count"></div>
+        <div class="ate-list" id="ate-search-list"></div>
+      </div>
+
       <!-- ATELIER_CONTENT -->
 
       <div class="qa-nudge">
@@ -1471,6 +1496,58 @@ function filterArc(btn,cat){
   document.querySelectorAll('#archives [data-acat]').forEach(g=>{
     g.style.display=(cat==='all'||g.dataset.acat===cat)?'':'none';
   });
+}
+
+// ── 製衣工坊搜尋 ──
+function ateSearch() {
+  const q = document.getElementById('ate-search-input').value.trim().toLowerCase();
+  const resultsWrap = document.getElementById('ate-search-results');
+  const clearBtn = document.getElementById('ate-search-clear');
+  const atelierContent = document.getElementById('atelier').querySelector('[id^="ate-"], .ate-cat-block, .ate-list');
+
+  if (!q) {
+    ateClearSearch();
+    return;
+  }
+
+  // 收集所有 .ate-entry
+  const allEntries = document.querySelectorAll('#atelier .ate-entry');
+  const matches = [];
+
+  allEntries.forEach(entry => {
+    const en = entry.querySelector('.ate-en')?.textContent.toLowerCase() || '';
+    const zh = entry.querySelector('.ate-zh')?.textContent.toLowerCase() || '';
+    const prompt = entry.querySelector('.ate-prompt')?.textContent.toLowerCase() || '';
+    if (en.includes(q) || zh.includes(q) || prompt.includes(q)) {
+      matches.push(entry.cloneNode(true));
+    }
+  });
+
+  // 顯示結果
+  const list = document.getElementById('ate-search-list');
+  const count = document.getElementById('ate-search-count');
+  list.innerHTML = '';
+
+  if (matches.length === 0) {
+    count.textContent = `找不到「${q}」的相關詞條`;
+    list.innerHTML = '<div style="color:var(--muted);font-size:.78rem;padding:.5rem 0;">試試看其他關鍵字，或直接瀏覽下方分類</div>';
+  } else {
+    count.textContent = `找到 ${matches.length} 筆關於「${q}」的詞條`;
+    matches.forEach(el => list.appendChild(el));
+  }
+
+  resultsWrap.style.display = 'block';
+  clearBtn.style.display = '';
+
+  // 隱藏原本的分類內容
+  document.querySelectorAll('#atelier .ate-cat-block').forEach(el => el.style.display = 'none');
+}
+
+function ateClearSearch() {
+  document.getElementById('ate-search-input').value = '';
+  document.getElementById('ate-search-results').style.display = 'none';
+  document.getElementById('ate-search-clear').style.display = 'none';
+  document.querySelectorAll('#atelier .ate-cat-block').forEach(el => el.style.display = '');
 }
 
 // 製衣工坊 sidebar 展開/收合
