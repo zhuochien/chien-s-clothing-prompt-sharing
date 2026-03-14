@@ -510,7 +510,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
   .outfit-img{width:130px;min-width:130px;flex-shrink:0;align-self:stretch;height:auto;aspect-ratio:unset;}
   .outfit-img img{width:100%;height:100%;object-fit:cover;display:block;}
   /* prompt 手機版：全展開，不截斷 */
-  .rtw-prompt,.outfit-prompt{max-height:none;overflow:visible;padding-right:.5rem;font-size:.62rem;}
+  .rtw-prompt,.outfit-prompt{max-height:8em;overflow:hidden;padding-right:.5rem;font-size:.62rem;}
   .rtw-prompt.open,.outfit-prompt.open{max-height:none;}
   /* copy / foot 按鈕手機版靜態排版 */
   .rtw-foot,.outfit-foot{position:static;display:block;margin-bottom:.3rem;}
@@ -1405,16 +1405,17 @@ document.addEventListener('DOMContentLoaded',()=>{
     },{passive:true});
   });
   // 電腦版：短 prompt 直接展開並隱藏 toggle-bar
-  if(window.innerWidth>=641){
-    const CHAR_LIMIT=200;
-    document.querySelectorAll('.rtw-prompt,.outfit-prompt').forEach(el=>{
-      const bar=el.parentElement.querySelector('.toggle-bar');
-      if(!bar)return;
-      if(el.textContent.length<=CHAR_LIMIT){
-        el.classList.add('open');
-        bar.style.display='none';
-      }
-    });
+const CHAR_LIMIT_DESKTOP = 200;
+const CHAR_LIMIT_MOBILE  = 120;  // 手機字比較大，門檻調低
+const limit = window.innerWidth >= 641 ? CHAR_LIMIT_DESKTOP : CHAR_LIMIT_MOBILE;
+document.querySelectorAll('.rtw-prompt,.outfit-prompt').forEach(el=>{
+  const bar=el.parentElement.querySelector('.toggle-bar');
+  if(!bar)return;
+  if(el.textContent.length<=limit){
+    el.classList.add('open');
+    bar.style.display='none';
+  }
+});
   }
 });
 function toggleQA(qEl){
