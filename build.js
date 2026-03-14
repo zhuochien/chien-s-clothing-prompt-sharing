@@ -267,7 +267,13 @@ function buildSalon(pages) {
       } else {
         html += `<div class="rtw-img-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>`;
       }
-      html += `</div><div class="rtw-body"><div class="rtw-name">${name}</div>${genders ? `<div class="rtw-meta">${genders}</div>` : ""}<div class="prompt-box" style="margin:.6rem 0 .5rem;"><span class="pt">${prompt}</span><span class="pt-toggle" onclick="togglePt(this)">展開</span><button class="cp-btn" onclick="cp(this,'${prompt}')">COPY</button></div></div></div>`;
+      const pid = `sp-${Math.random().toString(36).slice(2,8)}`;
+      html += `</div><div class="rtw-body"><div class="rtw-name">${name}</div>${genders ? `<div class="rtw-meta">${genders}</div>` : ""}`;
+      html += `<div class="rtw-prompt-wrap">`;
+      html += `<div class="rtw-foot"><button class="cp-btn" onclick="cp(this,'${prompt}')">COPY</button></div>`;
+      html += `<div class="rtw-prompt" id="${pid}">${prompt}</div>`;
+      html += `<div class="toggle-bar" onclick="togglePrompt('${pid}',this)"><span class="toggle-label">展開</span><span class="toggle-arrow">▼</span></div>`;
+      html += `</div></div></div>`;
     }
     html += `</div></div>`;
   });
@@ -326,7 +332,13 @@ function buildOutfits(pages) {
         imgs.forEach((_,i) => { html += `<div class="outfit-dot${i===0?' active':''}" onclick="outfitGo('${cid}',${i})"></div>`; });
         html += `</div>`;
       }
-      html += `</div><div class="outfit-body"><div class="rtw-name">${name}</div><div class="prompt-box" style="margin:.5rem 0;"><span class="pt">${prompt}</span><span class="pt-toggle" onclick="togglePt(this)">展開</span><button class="cp-btn" onclick="cp(this,'${prompt}')">COPY</button></div></div></div>`;
+      const pid2 = `op-${Math.random().toString(36).slice(2,8)}`;
+      html += `</div><div class="outfit-body"><div class="rtw-name">${name}</div>`;
+      html += `<div class="rtw-prompt-wrap">`;
+      html += `<div class="rtw-foot"><button class="cp-btn" onclick="cp(this,'${prompt}')">COPY</button></div>`;
+      html += `<div class="rtw-prompt" id="${pid2}">${prompt}</div>`;
+      html += `<div class="toggle-bar" onclick="togglePrompt('${pid2}',this)"><span class="toggle-label">展開</span><span class="toggle-arrow">▼</span></div>`;
+      html += `</div></div></div>`;
     }
     html += `</div></div>`;
   });
