@@ -433,7 +433,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
 .rtw-tag{background:var(--parchment);border:1px solid var(--border);border-radius:2px;padding:.1rem .45rem;font-size:.62rem;color:var(--muted);font-family:'Space Mono',monospace;}
 /* RTW / outfit 提示詞框 */
 .rtw-prompt-wrap,.outfit-prompt-wrap{position:relative;background:rgba(128,160,200,.08);border:1px solid rgba(128,160,200,.28);border-radius:2px;margin-top:.3rem;overflow:hidden;}
-.rtw-prompt,.outfit-prompt{font-family:'Space Mono',monospace;font-size:68rem;color:var(--ink);word-break:break-all;line-height:1.65;padding:.45rem 3rem .45rem .6rem;max-height:3.6em;overflow:hidden;transition:max-height .35s cubic-bezier(.4,0,.2,1);}
+.rtw-prompt,.outfit-prompt{font-family:'Space Mono',monospace;font-size:.68rem;color:var(--ink);word-break:break-all;line-height:1.65;padding:.45rem 3rem .45rem .6rem;max-height:3.6em;overflow:hidden;transition:max-height .35s cubic-bezier(.4,0,.2,1);}
 .rtw-prompt.open,.outfit-prompt.open{max-height:20em;}
 .rtw-foot,.outfit-foot{position:absolute;top:.3rem;right:.3rem;}
 .toggle-bar{display:flex;align-items:center;justify-content:center;padding:.22rem;border-top:1px solid rgba(128,160,200,.22);cursor:pointer;gap:.35rem;transition:background .15s;}
@@ -486,12 +486,14 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
   .tg5{grid-template-columns:repeat(3,1fr);}
   .tg4{grid-template-columns:repeat(2,1fr);}
   .bkd-cols{grid-template-columns:1fr;}
+  /* 經典衣櫃 手機直式 */
   .arc-grid{grid-template-columns:repeat(2,1fr);}
   .arc-card{flex-direction:column;}
   .ac-img{width:100%;min-width:unset;aspect-ratio:3/4;}
   .ac-info{border-left:none;border-top:1px solid var(--border);}
   .ac-foot{position:static;padding:.3rem 0 0;}
   .ac-prompt{padding-right:0;}
+  /* 製衣工坊 手機直式 */
   .item-row{grid-template-columns:repeat(2,1fr);}
   .fi{flex-direction:column;}
   .fi-img{width:100%;min-width:unset;aspect-ratio:3/4;}
@@ -499,21 +501,20 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
   .fi-foot{position:static;padding:.3rem 0 0;}
   .fi-prompt{padding-right:0;}
   .card-grid{grid-template-columns:1fr;}
- /* 手機版：單欄橫式，圖左內容右 */
+  /* 成衣型錄 & 寫真沙龍：單欄橫式，圖片隨內容撐高 */
   .rtw-catalog{grid-template-columns:1fr;}
-  .outfit-runway{grid-template-columns:1fr;}          /* ← 改成1欄 */
-/* rtw-card 保持橫式，圖片固定寬度 */
-  .rtw-card{flex-direction:row;}                      /* ← 不改方向 */
-  .rtw-img{width:90px;min-width:90px;flex-shrink:0;align-self:stretch;}  /* ← 縮窄一點 */
-/* 不設 aspect-ratio，讓高度跟著卡片內容撐 */
-/* outfit-card 同樣保持橫式 */
-  .outfit-card{flex-direction:row;}                   /* ← 不改方向 */
-  .outfit-img{width:90px;min-width:90px;flex-shrink:0;align-self:stretch;} /* ← 移除固定比例 */
-/* 展開時圖片跟著撐高的關鍵 */
-.rtw-img img,.outfit-img img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0;}
- .rtw-img,.outfit-img{position:relative;}
-.rtw-foot,.outfit-foot{position:static;}
-.rtw-prompt,.outfit-prompt{padding-right:0;}
+  .outfit-runway{grid-template-columns:1fr;}
+  .rtw-card,.outfit-card{flex-direction:row;}
+  .rtw-img{width:100px;min-width:100px;flex-shrink:0;align-self:stretch;height:auto;aspect-ratio:unset;}
+  .rtw-img img{width:100%;height:100%;object-fit:cover;display:block;}
+  .outfit-img{width:100px;min-width:100px;flex-shrink:0;align-self:stretch;height:auto;aspect-ratio:unset;}
+  .outfit-img img{width:100%;height:100%;object-fit:cover;display:block;}
+  /* prompt 手機版：全展開，不截斷 */
+  .rtw-prompt,.outfit-prompt{max-height:none;overflow:visible;padding-right:.5rem;font-size:.62rem;}
+  .rtw-prompt.open,.outfit-prompt.open{max-height:none;}
+  /* copy / foot 按鈕手機版靜態排版 */
+  .rtw-foot,.outfit-foot{position:static;display:block;margin-bottom:.3rem;}
+  /* 舊 prompt-box 相容 */
   .pt-toggle{display:inline-block;}
   .pt{display:-webkit-box !important;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;word-break:break-word;}
   .pt.expanded{display:block !important;overflow:visible;}
@@ -1403,6 +1404,18 @@ document.addEventListener('DOMContentLoaded',()=>{
       if(Math.abs(dx)>40)outfitSlide(cid,dx<0?1:-1);
     },{passive:true});
   });
+  // 電腦版：短 prompt 直接展開並隱藏 toggle-bar
+  if(window.innerWidth>=641){
+    const CHAR_LIMIT=120;
+    document.querySelectorAll('.rtw-prompt,.outfit-prompt').forEach(el=>{
+      const bar=el.parentElement.querySelector('.toggle-bar');
+      if(!bar)return;
+      if(el.textContent.length<=CHAR_LIMIT){
+        el.classList.add('open');
+        bar.style.display='none';
+      }
+    });
+  }
 });
 function toggleQA(qEl){
   const item=qEl.parentElement;
@@ -1427,18 +1440,6 @@ function filterArc(btn,cat){
   document.querySelectorAll('#archives [data-acat]').forEach(g=>{
     g.style.display=(cat==='all'||g.dataset.acat===cat)?'':'none';
   });
- // 桌機版：短 prompt 隱藏 toggle-bar
-  if(window.innerWidth >= 641){
-    document.querySelectorAll('.rtw-prompt,.outfit-prompt').forEach(el=>{
-      const bar = el.parentElement.querySelector('.toggle-bar');
-      if(!bar) return;
-      const charLimit = 300;  // ← 這裡調整字元數門檻
-      if(el.textContent.length <= charLimit){
-        el.classList.add('open');
-        bar.style.display = 'none';
-      }
-    });
-  }
 }
 
 // 製衣工坊 sidebar 展開/收合
