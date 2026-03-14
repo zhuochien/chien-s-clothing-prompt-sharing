@@ -503,6 +503,13 @@ async function main() {
 
   fs.writeFileSync("dist/index.html", template, "utf8");
   console.log("🎉 dist/index.html 產生完成！");
+
+  // 複製根目錄的 google 驗證檔案到 dist/
+  const googleFiles = fs.readdirSync(".").filter(f => f.startsWith("google") && f.endsWith(".html"));
+  for (const f of googleFiles) {
+    fs.copyFileSync(f, path.join("dist", f));
+    console.log(`✅ 複製驗證檔案：${f}`);
+  }
 }
 
 main().catch(err => { console.error("❌ 錯誤：", err); process.exit(1); });
