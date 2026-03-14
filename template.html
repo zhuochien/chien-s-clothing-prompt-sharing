@@ -217,20 +217,27 @@ header h1 em{font-style:italic;color:var(--gold-lt);}
 .sub-label::after{content:'';flex:1;height:1px;background:var(--border);}
 .sub-code{color:var(--gold);margin-right:.25rem;}
 
-.arc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:.9rem;margin-bottom:2rem;}
-.arc-card{background:var(--card);border:1px solid var(--border);border-radius:3px;overflow:hidden;cursor:pointer;transition:box-shadow .2s,transform .2s,border-color .2s;}
+/* ── ARC-CARD 新橫向排版（電腦版）── */
+.arc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem;margin-bottom:2rem;}
+.arc-card{background:var(--card);border:1px solid var(--border);border-radius:3px;overflow:hidden;cursor:pointer;transition:box-shadow .2s,transform .2s,border-color .2s;display:flex;flex-direction:row;}
 .arc-card:hover{box-shadow:0 5px 18px var(--shadow);transform:translateY(-2px);border-color:var(--gold);}
-.ac-img{aspect-ratio:3/4;position:relative;overflow:hidden;background:var(--parchment);}
+/* 左側圖片欄 */
+.ac-img{width:100px;min-width:100px;flex-shrink:0;position:relative;overflow:hidden;background:var(--parchment);aspect-ratio:unset;}
 .ac-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s;}
 .arc-card:hover .ac-img img{transform:scale(1.04);}
-.ac-ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.35rem;}
+.ac-ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.35rem;min-height:120px;}
 .ac-ph svg{width:26px;height:26px;opacity:.18;}
 .ac-ph span{font-family:'Space Mono',monospace;font-size:.48rem;opacity:.28;letter-spacing:.1em;}
-.ac-info{padding:.65rem .82rem .6rem;border-top:1px solid var(--border);}
+/* 右側內容欄 */
+.ac-info{padding:.65rem .82rem .6rem;border-top:none;border-left:1px solid var(--border);display:flex;flex-direction:column;flex:1;min-width:0;}
 .ac-en{font-family:'Space Mono',cursive;font-size:.92rem;font-weight:400;line-height:1.2;}
 .ac-zh{font-size:.68rem;color:var(--muted);margin-top:.1rem;}
-.ac-prompt{font-family:'Space Mono',monospace;font-size:.52rem;color:var(--gold);margin-top:.38rem;word-break:break-all;line-height:1.5;}
-.ac-foot{padding:.42rem .82rem;border-top:1px solid var(--border);display:flex;justify-content:flex-end;}
+/* 提示詞框（水藍風格）+ copy 右上角 */
+.ac-prompt-wrap{position:relative;margin-top:.5rem;background:rgba(128,160,200,.08);border:1px solid rgba(128,160,200,.28);border-radius:2px;padding:.45rem .5rem .45rem .6rem;flex:1;}
+.ac-prompt{font-family:'Space Mono',monospace;font-size:.52rem;color:var(--ink);word-break:break-all;line-height:1.6;padding-right:2.8rem;}
+.ac-foot{position:absolute;top:.3rem;right:.3rem;display:flex;}
+/* 舊版相容（保留） */
+.ac-prompt-legacy{font-family:'Space Mono',monospace;font-size:.52rem;color:var(--gold);margin-top:.38rem;word-break:break-all;line-height:1.5;}
 
 .amc{background:var(--card);border:1px solid var(--border);border-radius:3px;overflow:hidden;margin-bottom:2.5rem;}
 .amc-head{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.2rem;border-bottom:1px solid var(--border);background:linear-gradient(135deg,var(--ink),#2d2520);color:var(--parchment);}
@@ -259,20 +266,23 @@ header h1 em{font-style:italic;color:var(--gold-lt);}
 .cg-title{font-family:'Space Mono',cursive;font-size:1.35rem;font-weight:400;}
 .cg-count{margin-left:auto;font-family:'Space Mono',monospace;font-size:.58rem;color:var(--muted);}
 
-.item-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:.9rem;}
-.fi{background:var(--card);border:1px solid var(--border);border-radius:3px;overflow:hidden;cursor:pointer;transition:box-shadow .2s,transform .2s,border-color .2s;}
+/* ── FI（製衣工坊）新橫向排版 ── */
+.item-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem;}
+.fi{background:var(--card);border:1px solid var(--border);border-radius:3px;overflow:hidden;cursor:pointer;transition:box-shadow .2s,transform .2s,border-color .2s;display:flex;flex-direction:row;}
 .fi:hover{box-shadow:0 5px 16px var(--shadow);transform:translateY(-2px);border-color:var(--gold);}
-.fi-img{aspect-ratio:3/4;position:relative;overflow:hidden;background:var(--parchment);}
+.fi-img{width:100px;min-width:100px;flex-shrink:0;position:relative;overflow:hidden;background:var(--parchment);aspect-ratio:unset;}
 .fi-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s;}
 .fi:hover .fi-img img{transform:scale(1.04);}
-.fi-ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.35rem;}
+.fi-ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.35rem;min-height:120px;}
 .fi-ph svg{width:26px;height:26px;opacity:.18;}
 .fi-ph span{font-family:'Space Mono',monospace;font-size:.48rem;opacity:.28;letter-spacing:.1em;}
-.fi-info{padding:.65rem .82rem .6rem;border-top:1px solid var(--border);}
+.fi-info{padding:.65rem .82rem .6rem;border-top:none;border-left:1px solid var(--border);display:flex;flex-direction:column;flex:1;min-width:0;}
 .fi-en{font-family:'Space Mono',cursive;font-size:.92rem;font-weight:400;line-height:1.2;}
 .fi-zh{font-size:.68rem;color:var(--muted);margin-top:.1rem;}
-.fi-prompt{font-family:'Space Mono',monospace;font-size:.52rem;color:var(--gold);margin-top:.38rem;word-break:break-all;line-height:1.5;}
-.fi-foot{padding:.42rem .82rem;border-top:1px solid var(--border);display:flex;justify-content:flex-end;}
+/* 提示詞框 */
+.fi-prompt-wrap{position:relative;margin-top:.5rem;background:rgba(128,160,200,.08);border:1px solid rgba(128,160,200,.28);border-radius:2px;padding:.45rem .5rem .45rem .6rem;flex:1;}
+.fi-prompt{font-family:'Space Mono',monospace;font-size:.52rem;color:var(--ink);word-break:break-all;line-height:1.6;padding-right:2.8rem;}
+.fi-foot{position:absolute;top:.3rem;right:.3rem;display:flex;}
 
 .bkd{background:var(--card);border:1px solid var(--border);border-radius:3px;overflow:hidden;margin-top:1.1rem;margin-bottom:.5rem;}
 .bkd-head{padding:.9rem 1.2rem;border-bottom:1px solid var(--border);background:linear-gradient(135deg,var(--ink),#2d2520);color:var(--parchment);}
@@ -394,10 +404,11 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
   .qa-cat-list{flex-direction:row;flex-wrap:wrap;position:static;}
   .qa-nudge{flex-direction:column;align-items:flex-start;}
 }
-.rtw-catalog{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.2rem;margin-top:.8rem;}
-.outfit-runway{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1.2rem;margin-top:.8rem;}
-.outfit-card{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;display:flex;flex-direction:column;}
-.outfit-img{aspect-ratio:2/3;overflow:hidden;background:var(--parchment);position:relative;}
+/* ── RTW / OUTFIT 新橫向排版 ── */
+.rtw-catalog{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem;margin-top:.8rem;}
+.outfit-runway{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem;margin-top:.8rem;}
+.outfit-card{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;display:flex;flex-direction:row;}
+.outfit-img{width:100px;min-width:100px;flex-shrink:0;overflow:hidden;background:var(--parchment);position:relative;aspect-ratio:unset;}
 .outfit-img img{width:100%;height:100%;object-fit:cover;display:block;}
 .outfit-slides{width:100%;height:100%;display:flex;transition:transform .3s ease;}
 .outfit-slides img{flex:0 0 100%;width:100%;height:100%;object-fit:cover;display:block;}
@@ -408,17 +419,22 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
 .outfit-dots{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);display:flex;gap:4px;z-index:2;}
 .outfit-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.5);cursor:pointer;transition:background .2s;}
 .outfit-dot.active{background:#fff;}
-.outfit-body{padding:.8rem 1rem 1rem;display:flex;flex-direction:column;flex:1;gap:.4rem;}
-.rtw-card{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;display:flex;flex-direction:column;}
-.rtw-img{aspect-ratio:3/4;overflow:hidden;background:var(--parchment);}
+.outfit-body{padding:.8rem 1rem 1rem;display:flex;flex-direction:column;flex:1;gap:.4rem;border-left:1px solid var(--border);min-width:0;}
+/* RTW card 橫向 */
+.rtw-card{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;display:flex;flex-direction:row;}
+.rtw-img{width:100px;min-width:100px;flex-shrink:0;overflow:hidden;background:var(--parchment);}
 .rtw-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s;}
 .rtw-card:hover .rtw-img img{transform:scale(1.03);}
 .rtw-img-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;opacity:.2;}
 .rtw-img-ph svg{width:36px;height:36px;}
-.rtw-body{padding:.9rem 1rem 1rem;display:flex;flex-direction:column;flex:1;gap:.4rem;}
+.rtw-body{padding:.9rem 1rem 1rem;display:flex;flex-direction:column;flex:1;gap:.4rem;border-left:1px solid var(--border);min-width:0;}
 .rtw-name{font-family:'Iansui',sans-serif;font-size:.95rem;font-weight:500;color:var(--rust);}
 .rtw-meta{display:flex;flex-wrap:wrap;gap:.3rem;}
 .rtw-tag{background:var(--parchment);border:1px solid var(--border);border-radius:2px;padding:.1rem .45rem;font-size:.62rem;color:var(--muted);font-family:'Space Mono',monospace;}
+/* RTW / outfit 提示詞框 */
+.rtw-prompt-wrap,.outfit-prompt-wrap{position:relative;background:rgba(128,160,200,.08);border:1px solid rgba(128,160,200,.28);border-radius:2px;padding:.45rem .5rem .45rem .6rem;margin-top:.3rem;}
+.rtw-prompt,.outfit-prompt{font-family:'Space Mono',monospace;font-size:.52rem;color:var(--ink);word-break:break-all;line-height:1.6;padding-right:2.8rem;}
+.rtw-foot,.outfit-foot{position:absolute;top:.3rem;right:.3rem;}
 
 /* ── RESPONSIVE ── */
 @media(max-width:900px){
@@ -437,13 +453,30 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
   .tg5{grid-template-columns:repeat(3,1fr);}
   .tg4{grid-template-columns:repeat(2,1fr);}
   .bkd-cols{grid-template-columns:1fr;}
-  .arc-grid,.item-row{grid-template-columns:repeat(2,1fr);}
+  /* 手機版：卡片改回直式 */
+  .arc-grid{grid-template-columns:repeat(2,1fr);}
+  .arc-card{flex-direction:column;}
+  .ac-img{width:100%;min-width:unset;aspect-ratio:3/4;}
+  .ac-info{border-left:none;border-top:1px solid var(--border);}
+  .ac-foot{position:static;padding:.3rem 0 0;}
+  .ac-prompt{padding-right:0;}
+  .item-row{grid-template-columns:repeat(2,1fr);}
+  .fi{flex-direction:column;}
+  .fi-img{width:100%;min-width:unset;aspect-ratio:3/4;}
+  .fi-info{border-left:none;border-top:1px solid var(--border);}
+  .fi-foot{position:static;padding:.3rem 0 0;}
+  .fi-prompt{padding-right:0;}
   .card-grid{grid-template-columns:1fr;}
   .rtw-catalog{grid-template-columns:1fr;}
   .outfit-runway{grid-template-columns:repeat(2,1fr);}
-  .rtw-card{flex-direction:row;}
-  .rtw-img{width:110px;min-width:110px;aspect-ratio:unset;height:auto;min-height:140px;}
-  .rtw-body{padding:.7rem .8rem;}
+  .rtw-card{flex-direction:column;}
+  .rtw-img{width:100%;min-width:unset;aspect-ratio:3/4;}
+  .rtw-body{border-left:none;border-top:1px solid var(--border);}
+  .outfit-card{flex-direction:column;}
+  .outfit-img{width:100%;min-width:unset;aspect-ratio:2/3;}
+  .outfit-body{border-left:none;border-top:1px solid var(--border);}
+  .rtw-foot,.outfit-foot{position:static;}
+  .rtw-prompt,.outfit-prompt{padding-right:0;}
   .pt-toggle{display:inline-block;}
   .pt{display:-webkit-box !important;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;word-break:break-word;}
   .pt.expanded{display:block !important;overflow:visible;}
@@ -788,6 +821,38 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
 </div>
 </section>
 
+<!--
+  ══ 新卡片 HTML 結構（電腦版橫向排版）══
+  arc-card 範例：
+  <div class="arc-card" onclick="...">
+    <div class="ac-img"><img src="..." alt="..."></div>
+    <div class="ac-info">
+      <div class="ac-en">English Name</div>
+      <div class="ac-zh">中文名稱</div>
+      <div class="ac-prompt-wrap">
+        <div class="ac-prompt">prompt text here...</div>
+        <div class="ac-foot">
+          <button class="cp-btn" onclick="cp(this,'prompt text here...');event.stopPropagation();">COPY</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  fi-card 範例（製衣工坊）：
+  <div class="fi">
+    <div class="fi-img"><img src="..." alt="..."></div>
+    <div class="fi-info">
+      <div class="fi-en">English</div>
+      <div class="fi-zh">中文</div>
+      <div class="fi-prompt-wrap">
+        <div class="fi-prompt">prompt text here...</div>
+        <div class="fi-foot">
+          <button class="cp-btn" onclick="cp(this,'...')">COPY</button>
+        </div>
+      </div>
+    </div>
+  </div>
+-->
 <!-- ══════════ SECTION 1 – ARCHIVES ══════════ -->
 <section id="archives" class="section">
   <div class="sec-head">
@@ -1099,7 +1164,8 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
         <div class="qa-item">
           <div class="qa-q" onclick="toggleQA(this)">要去哪裡選擇模型版本？<span class="qa-q-arrow">▼</span></div>
           <div class="qa-a">在 PixAI 的生圖介面裡，點擊模型名稱旁邊的版本號，就可以展開版本選單切換。<br><br>
-        <button class="cp-btn" style="margin-top:.4rem;" onclick="openLightbox('assets/guide/model-version.jpg','如何選擇模型版本')">📷 圖片說明</button>
+        <button class="cp-btn" style="margin-top:.4rem;margin-right:.4rem;" onclick="openLightbox('assets/guide/model-version-app.jpg','手機 App — 選擇模型版本')">📷 手機 App</button>
+        <button class="cp-btn" style="margin-top:.4rem;" onclick="openLightbox('assets/guide/model-version-web.jpg','電腦網頁 — 選擇模型版本')">📷 電腦網頁</button>
        </div>
       </div>
 
