@@ -1438,7 +1438,7 @@ function filterArc(btn,cat){
       el.style.maxHeight = '';
       el.style.overflow  = '';
       const lineH = parseFloat(getComputedStyle(el).lineHeight) || 20;
-      if(fullH <= lineH * 4){
+      if(fullH <= lineH * 14){
         el.classList.add('open');
         bar.style.display = 'none';
       }
