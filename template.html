@@ -957,6 +957,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;font-
         <div class="qa-nudge-text"><strong>組合出來怪怪的？</strong>詞條衝突或效果不如預期？去 QA 看看有沒有對應的解法。</div>
         <button class="qa-nudge-btn" onclick="goTabByID('qa')">前往 QA →</button>
       </div>
+    </div>
   </div>
 </section>
 
@@ -1508,7 +1509,6 @@ function ateSearch() {
   const q = document.getElementById('ate-search-input').value.trim().toLowerCase();
   const resultsWrap = document.getElementById('ate-search-results');
   const clearBtn = document.getElementById('ate-search-clear');
-  const atelierContent = document.getElementById('atelier').querySelector('[id^="ate-"], .ate-cat-block, .ate-list');
 
   if (!q) {
     ateClearSearch();
