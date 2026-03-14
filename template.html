@@ -346,6 +346,9 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;font-
 .ate-cat-block{margin-bottom:2.5rem;}
 .ate-sub-block{margin-bottom:1.5rem;}
 .ate-sub-label{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.14em;color:var(--muted);text-transform:uppercase;padding:.45rem 0 .6rem;border-bottom:1px solid var(--border);margin-bottom:.7rem;}
+/* 成衣型錄 子分類區塊 */
+.out-sub-block{margin-bottom:1.8rem;}
+.out-sub-block .ate-sub-label{color:var(--rust);}
 
 /* ── 說明頁 步驟圖 ── */
 .how-block{background:var(--card);border:1px solid var(--border);border-radius:3px;overflow:hidden;margin-bottom:1.6rem;}
@@ -946,7 +949,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;font-
   <div class="with-sidebar">
     <div class="sidebar">
       <div class="sb-box" id="outfit-toc">
-        <div class="sb-head">MODEL</div>
+        <div class="sb-head">CATEGORY</div>
         <!-- OUTFITS_TOC -->
       </div>
     </div>
@@ -1496,6 +1499,33 @@ function ateScrollTo(id) {
   document.querySelectorAll(".ate-toc-cat").forEach(s => s.classList.remove("active"));
   const subEl = document.querySelector(`.ate-toc-sub[onclick*="${id}"]`);
   const catEl = document.querySelector(`.ate-toc-cat[onclick*="${id}"]`);
+  if (subEl) subEl.classList.add("active");
+  if (catEl) catEl.classList.add("active");
+}
+// 成衣型錄 sidebar 展開/收合（同製衣工坊邏輯）
+function outfitTocToggle(el, catId) {
+  const subs = document.getElementById("toc-subs-" + catId);
+  if (!subs) {
+    outfitScrollTo(catId);
+    return;
+  }
+  const isOpen = subs.classList.contains("open");
+  subs.classList.toggle("open", !isOpen);
+  el.classList.toggle("open", !isOpen);
+  if (!isOpen) outfitScrollTo(catId);
+}
+function outfitScrollTo(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    setTimeout(() => {
+      const off = el.getBoundingClientRect().top + window.scrollY - 70;
+      window.scrollTo({ top: off, behavior: "smooth" });
+    }, 40);
+  }
+  document.querySelectorAll("#outfit-toc .ate-toc-sub").forEach(s => s.classList.remove("active"));
+  document.querySelectorAll("#outfit-toc .ate-toc-cat").forEach(s => s.classList.remove("active"));
+  const subEl = document.querySelector(`#outfit-toc .ate-toc-sub[onclick*="${id}"]`);
+  const catEl = document.querySelector(`#outfit-toc .ate-toc-cat[onclick*="${id}"]`);
   if (subEl) subEl.classList.add("active");
   if (catEl) catEl.classList.add("active");
 }
