@@ -1406,7 +1406,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   });
   // 電腦版：短 prompt 直接展開並隱藏 toggle-bar
   if(window.innerWidth>=641){
-    const CHAR_LIMIT=120;
+    const CHAR_LIMIT=250;
     document.querySelectorAll('.rtw-prompt,.outfit-prompt').forEach(el=>{
       const bar=el.parentElement.querySelector('.toggle-bar');
       if(!bar)return;
