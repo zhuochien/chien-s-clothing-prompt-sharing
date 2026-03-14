@@ -405,10 +405,10 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
   .qa-nudge{flex-direction:column;align-items:flex-start;}
 }
 /* ── RTW / OUTFIT 新橫向排版 ── */
-.rtw-catalog{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem;margin-top:.8rem;}
-.outfit-runway{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem;margin-top:.8rem;}
+.rtw-catalog{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:.8rem;}
+.outfit-runway{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:.8rem;}
 .outfit-card{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;display:flex;flex-direction:row;}
-.outfit-img{width:100px;min-width:100px;flex-shrink:0;overflow:hidden;background:var(--parchment);position:relative;aspect-ratio:unset;}
+.outfit-img{width:160px;min-width:160px;flex-shrink:0;overflow:hidden;background:var(--parchment);position:relative;aspect-ratio:unset;}
 .outfit-img img{width:100%;height:100%;object-fit:cover;display:block;}
 .outfit-slides{width:100%;height:100%;display:flex;transition:transform .3s ease;}
 .outfit-slides img{flex:0 0 100%;width:100%;height:100%;object-fit:cover;display:block;}
@@ -422,7 +422,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
 .outfit-body{padding:.8rem 1rem 1rem;display:flex;flex-direction:column;flex:1;gap:.4rem;border-left:1px solid var(--border);min-width:0;}
 /* RTW card 橫向 */
 .rtw-card{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;display:flex;flex-direction:row;}
-.rtw-img{width:100px;min-width:100px;flex-shrink:0;overflow:hidden;background:var(--parchment);}
+.rtw-img{width:160px;min-width:160px;flex-shrink:0;overflow:hidden;background:var(--parchment);}
 .rtw-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s;}
 .rtw-card:hover .rtw-img img{transform:scale(1.03);}
 .rtw-img-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;opacity:.2;}
