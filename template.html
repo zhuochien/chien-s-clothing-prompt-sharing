@@ -920,10 +920,10 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;font-
         <input
           id="arc-search-input"
           type="text"
-          placeholder="搜尋詞條或中文名稱⋯⋯按 Enter"
-          onkeydown="if(event.key==='Enter')arcSearch()"
+          placeholder="搜尋詞條或中文名稱⋯⋯"
+          oninput="arcSearch()"
+          onkeydown="if(event.key==='Escape')arcClearSearch()"
         >
-        <button onclick="arcSearch()">搜尋</button>
         <button onclick="arcClearSearch()" id="arc-search-clear" style="display:none;">✕ 清除</button>
       </div>
       <div id="arc-search-results" style="display:none;">
@@ -971,12 +971,32 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;font-
         <input
           id="ate-search-input"
           type="text"
-          placeholder="搜尋詞條或中文名稱⋯⋯按 Enter"
-          onkeydown="if(event.key==='Enter')ateSearch()"
+          placeholder="搜尋詞條或中文名稱⋯⋯"
+          oninput="ateSearch()"
+          onkeydown="if(event.key==='Escape')ateClearSearch()"
         >
-        <button onclick="ateSearch()">搜尋</button>
         <button onclick="ateClearSearch()" id="ate-search-clear" style="display:none;">✕ 清除</button>
+        <button onclick="toggleComboBuilder()" id="combo-builder-toggle" style="background:var(--ink);border:none;color:var(--gold-lt);font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.1em;padding:.5rem .9rem;border-radius:3px;cursor:pointer;white-space:nowrap;transition:opacity .15s;" title="詞條組合器">✦ 組合器</button>
       </div>
+
+      <!-- 詞條組合器面板（預設收合） -->
+      <div id="combo-builder-panel" style="display:none;margin-bottom:1.2rem;background:var(--card);border:1px solid var(--border);border-radius:6px;overflow:hidden;">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:.65rem 1rem;background:var(--ink);color:var(--parchment);">
+          <span style="font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:.14em;">✦ 詞條組合器</span>
+          <div style="display:flex;align-items:center;gap:.6rem;">
+            <button onclick="comboClear()" style="background:none;border:1px solid rgba(245,240,232,.25);color:rgba(245,240,232,.55);font-family:'Space Mono',monospace;font-size:.56rem;padding:.2rem .55rem;border-radius:2px;cursor:pointer;">清空</button>
+            <button onclick="toggleComboBuilder()" style="background:none;border:none;color:rgba(245,240,232,.45);font-size:.85rem;cursor:pointer;line-height:1;">✕</button>
+          </div>
+        </div>
+        <div style="padding:.8rem 1rem;">
+          <div style="font-family:'Space Mono',monospace;font-size:.58rem;color:var(--muted);letter-spacing:.1em;margin-bottom:.5rem;">點擊下方任一詞條的「＋」即可加入 ↓</div>
+          <div id="combo-result" style="min-height:2.4rem;background:var(--cream);border:1px solid var(--border);border-radius:3px;padding:.5rem .75rem;font-family:'Space Mono',monospace;font-size:.7rem;color:var(--ink);line-height:1.7;word-break:break-all;"></div>
+          <div style="display:flex;justify-content:flex-end;gap:.5rem;margin-top:.55rem;">
+            <button id="combo-copy-btn" onclick="comboCopy()" style="background:var(--ink);border:none;color:var(--gold-lt);font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.1em;padding:.38rem .85rem;border-radius:3px;cursor:pointer;">COPY</button>
+          </div>
+        </div>
+      </div>
+
       <div id="ate-search-results" style="display:none;">
         <div class="ate-search-count" id="ate-search-count"></div>
         <div class="ate-list" id="ate-search-list"></div>
@@ -1535,57 +1555,6 @@ function filterArc(btn,cat){
   });
 }
 
-// ── 製衣工坊搜尋 ──
-function ateSearch() {
-  const q = document.getElementById('ate-search-input').value.trim().toLowerCase();
-  const resultsWrap = document.getElementById('ate-search-results');
-  const clearBtn = document.getElementById('ate-search-clear');
-
-  if (!q) {
-    ateClearSearch();
-    return;
-  }
-
-  // 收集所有 .ate-entry
-  const allEntries = document.querySelectorAll('#atelier .ate-entry');
-  const matches = [];
-
-  allEntries.forEach(entry => {
-    const en = entry.querySelector('.ate-en')?.textContent.toLowerCase() || '';
-    const zh = entry.querySelector('.ate-zh')?.textContent.toLowerCase() || '';
-    const prompt = entry.querySelector('.ate-prompt')?.textContent.toLowerCase() || '';
-    if (en.includes(q) || zh.includes(q) || prompt.includes(q)) {
-      matches.push(entry.cloneNode(true));
-    }
-  });
-
-  // 顯示結果
-  const list = document.getElementById('ate-search-list');
-  const count = document.getElementById('ate-search-count');
-  list.innerHTML = '';
-
-  if (matches.length === 0) {
-    count.textContent = `找不到「${q}」的相關詞條`;
-    list.innerHTML = '<div style="color:var(--muted);font-size:.78rem;padding:.5rem 0;">試試看其他關鍵字，或直接瀏覽下方分類</div>';
-  } else {
-    count.textContent = `找到 ${matches.length} 筆關於「${q}」的詞條`;
-    matches.forEach(el => list.appendChild(el));
-  }
-
-  resultsWrap.style.display = 'block';
-  clearBtn.style.display = '';
-
-  // 隱藏原本的分類內容
-  document.querySelectorAll('#atelier .ate-cat-block').forEach(el => el.style.display = 'none');
-}
-
-function ateClearSearch() {
-  document.getElementById('ate-search-input').value = '';
-  document.getElementById('ate-search-results').style.display = 'none';
-  document.getElementById('ate-search-clear').style.display = 'none';
-  document.querySelectorAll('#atelier .ate-cat-block').forEach(el => el.style.display = '');
-}
-
 // 製衣工坊 sidebar 展開/收合
 function ateTocToggle(el, catId) {
   const subs = document.getElementById("toc-subs-" + catId);
@@ -1698,31 +1667,51 @@ document.getElementById("arc-modal").addEventListener("click", function(e) {
   if (e.target === this) closeArcModal();
 });
 
-// ── 經典衣櫃搜尋 ──
+// ══════════════════════════════════
+// 工具函式：關鍵字反白
+// ══════════════════════════════════
+function highlightText(text, q) {
+  if (!q) return text;
+  const escaped = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return text.replace(new RegExp(escaped, 'gi'), m => `<mark style="background:rgba(184,150,62,.35);border-radius:2px;padding:0 1px;">${m}</mark>`);
+}
+
+// ══════════════════════════════════
+// 經典衣櫃搜尋（即時）
+// ══════════════════════════════════
 function arcSearch() {
   const q = document.getElementById('arc-search-input').value.trim().toLowerCase();
   const resultsWrap = document.getElementById('arc-search-results');
   const clearBtn = document.getElementById('arc-search-clear');
+  const filterBar = document.getElementById('arc-filter-bar');
 
   if (!q) {
     arcClearSearch();
     return;
   }
 
-  // 收集所有 .arc-card
+  clearBtn.style.display = '';
+
   const allCards = document.querySelectorAll('#archives .arc-card');
   const matches = [];
 
   allCards.forEach(card => {
-    const en = card.querySelector('.ac-en')?.textContent.toLowerCase() || '';
-    const zh = card.querySelector('.ac-zh')?.textContent.toLowerCase() || '';
-    const prompt = card.querySelector('.ac-prompt')?.textContent.toLowerCase() || '';
+    const enEl = card.querySelector('.ac-en');
+    const zhEl = card.querySelector('.ac-zh');
+    const promptEl = card.querySelector('.ac-prompt');
+    const en = enEl?.textContent.toLowerCase() || '';
+    const zh = zhEl?.textContent.toLowerCase() || '';
+    const prompt = promptEl?.textContent.toLowerCase() || '';
     if (en.includes(q) || zh.includes(q) || prompt.includes(q)) {
-      matches.push(card.cloneNode(true));
+      const clone = card.cloneNode(true);
+      // 反白
+      if (enEl) clone.querySelector('.ac-en').innerHTML = highlightText(enEl.textContent, q);
+      if (zhEl) clone.querySelector('.ac-zh').innerHTML = highlightText(zhEl.textContent, q);
+      if (promptEl) clone.querySelector('.ac-prompt').innerHTML = highlightText(promptEl.textContent, q);
+      matches.push(clone);
     }
   });
 
-  // 顯示結果
   const list = document.getElementById('arc-search-list');
   const count = document.getElementById('arc-search-count');
   list.innerHTML = '';
@@ -1739,21 +1728,126 @@ function arcSearch() {
   }
 
   resultsWrap.style.display = 'block';
-  clearBtn.style.display = '';
-
-  // 隱藏原本的分類內容及 filter bar
-  document.querySelectorAll('#archives .arc-grid').forEach(el => el.style.display = 'none');
-  document.querySelectorAll('#archives .sub-label').forEach(el => el.style.display = 'none');
-  document.getElementById('arc-filter-bar').style.display = 'none';
+  // 隱藏原本的分類內容、filter bar、sidebar active 清除
+  document.querySelectorAll('#archives [data-acat]').forEach(el => el.style.display = 'none');
+  filterBar.style.display = 'none';
 }
 
 function arcClearSearch() {
   document.getElementById('arc-search-input').value = '';
   document.getElementById('arc-search-results').style.display = 'none';
   document.getElementById('arc-search-clear').style.display = 'none';
-  document.querySelectorAll('#archives .arc-grid').forEach(el => el.style.display = '');
-  document.querySelectorAll('#archives .sub-label').forEach(el => el.style.display = '');
+  document.querySelectorAll('#archives [data-acat]').forEach(el => el.style.display = '');
   document.getElementById('arc-filter-bar').style.display = '';
+}
+
+// ══════════════════════════════════
+// 製衣工坊搜尋（即時）
+// ══════════════════════════════════
+function ateSearch() {
+  const q = document.getElementById('ate-search-input').value.trim().toLowerCase();
+  const resultsWrap = document.getElementById('ate-search-results');
+  const clearBtn = document.getElementById('ate-search-clear');
+
+  if (!q) {
+    ateClearSearch();
+    return;
+  }
+
+  clearBtn.style.display = '';
+
+  const allEntries = document.querySelectorAll('#atelier .ate-entry');
+  const matches = [];
+
+  allEntries.forEach(entry => {
+    const enEl = entry.querySelector('.ate-en');
+    const zhEl = entry.querySelector('.ate-zh');
+    const promptEl = entry.querySelector('.ate-prompt');
+    const en = enEl?.textContent.toLowerCase() || '';
+    const zh = zhEl?.textContent.toLowerCase() || '';
+    const prompt = promptEl?.textContent.toLowerCase() || '';
+    if (en.includes(q) || zh.includes(q) || prompt.includes(q)) {
+      const clone = entry.cloneNode(true);
+      // 反白
+      if (enEl) clone.querySelector('.ate-en').innerHTML = highlightText(enEl.textContent, q);
+      if (zhEl) clone.querySelector('.ate-zh').innerHTML = highlightText(zhEl.textContent, q);
+      if (promptEl) clone.querySelector('.ate-prompt').innerHTML = highlightText(promptEl.textContent, q);
+      matches.push(clone);
+    }
+  });
+
+  const list = document.getElementById('ate-search-list');
+  const count = document.getElementById('ate-search-count');
+  list.innerHTML = '';
+
+  if (matches.length === 0) {
+    count.textContent = `找不到「${q}」的相關詞條`;
+    list.innerHTML = '<div style="color:var(--muted);font-size:.78rem;padding:.5rem 0;">試試看其他關鍵字，或直接瀏覽下方分類</div>';
+  } else {
+    count.textContent = `找到 ${matches.length} 筆關於「${q}」的詞條`;
+    matches.forEach(el => list.appendChild(el));
+  }
+
+  resultsWrap.style.display = 'block';
+  document.querySelectorAll('#atelier .ate-cat-block').forEach(el => el.style.display = 'none');
+}
+
+function ateClearSearch() {
+  document.getElementById('ate-search-input').value = '';
+  document.getElementById('ate-search-results').style.display = 'none';
+  document.getElementById('ate-search-clear').style.display = 'none';
+  document.querySelectorAll('#atelier .ate-cat-block').forEach(el => el.style.display = '');
+}
+
+// ══════════════════════════════════
+// 製衣工坊 詞條組合器
+// ══════════════════════════════════
+let _comboTerms = [];
+
+function toggleComboBuilder() {
+  const panel = document.getElementById('combo-builder-panel');
+  const isOpen = panel.style.display !== 'none';
+  panel.style.display = isOpen ? 'none' : 'block';
+}
+
+function comboAdd(term) {
+  if (!term || _comboTerms.includes(term)) return;
+  _comboTerms.push(term);
+  comboRender();
+}
+
+function comboRemove(idx) {
+  _comboTerms.splice(idx, 1);
+  comboRender();
+}
+
+function comboClear() {
+  _comboTerms = [];
+  comboRender();
+}
+
+function comboRender() {
+  const el = document.getElementById('combo-result');
+  if (_comboTerms.length === 0) {
+    el.innerHTML = '<span style="color:var(--muted);font-size:.65rem;">尚未加入任何詞條</span>';
+    return;
+  }
+  el.innerHTML = _comboTerms.map((t, i) =>
+    `<span style="display:inline-flex;align-items:center;gap:.25rem;background:var(--card);border:1px solid var(--border);border-radius:3px;padding:.1rem .45rem;margin:.15rem .2rem .15rem 0;">
+      <span style="font-family:'Space Mono',monospace;font-size:.68rem;">${t}</span>
+      <button onclick="comboRemove(${i})" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:.7rem;padding:0;line-height:1;" title="移除">✕</button>
+    </span>`
+  ).join('') + `<div style="margin-top:.45rem;padding-top:.4rem;border-top:1px solid var(--border);font-family:'Space Mono',monospace;font-size:.65rem;color:var(--gold);">${_comboTerms.join(', ')}</div>`;
+}
+
+function comboCopy() {
+  if (_comboTerms.length === 0) return;
+  const text = _comboTerms.join(', ');
+  const btn = document.getElementById('combo-copy-btn');
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'COPIED';
+    setTimeout(() => { btn.textContent = 'COPY'; }, 1500);
+  });
 }
 </script>
 </body>
