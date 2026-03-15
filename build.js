@@ -22,8 +22,7 @@ const DB = {
 const IMG_DIR = path.join("dist", "img");
 
 function ensureImgDir() {
-  if (!fs.existsSync("dist"))    fs.mkdirSync("dist");
-  if (!fs.existsSync(IMG_DIR))   fs.mkdirSync(IMG_DIR);
+  fs.mkdirSync(IMG_DIR, { recursive: true });
 }
 
 // 用 URL 的純路徑部分（去掉 query string）產生穩定的檔名
@@ -181,8 +180,8 @@ async function buildArchives(pages) {
       html += `<div class="ac-img">${singleImg(cover)}</div>`;
       html += `<div class="ac-info"><div class="ac-en">${en}</div><div class="ac-zh">${zh}</div><div class="ac-prompt">${prompt}</div></div>`;
       html += `<div class="ac-foot">`;
-      html += `<button class="cp-btn" onclick="event.stopPropagation();cp(this,'${prompt}')">COPY</button>`;
-      html += `<button class="cp-btn" onclick="event.stopPropagation();openArcModal('${en}','${prompt}',${imgData},${lblData})" style="margin-left:.4rem;">模型對比</button>`;
+      html += `<button class="cp-btn" onclick="event.stopPropagation();cp(this,${JSON.stringify(text(p['Prompt Tags']))})">COPY</button>`;
+      html += `<button class="cp-btn" onclick="event.stopPropagation();openArcModal(${JSON.stringify(text(p['Name']))},${JSON.stringify(text(p['Prompt Tags']))},${imgData},${lblData})" style="margin-left:.4rem;">模型對比</button>`;
       html += `</div></div>`;
     }
     html += `</div></div>`;
@@ -270,7 +269,7 @@ function buildAtelier(pages) {
   </div>
   <div class="ate-prompt">${esc(prompt)}</div>
   ${note ? `<div class="ate-note">${esc(note)}</div>` : ""}
-  <div class="ate-foot"><button class="cp-btn" onclick="cp(this,'${esc(prompt)}')">COPY</button><button class="cp-btn" onclick="event.stopPropagation();comboAdd('${esc(prompt)}')" style="margin-left:.4rem;" title="加入組合器">＋</button></div>
+  <div class="ate-foot"><button class="cp-btn" onclick="cp(this,${JSON.stringify(prompt)})">COPY</button><button class="cp-btn" onclick="event.stopPropagation();comboAdd(${JSON.stringify(prompt)})" style="margin-left:.4rem;" title="加入組合器">＋</button></div>
 </div>`;
       }
 
@@ -335,7 +334,7 @@ async function buildSalon(pages) {
       const pid = `sp-${Math.random().toString(36).slice(2,8)}`;
       html += `</div><div class="rtw-body"><div class="rtw-name">${name}</div>${genders ? `<div class="rtw-meta">${genders}</div>` : ""}`;
       html += `<div class="rtw-prompt-wrap">`;
-      html += `<div class="rtw-foot"><button class="cp-btn" onclick="cp(this,'${prompt}')">COPY</button></div>`;
+      html += `<div class="rtw-foot"><button class="cp-btn" onclick="cp(this,${JSON.stringify(text(p['Prompt']))})">COPY</button></div>`;
       html += `<div class="rtw-prompt" id="${pid}">${prompt}</div>`;
       html += `<div class="toggle-bar" onclick="togglePrompt('${pid}',this)"><span class="toggle-label">展開</span><span class="toggle-arrow">▼</span></div>`;
       html += `</div></div></div>`;
@@ -441,7 +440,7 @@ async function buildOutfits(pages) {
         const pid2 = `op-${Math.random().toString(36).slice(2, 8)}`;
         html += `</div><div class="outfit-body"><div class="rtw-name">${name}</div>`;
         html += `<div class="rtw-prompt-wrap">`;
-        html += `<div class="rtw-foot"><button class="cp-btn" onclick="cp(this,'${prompt}')">COPY</button></div>`;
+        html += `<div class="rtw-foot"><button class="cp-btn" onclick="cp(this,${JSON.stringify(text(p['Prompt']))})">COPY</button></div>`;
         html += `<div class="rtw-prompt" id="${pid2}">${prompt}</div>`;
         html += `<div class="toggle-bar" onclick="togglePrompt('${pid2}',this)"><span class="toggle-arrow">▼</span></div>`;
         html += `</div></div></div>`;
