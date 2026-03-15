@@ -270,7 +270,7 @@ function buildAtelier(pages) {
   </div>
   <div class="ate-prompt">${esc(prompt)}</div>
   ${note ? `<div class="ate-note">${esc(note)}</div>` : ""}
-  <div class="ate-foot"><button class="cp-btn" onclick="cp(this,'${esc(prompt)}')">COPY</button></div>
+  <div class="ate-foot"><button class="cp-btn" onclick="cp(this,'${esc(prompt)}')">COPY</button><button class="cp-btn" onclick="event.stopPropagation();comboAdd('${esc(prompt)}')" style="margin-left:.4rem;" title="加入組合器">＋</button></div>
 </div>`;
       }
 
