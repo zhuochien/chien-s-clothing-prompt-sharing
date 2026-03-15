@@ -20,7 +20,7 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://zhuochien.github.io/chien-s-clothing-prompt-sharing/">
 <meta name="twitter:card" content="summary_large_image">
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Iansui&family=Dancing+Script:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Iansui&display=swap" rel="stylesheet">
 <style>
 :root{
   --ink:#283f38;--parchment:#f0ece6;--cream:#f7f4f0;
@@ -415,7 +415,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;font-
 /* ── QA ── */
 .qa-wrap{display:grid;grid-template-columns:200px 1fr;gap:2rem;align-items:start;}
 .qa-cat-list{position:sticky;top:80px;display:flex;flex-direction:column;gap:.3rem;}
-.qa-cat-btn{background:none;border:none;text-align:left;padding:.5rem .8rem;border-radius:6px;cursor:pointer;font-size:.8rem;font-family:'Iansui',sans-serif;color:var(--body);transition:background .15s,color .15s;}
+.qa-cat-btn{background:none;border:none;text-align:left;padding:.5rem .8rem;border-radius:6px;cursor:pointer;font-size:.8rem;font-family:'Iansui',sans-serif;color:var(--ink);transition:background .15s,color .15s;}
 .qa-cat-btn:hover{background:var(--border);}
 .qa-cat-btn.active{background:var(--gold);color:#fff;font-weight:600;}
 .qa-group{margin-bottom:2rem;}
@@ -425,11 +425,11 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;font-
 .qa-q:hover{background:var(--parchment);}
 .qa-q-arrow{flex-shrink:0;font-size:.7rem;color:var(--muted);transition:transform .25s;}
 .qa-item.open .qa-q-arrow{transform:rotate(180deg);}
-.qa-a{display:none;padding:.85rem 1rem 1rem;font-size:.82rem;line-height:1.75;color:var(--body);border-top:1px solid var(--border);background:var(--cream);}
+.qa-a{display:none;padding:.85rem 1rem 1rem;font-size:.82rem;line-height:1.75;color:var(--ink);border-top:1px solid var(--border);background:var(--cream);}
 .qa-item.open .qa-a{display:block;}
 /* 中間導引區塊 */
 .qa-nudge{margin:2.5rem 0 0;padding:1rem 1.4rem;background:var(--card);border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;}
-.qa-nudge-text{font-size:.82rem;color:var(--body);line-height:1.6;}
+.qa-nudge-text{font-size:.82rem;color:var(--ink);line-height:1.6;}
 .qa-nudge-text strong{color:var(--rust);display:block;margin-bottom:.2rem;font-size:.85rem;}
 .qa-nudge-btn{flex-shrink:0;padding:.5rem 1.2rem;background:var(--gold);color:#fff;border:none;border-radius:6px;font-size:.78rem;font-family:'Iansui',sans-serif;cursor:pointer;white-space:nowrap;transition:opacity .15s;}
 .qa-nudge-btn:hover{opacity:.85;}
@@ -556,6 +556,13 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;font-
   .prompt-box .pt{width:100%;min-width:0;flex:none;}
   .prompt-box .pt-toggle{margin-left:auto;}
 }
+
+/* ── COMBO BUILDER ── */
+.combo-tag{display:inline-flex;align-items:center;gap:.25rem;background:var(--card);border:1px solid var(--border);border-radius:3px;padding:.1rem .45rem;margin:.15rem .2rem .15rem 0;}
+.combo-tag-text{font-family:'Space Mono',monospace;font-size:.68rem;}
+.combo-tag-remove{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.7rem;padding:0;line-height:1;}
+.combo-preview{margin-top:.45rem;padding-top:.4rem;border-top:1px solid var(--border);font-family:'Space Mono',monospace;font-size:.65rem;color:var(--gold);}
+.combo-empty{color:var(--muted);font-size:.65rem;}
 
 @media(min-width:901px){
   .i-body{font-size:1rem;}
@@ -1829,15 +1836,15 @@ function comboClear() {
 function comboRender() {
   const el = document.getElementById('combo-result');
   if (_comboTerms.length === 0) {
-    el.innerHTML = '<span style="color:var(--muted);font-size:.65rem;">尚未加入任何詞條</span>';
+    el.innerHTML = '<span class="combo-empty">尚未加入任何詞條</span>';
     return;
   }
   el.innerHTML = _comboTerms.map((t, i) =>
-    `<span style="display:inline-flex;align-items:center;gap:.25rem;background:var(--card);border:1px solid var(--border);border-radius:3px;padding:.1rem .45rem;margin:.15rem .2rem .15rem 0;">
-      <span style="font-family:'Space Mono',monospace;font-size:.68rem;">${t}</span>
-      <button onclick="comboRemove(${i})" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:.7rem;padding:0;line-height:1;" title="移除">✕</button>
+    `<span class="combo-tag">
+      <span class="combo-tag-text">${t}</span>
+      <button onclick="comboRemove(${i})" class="combo-tag-remove" title="移除">✕</button>
     </span>`
-  ).join('') + `<div style="margin-top:.45rem;padding-top:.4rem;border-top:1px solid var(--border);font-family:'Space Mono',monospace;font-size:.65rem;color:var(--gold);">${_comboTerms.join(', ')}</div>`;
+  ).join('') + `<div class="combo-preview">${_comboTerms.join(', ')}</div>`;
 }
 
 function comboCopy() {
