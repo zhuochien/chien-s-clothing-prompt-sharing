@@ -1020,7 +1020,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;font-
         >
         <button onclick="arcClearSearch()" id="arc-search-clear" style="display:none;">✕ 清除</button>
       </div>
-      <div id="gc-panel-archives" class="g-composer-panel" style="display:none;margin-bottom:1.2rem;background:var(--card);border:1px solid var(--border);border-radius:6px;overflow:hidden;"></div>
+      <div id="gc-panel-archives" class="g-composer-panel" style="display:none;"></div>
       <div id="arc-search-results" style="display:none;">
         <div class="ate-search-count" id="arc-search-count"></div>
         <div id="arc-search-list"></div>
@@ -1073,7 +1073,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;font-
         >
         <button onclick="ateClearSearch()" id="ate-search-clear" style="display:none;">✕ 清除</button>
       </div>
-      <div id="gc-panel-atelier" class="g-composer-panel" style="display:none;margin-bottom:1.2rem;background:var(--card);border:1px solid var(--border);border-radius:6px;overflow:hidden;"></div>
+      <div id="gc-panel-atelier" class="g-composer-panel" style="display:none;"></div>
 
       <div id="ate-search-results" style="display:none;">
         <div class="ate-search-count" id="ate-search-count"></div>
@@ -1115,7 +1115,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;font-
         <span class="f-label">FILTER</span>
         <!-- OUTFITS_FILTER -->
       </div>
-      <div id="gc-panel-outfits" class="g-composer-panel" style="display:none;margin-bottom:1.2rem;background:var(--card);border:1px solid var(--border);border-radius:6px;overflow:hidden;"></div>
+      <div id="gc-panel-outfits" class="g-composer-panel" style="display:none;"></div>
       <!-- OUTFITS_CONTENT -->
 
       <div class="qa-nudge">
@@ -1145,7 +1145,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;font-
       </div>
     </div>
     <div>
-      <div id="gc-panel-salon" class="g-composer-panel" style="display:none;margin-bottom:1.2rem;background:var(--card);border:1px solid var(--border);border-radius:6px;overflow:hidden;"></div>
+      <div id="gc-panel-salon" class="g-composer-panel" style="display:none;"></div>
       <!-- SALON_CONTENT -->
 
       <div class="qa-nudge">
@@ -1484,8 +1484,8 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;font-
 
 <div id="gc-toast"></div>
 
-<!-- ══ 全站組詞器面板（各分頁共用，由 JS 複製插入） ══ -->
-<template id="g-composer-tpl">
+<!-- ══ 全站組詞器面板（單一 DOM，切分頁時搬移） ══ -->
+<div id="g-composer-panel" style="display:none;background:var(--card);border:1px solid var(--border);border-radius:6px;overflow:hidden;margin-bottom:1.2rem;">
   <div class="gc-head">
     <span class="gc-title">✦ 組詞器</span>
     <div class="gc-head-btns">
@@ -1506,7 +1506,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;font-
       <button class="gc-btn-copy" id="gc-copy-btn" onclick="gcCopyAll()">COPY ALL</button>
     </div>
   </div>
-</template>
+</div>
 
 <footer>
   <div class="about-strip">
@@ -1551,19 +1551,6 @@ function goTabByID(id){
   gcRestorePanel();
 }
 // 切換分頁後，若組詞器之前是開著的，在新分頁對應的 panel 裡重新顯示
-function gcRestorePanel(){
-  if(!_gc||!_gc.isOpen) return;
-  // 找目前 active section 裡的 .g-composer-panel
-  const activeSection = document.querySelector('.section.active');
-  if(!activeSection) return;
-  const panel = activeSection.querySelector('.g-composer-panel');
-  if(!panel) return;
-  const panelId = panel.id;
-  gcInit(panelId);
-  panel.style.display = 'block';
-  _gc.activePanel = panelId;
-  gcRender();
-}
 function scrollTo2(anchorId,tocId,link){
   const el=document.getElementById(anchorId);
   if(el){setTimeout(()=>{const off=el.getBoundingClientRect().top+window.scrollY-70;window.scrollTo({top:off,behavior:'smooth'});},40);}
@@ -1926,67 +1913,71 @@ function ateClearSearch() {
 
 // ══════════════════════════════════
 // 全站共用組詞器（Global Composer）
+// 單一 DOM panel，切換分頁時搬移進目標容器
 // ══════════════════════════════════
 const _gc = {
-  terms: [],          // 共用詞條陣列（切分頁不清空）
-  activePanel: null,  // 目前顯示的面板 ID
+  terms: [],
+  isOpen: false,
 };
 
-// 初始化面板：把 <template> 內容複製進容器
-function gcInit(panelId) {
-  const container = document.getElementById(panelId);
-  if (!container || container.dataset.gcInit) return;
-  const tpl = document.getElementById('g-composer-tpl');
-  container.appendChild(tpl.content.cloneNode(true));
-  container.dataset.gcInit = '1';
+function _gcPanel() { return document.getElementById('g-composer-panel'); }
+
+// 把 panel 搬進目標容器並顯示
+function gcMoveTo(containerId) {
+  const container = document.getElementById(containerId);
+  const panel = _gcPanel();
+  if (!container || !panel) return;
+  container.appendChild(panel);
+  panel.style.display = 'block';
   gcRender();
 }
 
-// 主動關閉（✕ 按鈕用）
-function gcCloseActive(){
-  if(_gc.activePanel){
-    const panel = document.getElementById(_gc.activePanel);
-    if(panel) panel.style.display = 'none';
-  }
-  _gc.activePanel = null;
+// 主動關閉（✕ 按鈕）
+function gcCloseActive() {
+  const panel = _gcPanel();
+  if (panel) panel.style.display = 'none';
   _gc.isOpen = false;
 }
 
-// 切換開關
-function gcToggle(panelId) {
-  // 同一個 panel 再按一次 → 收合
-  if (_gc.activePanel === panelId) {
-    document.getElementById(panelId).style.display = 'none';
-    _gc.activePanel = null;
+// 切換開關（各分頁按鈕呼叫，傳入容器 ID）
+function gcToggle(containerId) {
+  const panel = _gcPanel();
+  const container = document.getElementById(containerId);
+  if (!panel || !container) return;
+  // 已在此容器且是開著的 → 收合
+  if (panel.parentElement === container && panel.style.display !== 'none') {
+    panel.style.display = 'none';
     _gc.isOpen = false;
     return;
   }
-  // 收合之前開著的
-  if (_gc.activePanel) {
-    document.getElementById(_gc.activePanel).style.display = 'none';
-  }
-  gcInit(panelId);
-  document.getElementById(panelId).style.display = 'block';
-  _gc.activePanel = panelId;
+  // 搬移並顯示
+  gcMoveTo(containerId);
   _gc.isOpen = true;
-  gcRender();
 }
 
-// 加入詞條（整組 prompt 自動拆分，允許重複）
+// 切換分頁後恢復：把 panel 搬進新 section 的容器
+function gcRestorePanel() {
+  if (!_gc.isOpen) return;
+  const activeSection = document.querySelector('.section.active');
+  if (!activeSection) return;
+  const container = activeSection.querySelector('.g-composer-panel');
+  if (!container) return;
+  gcMoveTo(container.id);
+}
+
+// 加入詞條
 function gComposerAdd(btn, prompt) {
   const parts = prompt.split(',').map(s => s.trim()).filter(Boolean);
   _gc.terms.push(...parts);
   gcRender();
-  // 按鈕短暫變 ✓
   const orig = btn.textContent;
   btn.textContent = '✓';
   btn.style.color = 'var(--sage)';
   setTimeout(() => { btn.textContent = orig; btn.style.color = ''; }, 1000);
-  // 如果組詞器是關著的，顯示 toast
   gcToast(`已加入 ${parts.length} 個詞條`);
 }
 
-// 從組詞器貼上欄拆分加入
+// 貼上整段拆分
 function gcPaste() {
   const input = document.getElementById('gc-paste-input');
   if (!input) return;
@@ -1998,13 +1989,13 @@ function gcPaste() {
   gcRender();
 }
 
-// 移除單一 chip（依索引）
+// 移除 chip
 function gcRemove(idx) {
   _gc.terms.splice(idx, 1);
   gcRender();
 }
 
-// 清空全部
+// 清空
 function gcClear() {
   _gc.terms = [];
   gcRender();
@@ -2020,68 +2011,103 @@ function gcCopyAll() {
   });
 }
 
-// 渲染 chips + output（更新所有已初始化的面板）
+// 渲染（panel 是單一 DOM，id 唯一，直接找）
 function gcRender() {
   const terms = _gc.terms;
-
-  // chips
   const chipsEl = document.getElementById('gc-chips');
   if (chipsEl) {
     if (terms.length === 0) {
       chipsEl.innerHTML = '<span class="gc-empty">點擊詞條旁的 ＋ 加入，或貼上整段 prompt ↑</span>';
     } else {
       chipsEl.innerHTML = terms.map((t, i) =>
-        `<span class="gc-chip" draggable="true" data-idx="${i}"
-          ondragstart="gcDragStart(event,${i})"
-          ondragover="gcDragOver(event)"
-          ondrop="gcDrop(event,${i})"
-          ondragleave="gcDragLeave(event)"
-          ondragend="gcDragEnd()">
-          ${t}<button class="gc-chip-x" onclick="gcRemove(${i})">✕</button>
-        </span>`
+        `<span class="gc-chip" data-idx="${i}">${t}<button class="gc-chip-x" onclick="gcRemove(${i})">✕</button></span>`
       ).join('');
+      gcBindTouch();
     }
   }
-
-  // output
   const outEl = document.getElementById('gc-output');
   if (outEl) outEl.textContent = terms.length ? terms.join(', ') : '（組詞器是空的）';
-
-  // count
   const cntEl = document.getElementById('gc-count');
   if (cntEl) cntEl.textContent = terms.length + ' tags';
 }
 
-// ── Drag & Drop 排序 ──
+// ── Touch & Mouse 拖拉排序 ──
 let _gcDragIdx = null;
-function gcDragStart(e, idx) {
-  _gcDragIdx = idx;
-  e.target.classList.add('dragging');
-  e.dataTransfer.effectAllowed = 'move';
-}
-function gcDragOver(e) {
-  e.preventDefault();
-  e.dataTransfer.dropEffect = 'move';
-  e.currentTarget.classList.add('drag-over');
-}
-function gcDragLeave(e) { e.currentTarget.classList.remove('drag-over'); }
-function gcDrop(e, toIdx) {
-  e.preventDefault();
-  e.currentTarget.classList.remove('drag-over');
-  if (_gcDragIdx === null || _gcDragIdx === toIdx) return;
-  const moved = _gc.terms.splice(_gcDragIdx, 1)[0];
-  _gc.terms.splice(toIdx, 0, moved);
-  _gcDragIdx = null;
-  gcRender();
-}
-function gcDragEnd() {
-  _gcDragIdx = null;
-  document.querySelectorAll('.gc-chip').forEach(c => {
-    c.classList.remove('dragging', 'drag-over');
+let _gcDragEl  = null;
+let _gcClone   = null;
+
+function gcBindTouch() {
+  document.querySelectorAll('.gc-chip').forEach(chip => {
+    // mouse
+    chip.addEventListener('mousedown', gcMouseDown);
+    // touch
+    chip.addEventListener('touchstart', gcTouchStart, { passive: true });
   });
 }
 
-// ── Toast 提示 ──
+function gcMouseDown(e) {
+  if (e.target.classList.contains('gc-chip-x')) return;
+  _gcDragIdx = +e.currentTarget.dataset.idx;
+  _gcDragEl  = e.currentTarget;
+  _gcDragEl.classList.add('dragging');
+  document.addEventListener('mousemove', gcMouseMove);
+  document.addEventListener('mouseup', gcMouseUp);
+}
+function gcMouseMove(e) {
+  if (_gcDragEl) _gcHighlight(e.clientX, e.clientY);
+}
+function gcMouseUp(e) {
+  gcDropAt(e.clientX, e.clientY);
+  document.removeEventListener('mousemove', gcMouseMove);
+  document.removeEventListener('mouseup', gcMouseUp);
+}
+
+function gcTouchStart(e) {
+  if (e.target.classList.contains('gc-chip-x')) return;
+  _gcDragIdx = +e.currentTarget.dataset.idx;
+  _gcDragEl  = e.currentTarget;
+  _gcDragEl.classList.add('dragging');
+  e.currentTarget.addEventListener('touchmove', gcTouchMove, { passive: false });
+  e.currentTarget.addEventListener('touchend', gcTouchEnd);
+}
+function gcTouchMove(e) {
+  e.preventDefault();
+  const t = e.touches[0];
+  _gcHighlight(t.clientX, t.clientY);
+}
+function gcTouchEnd(e) {
+  const t = e.changedTouches[0];
+  gcDropAt(t.clientX, t.clientY);
+  e.currentTarget.removeEventListener('touchmove', gcTouchMove);
+  e.currentTarget.removeEventListener('touchend', gcTouchEnd);
+}
+
+function _gcHighlight(x, y) {
+  document.querySelectorAll('.gc-chip').forEach(c => c.classList.remove('drag-over'));
+  const target = _gcChipAt(x, y);
+  if (target && target !== _gcDragEl) target.classList.add('drag-over');
+}
+
+function gcDropAt(x, y) {
+  document.querySelectorAll('.gc-chip').forEach(c => c.classList.remove('dragging','drag-over'));
+  const target = _gcChipAt(x, y);
+  if (target && target !== _gcDragEl) {
+    const toIdx = +target.dataset.idx;
+    if (_gcDragIdx !== null && _gcDragIdx !== toIdx) {
+      const moved = _gc.terms.splice(_gcDragIdx, 1)[0];
+      _gc.terms.splice(toIdx, 0, moved);
+      gcRender();
+    }
+  }
+  _gcDragIdx = null; _gcDragEl = null;
+}
+
+function _gcChipAt(x, y) {
+  const el = document.elementFromPoint(x, y);
+  return el ? el.closest('.gc-chip') : null;
+}
+
+// ── Toast ──
 let _gcToastTimer = null;
 function gcToast(msg) {
   const el = document.getElementById('gc-toast');
@@ -2092,7 +2118,7 @@ function gcToast(msg) {
   _gcToastTimer = setTimeout(() => el.classList.remove('show'), 1800);
 }
 
-// 相容舊版 comboAdd（製衣工坊的 ＋ 按鈕仍會呼叫此函式，build.js 之後再統一更新）
+// 相容舊版 comboAdd
 function comboAdd(prompt) {
   const parts = prompt.split(',').map(s => s.trim()).filter(Boolean);
   _gc.terms.push(...parts);
