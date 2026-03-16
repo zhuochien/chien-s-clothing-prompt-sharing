@@ -808,7 +808,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;font-
         <div class="how-step-n">STEP 01</div>
         <div class="how-step-icon">🗂️</div>
         <div class="how-step-title">查經典衣櫃</div>
-        <div class="how-step-desc">先確認目標款式是否有現成詞條，有的話直接複製最簡便快速</div>
+        <div class="how-step-desc">先確認目標款式是否有現成詞條，有的話直接複製最穩</div>
       </div>
       <div class="how-step">
         <div class="how-step-n">STEP 02</div>
@@ -827,6 +827,34 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;font-
         <div class="how-step-icon">⚖️</div>
         <div class="how-step-title">調整權重</div>
         <div class="how-step-desc">效果不夠明顯時可以用括號提高，可以疊加括號層數或加上權重數字：<code style="font-family:'Space Mono',monospace;font-size:.68rem;background:var(--cream);padding:.02rem .3rem;">(keyword:1.3)或((keyword))</code></div>
+      </div>
+    </div>
+
+    <!-- 組詞器介紹 -->
+    <div style="border-top:1px solid var(--border);margin:0;padding:1.4rem 1.8rem 1.5rem;">
+      <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;">
+        <span style="font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.2em;color:var(--gold);">✦ 組詞器</span>
+        <span style="flex:1;height:1px;background:var(--border);"></span>
+        <span style="font-family:'Space Mono',monospace;font-size:.58rem;color:var(--muted);letter-spacing:.1em;">PROMPT COMPOSER</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;align-items:start;">
+        <div>
+          <p style="font-size:.78rem;line-height:1.9;color:#3a3228;">每個分頁右上角都有 <strong>✦ 組詞器</strong> 按鈕，點開後可以跨分頁累積詞條，點旁邊的 <strong>＋</strong> 依序加入，最後一鍵 COPY 輸出完整 prompt。</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:.55rem;">
+          <div style="display:flex;align-items:flex-start;gap:.7rem;background:var(--cream);border:1px solid var(--border);border-radius:3px;padding:.6rem .85rem;">
+            <span style="font-family:'Space Mono',monospace;font-size:.7rem;color:var(--gold);flex-shrink:0;margin-top:.05rem;">＋</span>
+            <span style="font-size:.72rem;line-height:1.65;color:#3a3228;">詞條旁的 ＋ 按鈕：整組自動拆分加入，可重複疊加同類詞（例如多個顏色）</span>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:.7rem;background:var(--cream);border:1px solid var(--border);border-radius:3px;padding:.6rem .85rem;">
+            <span style="font-family:'Space Mono',monospace;font-size:.7rem;color:var(--gold);flex-shrink:0;margin-top:.05rem;">⇄</span>
+            <span style="font-size:.72rem;line-height:1.65;color:#3a3228;">加入後可拖拉 chip 調整順序，prompt 前段權重較高</span>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:.7rem;background:var(--cream);border:1px solid var(--border);border-radius:3px;padding:.6rem .85rem;">
+            <span style="font-family:'Space Mono',monospace;font-size:.7rem;color:var(--gold);flex-shrink:0;margin-top:.05rem;">↳</span>
+            <span style="font-size:.72rem;line-height:1.65;color:#3a3228;">也可直接貼上整段 prompt，組詞器會自動按逗號拆分成獨立 tag</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -934,7 +962,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;font-
     </div>
 
     <div class="notes-list">
-      <div class="note-item"><span class="note-bullet">◆</span><span>本手冊所有提示詞以 <strong>SDXL 架構</strong>為測試基準，DiT架構的模型及不同生圖平台的識別率可能有差異。</span></div>
+      <div class="note-item"><span class="note-bullet">◆</span><span>本站所有提示詞以 <strong>SDXL 架構</strong>為測試基準，DiT架構的模型及不同生圖平台的識別率可能有差異。</span></div>
       <div class="note-item"><span class="note-bullet">◆</span><span>權重建議值為參考範圍，<strong>模型不同、配置LoRA及參數不同都會影響效果</strong>。如果效果偏弱可嘗試調高 0.1–0.2，過度強調可能會導致圖面歪七扭八。</span></div>
       <div class="note-item"><span class="note-bullet">◆</span><span>成衣型錄的服裝詞組是我嘗試過的不同紀錄，可作為靈感與參考。</span></div>
       <div class="note-item"><span class="note-bullet">◆</span><span>持續更新中，有新的詞條測試結果或組合配方會補充到對應區塊。</span></div>
