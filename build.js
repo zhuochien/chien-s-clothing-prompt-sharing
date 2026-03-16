@@ -334,8 +334,8 @@ async function buildSalon(pages) {
       }
       const pid = `sp-${Math.random().toString(36).slice(2,8)}`;
       html += `</div><div class="rtw-body"><div class="rtw-name">${name}</div>${genders ? `<div class="rtw-meta">${genders}</div>` : ""}`;
-      html += `<div class="rtw-prompt-wrap">`;
       html += `<div class="rtw-foot"><button class="cp-btn" data-p="${prompt}" onclick="cp(this,this.dataset.p)">COPY</button><button class="cp-btn" data-p="${prompt}" onclick="gComposerAdd(this,this.dataset.p)" style="margin-left:.3rem;" title="加入組詞器">＋</button></div>`;
+      html += `<div class="rtw-prompt-wrap">`;
       html += `<div class="rtw-prompt" id="${pid}">${prompt}</div>`;
       html += `<div class="toggle-bar" onclick="togglePrompt('${pid}',this)"><span class="toggle-label">展開</span><span class="toggle-arrow">▼</span></div>`;
       html += `</div></div></div>`;
@@ -440,8 +440,8 @@ async function buildOutfits(pages) {
 
         const pid2 = `op-${Math.random().toString(36).slice(2, 8)}`;
         html += `</div><div class="outfit-body"><div class="rtw-name">${name}</div>`;
-        html += `<div class="rtw-prompt-wrap">`;
         html += `<div class="rtw-foot"><button class="cp-btn" data-p="${prompt}" onclick="cp(this,this.dataset.p)">COPY</button><button class="cp-btn" data-p="${prompt}" onclick="gComposerAdd(this,this.dataset.p)" style="margin-left:.3rem;" title="加入組詞器">＋</button></div>`;
+        html += `<div class="rtw-prompt-wrap">`;
         html += `<div class="rtw-prompt" id="${pid2}">${prompt}</div>`;
         html += `<div class="toggle-bar" onclick="togglePrompt('${pid2}',this)"><span class="toggle-arrow">▼</span></div>`;
         html += `</div></div></div>`;
