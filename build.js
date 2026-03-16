@@ -181,8 +181,7 @@ async function buildArchives(pages) {
       html += `<div class="ac-info"><div class="ac-en">${en}</div><div class="ac-zh">${zh}</div><div class="ac-prompt">${prompt}</div></div>`;
       html += `<div class="ac-foot">`;
       html += `<button class="cp-btn" data-p="${prompt}" onclick="event.stopPropagation();cp(this,this.dataset.p)">COPY</button>`;
-      html += `<button class="cp-btn" data-p="${prompt}" onclick="event.stopPropagation();gComposerAdd(this,this.dataset.p)" style="margin-left:.3rem;" title="加入組詞器">＋</button>`;
-      html += `<button class="cp-btn" data-en="${en}" data-p="${prompt}" onclick="event.stopPropagation();openArcModal(this.dataset.en,this.dataset.p,${imgData},${lblData})" style="margin-left:.3rem;">模型對比</button>`;
+      html += `<button class="cp-btn" data-en="${en}" data-p="${prompt}" onclick="event.stopPropagation();openArcModal(this.dataset.en,this.dataset.p,${imgData},${lblData})" style="margin-left:.4rem;">模型對比</button>`;
       html += `</div></div>`;
     }
     html += `</div></div>`;
@@ -270,7 +269,7 @@ function buildAtelier(pages) {
   </div>
   <div class="ate-prompt">${esc(prompt)}</div>
   ${note ? `<div class="ate-note">${esc(note)}</div>` : ""}
-  <div class="ate-foot"><button class="cp-btn" data-p="${esc(prompt)}" onclick="cp(this,this.dataset.p)">COPY</button><button class="cp-btn" data-p="${esc(prompt)}" onclick="event.stopPropagation();comboAdd(this.dataset.p)" style="margin-left:.4rem;" title="加入組合器">＋</button></div>
+  <div class="ate-foot"><button class="cp-btn" data-p="${esc(prompt)}" onclick="cp(this,this.dataset.p)">COPY</button><button class="cp-btn" data-p="${esc(prompt)}" onclick="event.stopPropagation();gComposerAdd(this,this.dataset.p)" style="margin-left:.4rem;" title="加入組詞器">＋</button></div>
 </div>`;
       }
 
@@ -334,8 +333,8 @@ async function buildSalon(pages) {
       }
       const pid = `sp-${Math.random().toString(36).slice(2,8)}`;
       html += `</div><div class="rtw-body"><div class="rtw-name">${name}</div>${genders ? `<div class="rtw-meta">${genders}</div>` : ""}`;
-      html += `<div class="rtw-foot"><button class="cp-btn" data-p="${prompt}" onclick="cp(this,this.dataset.p)">COPY</button><button class="cp-btn" data-p="${prompt}" onclick="gComposerAdd(this,this.dataset.p)" style="margin-left:.3rem;" title="加入組詞器">＋</button></div>`;
       html += `<div class="rtw-prompt-wrap">`;
+      html += `<div class="rtw-foot"><button class="cp-btn" data-p="${prompt}" onclick="cp(this,this.dataset.p)">COPY</button><button class="cp-btn" data-p="${prompt}" onclick="event.stopPropagation();gComposerAdd(this,this.dataset.p)" style="margin-left:.4rem;" title="加入組詞器">＋</button></div>`;
       html += `<div class="rtw-prompt" id="${pid}">${prompt}</div>`;
       html += `<div class="toggle-bar" onclick="togglePrompt('${pid}',this)"><span class="toggle-label">展開</span><span class="toggle-arrow">▼</span></div>`;
       html += `</div></div></div>`;
@@ -440,8 +439,8 @@ async function buildOutfits(pages) {
 
         const pid2 = `op-${Math.random().toString(36).slice(2, 8)}`;
         html += `</div><div class="outfit-body"><div class="rtw-name">${name}</div>`;
-        html += `<div class="rtw-foot"><button class="cp-btn" data-p="${prompt}" onclick="cp(this,this.dataset.p)">COPY</button><button class="cp-btn" data-p="${prompt}" onclick="gComposerAdd(this,this.dataset.p)" style="margin-left:.3rem;" title="加入組詞器">＋</button></div>`;
         html += `<div class="rtw-prompt-wrap">`;
+        html += `<div class="rtw-foot"><button class="cp-btn" data-p="${prompt}" onclick="cp(this,this.dataset.p)">COPY</button><button class="cp-btn" data-p="${prompt}" onclick="event.stopPropagation();gComposerAdd(this,this.dataset.p)" style="margin-left:.4rem;" title="加入組詞器">＋</button></div>`;
         html += `<div class="rtw-prompt" id="${pid2}">${prompt}</div>`;
         html += `<div class="toggle-bar" onclick="togglePrompt('${pid2}',this)"><span class="toggle-arrow">▼</span></div>`;
         html += `</div></div></div>`;
