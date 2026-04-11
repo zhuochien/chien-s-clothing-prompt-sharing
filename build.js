@@ -100,13 +100,14 @@ function esc(str) {
     .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 
-async function fetchDB(dbId) {
+async function fetchDB(dbId, sorts = []) {
   const pages = [];
   let cursor;
   do {
     const res = await notion.databases.query({
       database_id: dbId,
       filter: { property: "發布", checkbox: { equals: true } },
+      ...(sorts.length && { sorts }),
       start_cursor: cursor,
     });
     pages.push(...res.results);
@@ -215,10 +216,15 @@ function buildAtelier(pages) {
     const cat = text(p["分類"]) || "其他";
     const sub = text(p["子分類"]) || "";
 
-    if (!items[cat]) { items[cat] = {}; catOrder.push(cat); subOrder[cat] = []; }
+    if (!items[cat]) { items[cat] = {}; subOrder[cat] = []; }
     if (!items[cat][sub]) { items[cat][sub] = []; subOrder[cat].push(sub); }
     items[cat][sub].push(p);
   }
+
+  // 分類順序固定：modMeta 定義的優先，其餘補在後面
+  const CAT_ORDER = Object.keys(modMeta);
+  catOrder.push(...CAT_ORDER.filter(c => items[c]));
+  Object.keys(items).forEach(c => { if (!CAT_ORDER.includes(c)) catOrder.push(c); });
 
   let toc = "";
   for (const cat of catOrder) {
@@ -463,10 +469,20 @@ async function main() {
   console.log("📦 抓取 Notion 資料...");
 
   const [archivesPages, atelierPages, salonPages, outfitsPages] = await Promise.all([
-    fetchDB(DB.archives),
-    fetchDB(DB.atelier),
-    fetchDB(DB.salon),
-    fetchDB(DB.outfits),
+    fetchDB(DB.archives, [
+      { property: "分類", direction: "ascending" },
+    ]),
+    fetchDB(DB.atelier, [
+      { property: "分類",   direction: "ascending" },
+      { property: "子分類", direction: "ascending" },
+    ]),
+    fetchDB(DB.salon, [
+      { property: "系列", direction: "ascending" },
+    ]),
+    fetchDB(DB.outfits, [
+      { property: "性別",    direction: "ascending" },
+      { property: "簡單分類", direction: "ascending" },
+    ]),
   ]);
 
   console.log(`✅ 經典衣櫃：${archivesPages.length} 筆`);
